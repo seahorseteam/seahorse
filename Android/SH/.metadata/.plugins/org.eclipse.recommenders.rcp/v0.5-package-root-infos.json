@@ -1,0 +1,67 @@
+[
+  {
+    "symbolicName": "library",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "29e54473e1542ed7fe4f16032249e31eaa880d81",
+    "jarFileModificationDate": "2014-04-28T14:14:31.769+09:00",
+    "location": "C:\\Users\\김봉길\\Desktop\\SH\\library\\bin\\library.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "7f972d2aa0fcb741fc84a9a10c98555f6f431a7a",
+    "jarFileModificationDate": "2014-03-20T16:31:42.640+09:00",
+    "location": "C:\\android-sdk-windows\\sdk\\platforms\\android-19\\android.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "322db3959c3383f4be9daa75ffa427d1485879ad",
+    "jarFileModificationDate": "2014-03-20T16:32:58.565+09:00",
+    "location": "C:\\android-sdk-windows\\sdk\\platforms\\android-17\\android.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android-support-v4",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "5896b0a4e377ac4242eb2bc785220c1c4fc052f4",
+    "jarFileModificationDate": "2014-04-17T18:24:10.761+09:00",
+    "location": "C:\\Users\\김봉길\\Desktop\\SH\\MainActivity\\libs\\android-support-v4.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android-support-v4",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "5896b0a4e377ac4242eb2bc785220c1c4fc052f4",
+    "jarFileModificationDate": "2014-04-17T18:22:31.396+09:00",
+    "location": "C:\\Users\\김봉길\\Desktop\\SH\\library\\libs\\android-support-v4.jar",
+    "javaRuntime": false
+  }
+]

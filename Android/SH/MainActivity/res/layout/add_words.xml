@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#98E294"
+        android:orientation="horizontal" >
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/addWord"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:completionThreshold="1"
+            android:hint="Search"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/addMean"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:hint="Mean"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#98E294" >
+
+        <Spinner
+            android:id="@+id/vocaList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#98E294" >
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="단어추가" />
+
+        <Button
+            android:id="@+id/searchBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="단어검색" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/searchWordLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#BDBDBD"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/showWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/showMean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#BDBDBD" >
+
+        <WebView
+            android:id="@+id/webView2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2pt"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+</LinearLayout>

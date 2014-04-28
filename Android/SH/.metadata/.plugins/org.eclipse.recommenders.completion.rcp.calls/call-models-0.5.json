@@ -1,0 +1,17 @@
+{
+  "C:\\Users\\김봉길\\Desktop\\SH\\MainActivity\\gen": {
+    "location": "C:\\Users\\김봉길\\Desktop\\SH\\MainActivity\\gen",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027C:\\Users\\김봉길\\Desktop\\SH\\MainActivity\\gen\u0027. Skipped."
+  },
+  "C:\\android-sdk-windows\\sdk\\platforms\\android-19\\android.jar": {
+    "location": "C:\\android-sdk-windows\\sdk\\platforms\\android-19\\android.jar",
+    "status": "UNRESOLVED",
+    "error": "No call model found for \u0027C:\\android-sdk-windows\\sdk\\platforms\\android-19\\android.jar\u0027. Neither fingerprint \u00277f972d2aa0fcb741fc84a9a10c98555f6f431a7a\u0027 nor symbolic name \u0027android\u0027 are known."
+  },
+  "C:\\Users\\김봉길\\Desktop\\SH\\MainActivity\\src": {
+    "location": "C:\\Users\\김봉길\\Desktop\\SH\\MainActivity\\src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027C:\\Users\\김봉길\\Desktop\\SH\\MainActivity\\src\u0027. Skipped."
+  }
+}
