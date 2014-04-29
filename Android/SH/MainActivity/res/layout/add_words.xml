@@ -10,7 +10,7 @@
         android:background="#98E294"
         android:orientation="horizontal" >
 
-        <MultiAutoCompleteTextView
+        <AutoCompleteTextView
             android:id="@+id/addWord"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
