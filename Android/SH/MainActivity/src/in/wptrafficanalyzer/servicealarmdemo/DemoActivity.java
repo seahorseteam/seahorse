@@ -20,11 +20,11 @@ public class DemoActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		/** Creating an Alert Dialog Window */
-		//AlertDemo alert = new AlertDemo(getApplicationContext());
+		// AlertDemo alert = new AlertDemo(getApplicationContext());
 		// AutoPushDialog alert = new AutoPushDialog(this);
 		/** Opening the Alert Dialog Window */
 		// alert.
-		//alert.show();
+		// alert.show();
 	}
 
 	@Override
@@ -45,6 +45,7 @@ public class DemoActivity extends FragmentActivity {
 		finish();
 
 	}
+
 	private void reservationPush() {
 		// TODO Auto-generated method stub
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);

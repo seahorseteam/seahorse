@@ -68,7 +68,7 @@ public class TestActivity extends FragmentActivity {
 		/** Setting title for the alert dialog */
 		builder.setTitle("Alarm");
 		Calendar cal = new GregorianCalendar();
-		cal.add(Calendar.MINUTE, 1);
+		cal.add(Calendar.MINUTE, 30);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
 				operation);
 		Toast.makeText(getApplicationContext(), "reservationPush",

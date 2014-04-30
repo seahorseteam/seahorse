@@ -18,6 +18,8 @@ package com.astuetz.viewpager.extensions.sample;
 
 
 
+import com.data.ObserverableData;
+
 import View.AddwordView;
 import View.MyVocaView;
 import android.os.Bundle;
@@ -36,13 +38,13 @@ public class SuperAwesomeCardFragment extends Fragment {
 	private static final String ARG_POSITION = "position";
 	MyVocaView myVocaView;
 	private int position;
-	 AddwordView addwordView;
+	AddwordView addwordView;
+	ObserverableData observerableData = new ObserverableData();
 	public static SuperAwesomeCardFragment newInstance(int position) {
 		SuperAwesomeCardFragment f = new SuperAwesomeCardFragment();
 		Bundle b = new Bundle();
 		b.putInt(ARG_POSITION, position);
 		f.setArguments(b);
-		
 		return f;
 	}
 
@@ -51,9 +53,13 @@ public class SuperAwesomeCardFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		position = getArguments().getInt(ARG_POSITION);
-		myVocaView = new MyVocaView(getActivity());
-		addwordView = new AddwordView(this);
+		myVocaView = new MyVocaView(getActivity(),observerableData);
+		addwordView = new AddwordView(this,observerableData);
+		observerableData.addObserver(myVocaView);
+		observerableData.addObserver(addwordView);
 		
+	}
+	public void setChangeAddWordView(){
 		
 	}
 	public View getPageView(LayoutInflater inflater){
@@ -70,6 +76,7 @@ public class SuperAwesomeCardFragment extends Fragment {
 		return view;
 	}
 	public MyVocaView getMyVocaView() {
+		//myVocaView.refreshAdapter();
 		return myVocaView;
 	}
 

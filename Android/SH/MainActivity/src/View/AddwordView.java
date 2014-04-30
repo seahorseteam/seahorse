@@ -3,54 +3,59 @@ package View;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Picture;
+import android.os.SystemClock;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
-import android.webkit.WebView.FindListener;
 import android.webkit.WebView.PictureListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.MultiAutoCompleteTextView.Tokenizer;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.viewpager.extensions.sample.R;
 import com.astuetz.viewpager.extensions.sample.SuperAwesomeCardFragment;
+import com.data.ObserverableData;
+import com.data.Voca;
 import com.data.Word;
+import com.dbhelper.dbHelper;
 
 @SuppressLint("NewApi")
-public class AddwordView extends CreateView {
+public class AddwordView extends CreateView implements Observer {
 
 	String[] wordList = { "account", "address", "apple", "applicant",
 			"application", "apply", "appreciate", "appropriate", "assume",
 			"attribute", "available" };
 	SuperAwesomeCardFragment superAwesomeCardFragment;
-	Spinner spinner;
+	TextView vocaTv;
 	dbHelper helper;
-	SQLiteDatabase db;
 	EditText addWord, addMean;
 	TextView showWord, showMean;
 	Button addBtn, searchBtn;
@@ -58,24 +63,29 @@ public class AddwordView extends CreateView {
 	WebView webView;
 	WebViewController wvc;
 	Context context;
-	ArrayList<String> vocaList;
-	ArrayAdapter<String> adapter;
-	
-	public void updateSpiner() {
-		vocaList = superAwesomeCardFragment.getMyVocaView().vocaTitles();
-		spinner = (Spinner) view.findViewById(R.id.vocaList);
-		adapter = new ArrayAdapter<String>(context,
-				android.R.layout.simple_spinner_item, vocaList);
-		spinner.setAdapter(adapter);
+	static ArrayList<Voca> vocaList;
+	Voca selectVoca;
+	ObserverableData od;
+
+	public void updateVocaList() {
+		vocaList = superAwesomeCardFragment.getMyVocaView().getVocas();
+
+	}
+
+	public void selectVoca(Voca voca) {
+		selectVoca = voca;
+		vocaTv.setText(selectVoca.getCategory());
 	}
 
 	@SuppressWarnings("deprecation")
-	public AddwordView(SuperAwesomeCardFragment s) {
+	public AddwordView(SuperAwesomeCardFragment s, final ObserverableData od) {
 		superAwesomeCardFragment = s;
 		context = s.getActivity();
+		this.od = od;
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.add_words, null);
+
 		final AutoCompleteTextView ac = (AutoCompleteTextView) this.view
 				.findViewById(R.id.addWord);
 		addWord = (EditText) view.findViewById(R.id.addWord);
@@ -83,12 +93,11 @@ public class AddwordView extends CreateView {
 		addMean = (EditText) view.findViewById(R.id.addMean);
 		showWord = (TextView) view.findViewById(R.id.showWord);
 		showMean = (TextView) view.findViewById(R.id.showMean);
-		spinner = (Spinner) view.findViewById(R.id.vocaList);
-		vocaList = superAwesomeCardFragment.getMyVocaView().vocaTitles();
-		adapter = new ArrayAdapter<String>(context,
-				android.R.layout.simple_spinner_item, vocaList);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
+		vocaTv = (TextView) view.findViewById(R.id.vocaList);
+		updateVocaList();
+		if (vocaList.size() > 0)
+			selectVoca(vocaList.get(0));
+		//
 		ac.setAdapter(new ArrayAdapter<String>(context,
 				android.R.layout.simple_dropdown_item_1line, wordList));
 		searchBtn = (Button) view.findViewById(R.id.searchBtn);
@@ -105,60 +114,55 @@ public class AddwordView extends CreateView {
 				updateWebView();
 			}
 		});
+		vocaTv.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new VocaListDialog(context, AddwordView.this);
+			}
+		});
 		helper = new dbHelper(context);
 		superAwesomeCardFragment.getMyVocaView().resistSpiner(this);
-		try {
-			db = helper.getWritableDatabase();
-		} catch (SQLiteException ex) {
-			db = helper.getReadableDatabase();
-		}
 		view.findViewById(R.id.addBtn).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+
 						String words = addWord.getText().toString();
 						String means = addMean.getText().toString();
-
-						String autoPushDay = new String();
-						;
-						Calendar cal = new GregorianCalendar();
-						autoPushDay = autoPushDay + cal.get(Calendar.YEAR)
-								+ cal.get(Calendar.MONTH)
-								+ cal.get(Calendar.DATE);
-						db.execSQL("INSERT INTO voca VALUES (null, '" + words
-								+ "', '" + means + "', '" + autoPushDay + "');");
+						if (selectVoca == null) {
+							Toast.makeText(context, "단어장을 선택하세요",
+									Toast.LENGTH_SHORT).show();
+							return;
+						}
+						if (words.equals("") || means.equals("")) {
+							Toast.makeText(context, "단어와 뜻을 입력하세요",
+									Toast.LENGTH_SHORT).show();
+							return;
+						}
+						helper.insertWord(words, means, selectVoca.getId());
+						superAwesomeCardFragment.getMyVocaView()
+								.updateVocaList();
+						addWord.setText("");
+						addMean.setText("");
+						observerUpdate();
 					}
 				});
-
 		view.findViewById(R.id.searchBtn).setOnClickListener(
 				new View.OnClickListener() {
-
 					@Override
 					public void onClick(View v) {
 						String words = addWord.getText().toString();
-						Cursor cursor;
-						cursor = db.rawQuery(
-								"SELECT words, means,autopushday From voca WHERE words='"
-										+ words + "';", null);
-
-						while (cursor.moveToNext()) {
-							String means = cursor.getString(1);
-							showWord.setText(words);
-							showMean.setText(means);
-						}
+						String means = helper.getWordMeans(words);
+						if (means == null)
+							return;
+						showWord.setText(words);
+						showMean.setText(means);
 					}
 				});
 
 		webView = (WebView) view.findViewById(R.id.webView2);
-		addWord.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
-					webView.loadUrl("http://m.endic.naver.com/search.nhn?searchOption=all&query="
-							+ addWord.getText());
-				}
-			}
-		});
 		webView.setPictureListener(new PictureListener() {
 			@Override
 			public void onNewPicture(WebView view, Picture picture) {
@@ -175,10 +179,13 @@ public class AddwordView extends CreateView {
 			public void onClick(View v) {
 				String meanStr = showMean.getText().toString();
 				addMean.setText(meanStr);
-
 			}
 		});
 
+	}
+
+	public ArrayList<Voca> getVocaList() {
+		return vocaList;
 	}
 
 	public void updateWebView() {
@@ -186,6 +193,15 @@ public class AddwordView extends CreateView {
 				+ addWord.getText());
 	}
 
+	public void observerUpdate() {
+
+		od.updateData();
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		// TODO Auto-generated method stub
+	}
 }
 //
 

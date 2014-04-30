@@ -143,7 +143,7 @@ containing a value of this type.
         public static final int tabs_pattern_diagonal=0x7f02000f;
     }
     public static final class id {
-        public static final int action_contact=0x7f0a0022;
+        public static final int action_contact=0x7f0a0027;
         public static final int addBtn=0x7f0a0006;
         public static final int addMean=0x7f0a0004;
         public static final int addVocaBook=0x7f0a001b;
@@ -152,6 +152,7 @@ containing a value of this type.
         public static final int autoPushExKo=0x7f0a0014;
         public static final int autoPushMean=0x7f0a0012;
         public static final int autoPushWord=0x7f0a0011;
+        public static final int autopushdayTv=0x7f0a0026;
         public static final int btn_quit_alarm=0x7f0a0010;
         public static final int btn_set_alarm=0x7f0a000f;
         public static final int button2=0x7f0a001c;
@@ -164,6 +165,7 @@ containing a value of this type.
         public static final int examCnt=0x7f0a0020;
         public static final int image=0x7f0a0018;
         public static final int linkCnt=0x7f0a0021;
+        public static final int meanTv=0x7f0a0025;
         public static final int okayBtn=0x7f0a0016;
         public static final int pager=0x7f0a0001;
         public static final int rlayout=0x7f0a000e;
@@ -175,9 +177,12 @@ containing a value of this type.
         public static final int title=0x7f0a001e;
         public static final int tp_time=0x7f0a000d;
         public static final int vocaList=0x7f0a0005;
+        public static final int vocaListDialog=0x7f0a0022;
         public static final int vocaListView=0x7f0a001a;
         public static final int webView2=0x7f0a000b;
         public static final int wordCnt=0x7f0a001f;
+        public static final int wordTv=0x7f0a0024;
+        public static final int wordlistview=0x7f0a0023;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -188,6 +193,9 @@ containing a value of this type.
         public static final int fragment_quick_contact=0x7f030005;
         public static final int myvoca=0x7f030006;
         public static final int voca_list=0x7f030007;
+        public static final int vocalistdialog=0x7f030008;
+        public static final int wordlistinvoca=0x7f030009;
+        public static final int wordlistitem=0x7f03000a;
     }
     public static final class menu {
         public static final int main=0x7f090000;

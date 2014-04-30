@@ -10,36 +10,38 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.astuetz.viewpager.extensions.sample.R;
+import com.data.Voca;
 
-public class VocaBookListAdapter extends ArrayAdapter<VocaListData> {
+public class VocaBookListAdapter extends ArrayAdapter<Voca> {
 
-	private ArrayList<VocaListData> items;
+	private ArrayList<Voca> items;
 
 	public VocaBookListAdapter(Context context, int textViewResourceId,
-			ArrayList<VocaListData> items) {
+			ArrayList<Voca> items) {
 		super(context, textViewResourceId, items);
 		this.items = items;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-//		if (convertView == null) {
-			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
-					Context.LAYOUT_INFLATER_SERVICE);
-			convertView = vi.inflate(R.layout.voca_list, null);
-//		}
-		VocaListData vocalistdata = items.get(position);
+		// if (convertView == null) {
+		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
+		convertView = vi.inflate(R.layout.voca_list, null);
+		// }
+		Voca vocalistdata = items.get(position);
 
 		if (vocalistdata != null) {
 			TextView title = (TextView) convertView.findViewById(R.id.title);
-			TextView wordCnt = (TextView) convertView.findViewById(R.id.wordCnt);
-			TextView examCnt = (TextView) convertView.findViewById(R.id.examCnt);
-			TextView linkCnt = (TextView) convertView.findViewById(R.id.linkCnt);
+			TextView wordCnt = (TextView) convertView
+					.findViewById(R.id.wordCnt);
+			TextView examCnt = (TextView) convertView
+					.findViewById(R.id.examCnt);
+			TextView linkCnt = (TextView) convertView
+					.findViewById(R.id.linkCnt);
 
-			title.setText(vocalistdata.getTitle());
-			wordCnt.setText("단어 : "+vocalistdata.getWordCnt());
-			examCnt.setText("예문 : "+vocalistdata.getExamCnt());
-			linkCnt.setText("링크 : "+vocalistdata.getLinkCnt());
+			title.setText(vocalistdata.getCategory());
+			wordCnt.setText("단어 : " + vocalistdata.getWordCnt());
 		}
 
 		return convertView;

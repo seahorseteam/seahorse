@@ -41,5 +41,10 @@ public class BootReceiver extends BroadcastReceiver {
 		final AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Activity.ALARM_SERVICE);
 		/** Setting title for the alert dialog */
+		Calendar cal = new GregorianCalendar();
+ 		cal.add(Calendar.MINUTE, 0);
+ 		alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+ 				operation);
+ 		Toast.makeText(context, "reservationPushComplete", Toast.LENGTH_LONG).show();
 	}
 }

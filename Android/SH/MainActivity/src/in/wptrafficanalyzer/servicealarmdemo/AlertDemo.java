@@ -5,9 +5,9 @@ import java.util.GregorianCalendar;
 
 import com.astuetz.viewpager.extensions.sample.R;
 import com.data.Word;
+import com.dbhelper.dbHelper;
 import com.example.bootservice.TestActivity;
 
-import View.dbHelper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;

@@ -20,8 +20,7 @@
             android:completionThreshold="1"
             android:hint="Search"
             android:singleLine="true" />
-
-        <EditText
+        <EditText
             android:id="@+id/addMean"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,17 +31,16 @@
             android:singleLine="true" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#98E294" >
 
-        <Spinner
+
+        <TextView
             android:id="@+id/vocaList"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:textColor="#000000" />
+    
 
     <LinearLayout
         android:layout_width="fill_parent"

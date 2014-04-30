@@ -30,7 +30,7 @@ int drawable ic_launcher_gmaps 0x7f02000c
 int drawable ic_launcher_gplus 0x7f02000d
 int drawable tabs_pattern 0x7f02000e
 int drawable tabs_pattern_diagonal 0x7f02000f
-int id action_contact 0x7f0a0022
+int id action_contact 0x7f0a0027
 int id addBtn 0x7f0a0006
 int id addMean 0x7f0a0004
 int id addVocaBook 0x7f0a001b
@@ -39,6 +39,7 @@ int id autoPushEx 0x7f0a0013
 int id autoPushExKo 0x7f0a0014
 int id autoPushMean 0x7f0a0012
 int id autoPushWord 0x7f0a0011
+int id autopushdayTv 0x7f0a0026
 int id btn_quit_alarm 0x7f0a0010
 int id btn_set_alarm 0x7f0a000f
 int id button2 0x7f0a001c
@@ -51,6 +52,7 @@ int id et_titleInput 0x7f0a0015
 int id examCnt 0x7f0a0020
 int id image 0x7f0a0018
 int id linkCnt 0x7f0a0021
+int id meanTv 0x7f0a0025
 int id okayBtn 0x7f0a0016
 int id pager 0x7f0a0001
 int id rlayout 0x7f0a000e
@@ -62,9 +64,12 @@ int id tabs 0x7f0a0000
 int id title 0x7f0a001e
 int id tp_time 0x7f0a000d
 int id vocaList 0x7f0a0005
+int id vocaListDialog 0x7f0a0022
 int id vocaListView 0x7f0a001a
 int id webView2 0x7f0a000b
 int id wordCnt 0x7f0a001f
+int id wordTv 0x7f0a0024
+int id wordlistview 0x7f0a0023
 int layout activity_main 0x7f030000
 int layout add_words 0x7f030001
 int layout alrammain 0x7f030002
@@ -73,6 +78,9 @@ int layout category_title_input 0x7f030004
 int layout fragment_quick_contact 0x7f030005
 int layout myvoca 0x7f030006
 int layout voca_list 0x7f030007
+int layout vocalistdialog 0x7f030008
+int layout wordlistinvoca 0x7f030009
+int layout wordlistitem 0x7f03000a
 int menu main 0x7f090000
 int string action_contact 0x7f050002
 int string app_name 0x7f050001
