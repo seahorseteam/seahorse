@@ -20,7 +20,8 @@
             android:completionThreshold="1"
             android:hint="Search"
             android:singleLine="true" />
-        <EditText
+
+        <EditText
             android:id="@+id/addMean"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -31,16 +32,13 @@
             android:singleLine="true" />
     </LinearLayout>
 
-
-
-        <TextView
-            android:id="@+id/vocaList"
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:textColor="#000000" />
-    
+    <TextView
+        android:id="@+id/vocaList"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:textColor="#000000" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -62,26 +60,13 @@
             android:text="단어검색" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/searchWordLayout"
+    <ListView
+        android:id="@+id/meanListView"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#BDBDBD"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/showWord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/showMean"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
+        android:orientation="vertical" />
 
     <LinearLayout
         android:layout_width="fill_parent"

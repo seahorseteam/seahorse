@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Picture;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -38,10 +39,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.Module.WordFileReader;
+import com.Thread.ParsingThread;
 import com.astuetz.viewpager.extensions.sample.R;
 import com.astuetz.viewpager.extensions.sample.SuperAwesomeCardFragment;
 import com.data.ObserverableData;
@@ -58,19 +62,23 @@ public class AddwordView extends CreateView implements Observer {
 	WordFileReader wordFileReader;
 	dbHelper helper;
 	EditText addWord, addMean;
-	TextView showWord, showMean;
 	Button addBtn, searchBtn;
-	LinearLayout searchWordLayout;
 	WebView webView;
 	WebViewController wvc;
 	Context context;
 	static ArrayList<Voca> vocaList;
 	Voca selectVoca;
 	ObserverableData od;
-	
+	ArrayList<Word> words; // mean에 보여줄
+	ListView meansListView;
+
 	public void updateVocaList() {
 		vocaList = superAwesomeCardFragment.getMyVocaView().getVocas();
 
+	}
+
+	public void setwordsMean(ArrayList<Word> words) {
+		this.words = words;
 	}
 
 	public void selectVoca(Voca voca) {
@@ -92,27 +100,22 @@ public class AddwordView extends CreateView implements Observer {
 		addWord = (EditText) view.findViewById(R.id.addWord);
 		addWord.setPrivateImeOptions("defaultInputmode=english;");
 		addMean = (EditText) view.findViewById(R.id.addMean);
-		showWord = (TextView) view.findViewById(R.id.showWord);
-		showMean = (TextView) view.findViewById(R.id.showMean);
 		vocaTv = (TextView) view.findViewById(R.id.vocaList);
+		meansListView = (ListView) view.findViewById(R.id.meanListView);
 		wordFileReader = new WordFileReader(context);
+
 		updateVocaList();
 		if (vocaList.size() > 0)
 			selectVoca(vocaList.get(0));
 		ac.setAdapter(new ArrayAdapter<String>(context,
 				android.R.layout.simple_dropdown_item_1line, wordList));
 		searchBtn = (Button) view.findViewById(R.id.searchBtn);
-		searchWordLayout = (LinearLayout) view
-				.findViewById(R.id.searchWordLayout);
+
 		ac.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
-				InputMethodManager imm = (InputMethodManager) context
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(addMean.getWindowToken(), 0);
-				updateWebView();
+				searchWordAndUIupdate();
 			}
 		});
 		vocaTv.setOnClickListener(new OnClickListener() {
@@ -142,6 +145,8 @@ public class AddwordView extends CreateView implements Observer {
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				// TODO Auto-generated method stub
+				if (meansListView.getChildCount() > 0)
+					meanListDelete();
 				if (addWord.getText().toString().length() == 1) {
 					String str = addWord.getText().toString();
 					Character ch = str.charAt(0);
@@ -151,8 +156,10 @@ public class AddwordView extends CreateView implements Observer {
 								android.R.layout.simple_dropdown_item_1line,
 								wordList));
 					}
+					
 				}
 			}
+
 		});
 
 		helper = new dbHelper(context);
@@ -186,12 +193,8 @@ public class AddwordView extends CreateView implements Observer {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						String words = addWord.getText().toString();
-						String means = helper.getWordMeans(words);
-						if (means == null)
-							return;
-						showWord.setText(words);
-						showMean.setText(means);
+						searchWordAndUIupdate();
+
 					}
 				});
 
@@ -206,31 +209,69 @@ public class AddwordView extends CreateView implements Observer {
 		});
 		wvc = new WebViewController();
 		webView.setWebViewClient(wvc);
-		searchWordLayout.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String meanStr = showMean.getText().toString();
-				addMean.setText(meanStr);
-			}
-		});
-
 	}
+
 	public ArrayList<Voca> getVocaList() {
 		return vocaList;
 	}
+
 	public void updateWebView() {
 		webView.loadUrl("http://m.endic.naver.com/search.nhn?searchOption=all&query="
 				+ addWord.getText());
 	}
+
 	public void observerUpdate() {
 
 		od.updateData();
 	}
 
 	@Override
+	// Observer
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 	}
+
+	private void updateMeanList() {
+		// TODO Auto-generated method stub
+		final ArrayList<String> means = new ArrayList<String>();
+		for (int i = 0; i < words.size(); i++) {
+			means.add(words.get(i).getMean());
+		}
+		ArrayAdapter<String> strAdapter = new ArrayAdapter<String>(context,
+				android.R.layout.simple_list_item_1, means);
+		meansListView.setAdapter(strAdapter);
+		meansListView
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						addMean.setText(means.get(position));
+					}
+				});
+
+	}
+	private void searchWordAndUIupdate(){
+
+		// TODO Auto-generated method stub
+		InputMethodManager imm = (InputMethodManager) context
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(addMean.getWindowToken(), 0);
+		Handler mHandler = new Handler() {
+			public void handleMessage(android.os.Message msg) {
+				updateMeanList();
+			}
+		};
+		ParsingThread parsingThread = new ParsingThread(addWord
+				.getText().toString(), mHandler, AddwordView.this);
+		parsingThread.start();
+		updateWebView();
+	
+	}
+	private void meanListDelete() {
+		// TODO Auto-generated method stub
+		addMean.setText("");
+		ArrayAdapter<String> strAdapter = new ArrayAdapter<String>(context,
+				android.R.layout.simple_list_item_1, new ArrayList<String>());
+		meansListView.setAdapter(strAdapter);
+	}
 }
-
-
