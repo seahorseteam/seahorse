@@ -9,7 +9,7 @@ package com.astuetz.viewpager.extensions.sample;
 
 public final class R {
     public static final class array {
-        public static final int voca_array=0x7f060000;
+        public static final int voca_array=0x7f070000;
     }
     public static final class attr {
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -111,8 +111,8 @@ containing a value of this type.
         public static final int pstsUnderlineHeight=0x7f010004;
     }
     public static final class color {
-        public static final int background_tab_pressed=0x7f040000;
-        public static final int background_window=0x7f040001;
+        public static final int background_tab_pressed=0x7f050000;
+        public static final int background_window=0x7f050001;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -121,8 +121,8 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f070000;
-        public static final int activity_vertical_margin=0x7f070001;
+        public static final int activity_horizontal_margin=0x7f080000;
+        public static final int activity_vertical_margin=0x7f080001;
     }
     public static final class drawable {
         public static final int actionbar_bottom=0x7f020000;
@@ -143,46 +143,46 @@ containing a value of this type.
         public static final int tabs_pattern_diagonal=0x7f02000f;
     }
     public static final class id {
-        public static final int action_contact=0x7f0a0027;
-        public static final int addBtn=0x7f0a0006;
-        public static final int addMean=0x7f0a0004;
-        public static final int addVocaBook=0x7f0a001b;
-        public static final int addWord=0x7f0a0003;
-        public static final int autoPushEx=0x7f0a0013;
-        public static final int autoPushExKo=0x7f0a0014;
-        public static final int autoPushMean=0x7f0a0012;
-        public static final int autoPushWord=0x7f0a0011;
-        public static final int autopushdayTv=0x7f0a0026;
-        public static final int btn_quit_alarm=0x7f0a0010;
-        public static final int btn_set_alarm=0x7f0a000f;
-        public static final int button2=0x7f0a001c;
-        public static final int button3=0x7f0a001d;
-        public static final int cancleBtn=0x7f0a0017;
-        public static final int center=0x7f0a0019;
-        public static final int colors=0x7f0a0002;
-        public static final int dp_date=0x7f0a000c;
-        public static final int et_titleInput=0x7f0a0015;
-        public static final int examCnt=0x7f0a0020;
-        public static final int image=0x7f0a0018;
-        public static final int linkCnt=0x7f0a0021;
-        public static final int meanTv=0x7f0a0025;
-        public static final int okayBtn=0x7f0a0016;
-        public static final int pager=0x7f0a0001;
-        public static final int rlayout=0x7f0a000e;
-        public static final int searchBtn=0x7f0a0007;
-        public static final int searchWordLayout=0x7f0a0008;
-        public static final int showMean=0x7f0a000a;
-        public static final int showWord=0x7f0a0009;
-        public static final int tabs=0x7f0a0000;
-        public static final int title=0x7f0a001e;
-        public static final int tp_time=0x7f0a000d;
-        public static final int vocaList=0x7f0a0005;
-        public static final int vocaListDialog=0x7f0a0022;
-        public static final int vocaListView=0x7f0a001a;
-        public static final int webView2=0x7f0a000b;
-        public static final int wordCnt=0x7f0a001f;
-        public static final int wordTv=0x7f0a0024;
-        public static final int wordlistview=0x7f0a0023;
+        public static final int action_contact=0x7f0b0027;
+        public static final int addBtn=0x7f0b0006;
+        public static final int addMean=0x7f0b0004;
+        public static final int addVocaBook=0x7f0b001b;
+        public static final int addWord=0x7f0b0003;
+        public static final int autoPushEx=0x7f0b0013;
+        public static final int autoPushExKo=0x7f0b0014;
+        public static final int autoPushMean=0x7f0b0012;
+        public static final int autoPushWord=0x7f0b0011;
+        public static final int autopushdayTv=0x7f0b0026;
+        public static final int btn_quit_alarm=0x7f0b0010;
+        public static final int btn_set_alarm=0x7f0b000f;
+        public static final int button2=0x7f0b001c;
+        public static final int button3=0x7f0b001d;
+        public static final int cancleBtn=0x7f0b0017;
+        public static final int center=0x7f0b0019;
+        public static final int colors=0x7f0b0002;
+        public static final int dp_date=0x7f0b000c;
+        public static final int et_titleInput=0x7f0b0015;
+        public static final int examCnt=0x7f0b0020;
+        public static final int image=0x7f0b0018;
+        public static final int linkCnt=0x7f0b0021;
+        public static final int meanTv=0x7f0b0025;
+        public static final int okayBtn=0x7f0b0016;
+        public static final int pager=0x7f0b0001;
+        public static final int rlayout=0x7f0b000e;
+        public static final int searchBtn=0x7f0b0007;
+        public static final int searchWordLayout=0x7f0b0008;
+        public static final int showMean=0x7f0b000a;
+        public static final int showWord=0x7f0b0009;
+        public static final int tabs=0x7f0b0000;
+        public static final int title=0x7f0b001e;
+        public static final int tp_time=0x7f0b000d;
+        public static final int vocaList=0x7f0b0005;
+        public static final int vocaListDialog=0x7f0b0022;
+        public static final int vocaListView=0x7f0b001a;
+        public static final int webView2=0x7f0b000b;
+        public static final int wordCnt=0x7f0b001f;
+        public static final int wordTv=0x7f0b0024;
+        public static final int wordlistview=0x7f0b0023;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -198,17 +198,45 @@ containing a value of this type.
         public static final int wordlistitem=0x7f03000a;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0a0000;
+    }
+    public static final class raw {
+        public static final int a=0x7f040000;
+        public static final int b=0x7f040001;
+        public static final int c=0x7f040002;
+        public static final int d=0x7f040003;
+        public static final int e=0x7f040004;
+        public static final int f=0x7f040005;
+        public static final int g=0x7f040006;
+        public static final int h=0x7f040007;
+        public static final int i=0x7f040008;
+        public static final int j=0x7f040009;
+        public static final int k=0x7f04000a;
+        public static final int l=0x7f04000b;
+        public static final int m=0x7f04000c;
+        public static final int n=0x7f04000d;
+        public static final int o=0x7f04000e;
+        public static final int p=0x7f04000f;
+        public static final int q=0x7f040010;
+        public static final int r=0x7f040011;
+        public static final int s=0x7f040012;
+        public static final int t=0x7f040013;
+        public static final int u=0x7f040014;
+        public static final int v=0x7f040015;
+        public static final int w=0x7f040016;
+        public static final int x=0x7f040017;
+        public static final int y=0x7f040018;
+        public static final int z=0x7f040019;
     }
     public static final class string {
-        public static final int action_contact=0x7f050002;
-        public static final int app_name=0x7f050001;
-        public static final int voca_list=0x7f050000;
+        public static final int action_contact=0x7f060002;
+        public static final int app_name=0x7f060001;
+        public static final int voca_list=0x7f060000;
     }
     public static final class style {
-        public static final int ActionBarStyle=0x7f080002;
-        public static final int AppBaseTheme=0x7f080000;
-        public static final int AppTheme=0x7f080001;
+        public static final int ActionBarStyle=0x7f090002;
+        public static final int AppBaseTheme=0x7f090000;
+        public static final int AppTheme=0x7f090001;
     }
     public static final class styleable {
         /** Attributes that can be used with a PagerSlidingTabStrip.

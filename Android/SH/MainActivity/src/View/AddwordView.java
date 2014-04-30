@@ -17,9 +17,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Picture;
 import android.os.SystemClock;
+import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,7 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.Module.WordFileReader;
 import com.astuetz.viewpager.extensions.sample.R;
 import com.astuetz.viewpager.extensions.sample.SuperAwesomeCardFragment;
 import com.data.ObserverableData;
@@ -50,11 +52,10 @@ import com.dbhelper.dbHelper;
 @SuppressLint("NewApi")
 public class AddwordView extends CreateView implements Observer {
 
-	String[] wordList = { "account", "address", "apple", "applicant",
-			"application", "apply", "appreciate", "appropriate", "assume",
-			"attribute", "available" };
+	ArrayList<String> wordList;
 	SuperAwesomeCardFragment superAwesomeCardFragment;
 	TextView vocaTv;
+	WordFileReader wordFileReader;
 	dbHelper helper;
 	EditText addWord, addMean;
 	TextView showWord, showMean;
@@ -66,7 +67,7 @@ public class AddwordView extends CreateView implements Observer {
 	static ArrayList<Voca> vocaList;
 	Voca selectVoca;
 	ObserverableData od;
-
+	
 	public void updateVocaList() {
 		vocaList = superAwesomeCardFragment.getMyVocaView().getVocas();
 
@@ -94,10 +95,10 @@ public class AddwordView extends CreateView implements Observer {
 		showWord = (TextView) view.findViewById(R.id.showWord);
 		showMean = (TextView) view.findViewById(R.id.showMean);
 		vocaTv = (TextView) view.findViewById(R.id.vocaList);
+		wordFileReader = new WordFileReader(context);
 		updateVocaList();
 		if (vocaList.size() > 0)
 			selectVoca(vocaList.get(0));
-		//
 		ac.setAdapter(new ArrayAdapter<String>(context,
 				android.R.layout.simple_dropdown_item_1line, wordList));
 		searchBtn = (Button) view.findViewById(R.id.searchBtn);
@@ -122,6 +123,38 @@ public class AddwordView extends CreateView implements Observer {
 				new VocaListDialog(context, AddwordView.this);
 			}
 		});
+		addWord.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				if (addWord.getText().toString().length() == 1) {
+					String str = addWord.getText().toString();
+					Character ch = str.charAt(0);
+					if ((ch >= 'a') && (ch <= 'z')) {
+						wordList = wordFileReader.fileRead(str);
+						ac.setAdapter(new ArrayAdapter<String>(context,
+								android.R.layout.simple_dropdown_item_1line,
+								wordList));
+					}
+				}
+			}
+		});
+
 		helper = new dbHelper(context);
 		superAwesomeCardFragment.getMyVocaView().resistSpiner(this);
 		view.findViewById(R.id.addBtn).setOnClickListener(
@@ -174,7 +207,6 @@ public class AddwordView extends CreateView implements Observer {
 		wvc = new WebViewController();
 		webView.setWebViewClient(wvc);
 		searchWordLayout.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				String meanStr = showMean.getText().toString();
@@ -183,16 +215,13 @@ public class AddwordView extends CreateView implements Observer {
 		});
 
 	}
-
 	public ArrayList<Voca> getVocaList() {
 		return vocaList;
 	}
-
 	public void updateWebView() {
 		webView.loadUrl("http://m.endic.naver.com/search.nhn?searchOption=all&query="
 				+ addWord.getText());
 	}
-
 	public void observerUpdate() {
 
 		od.updateData();
@@ -203,5 +232,5 @@ public class AddwordView extends CreateView implements Observer {
 		// TODO Auto-generated method stub
 	}
 }
-//
+
 

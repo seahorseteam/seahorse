@@ -16,14 +16,11 @@ import com.data.Word;
 
 public class WordListAdapter extends ArrayAdapter<Word> {
 	ArrayList<Word> items;
-
-	public WordListAdapter(Context context, int resource,
-			ArrayList<Word> items) {
+	public WordListAdapter(Context context, int resource, ArrayList<Word> items) {
 		super(context, resource, items);
 		// TODO Auto-generated constructor stub
 		this.items = items;
 	}
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// if (convertView == null) {
@@ -36,7 +33,7 @@ public class WordListAdapter extends ArrayAdapter<Word> {
 		TextView autoPushTv = (TextView) convertView
 				.findViewById(R.id.autopushdayTv);
 		wordTv.setText(word.getWord());
-		meanTv.setText(word.getWord());
+		meanTv.setText(word.getMean());
 		autoPushTv.setText("DAY");
 
 		return convertView;
