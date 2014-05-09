@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="voca_list">단어장 선택</string>
+
+    <string-array name="voca_array">
+        <item>기본 단어장</item>
+    </string-array>
+
+</resources>

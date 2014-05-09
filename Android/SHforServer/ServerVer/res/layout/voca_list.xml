@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="240dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:background="#98E294"
+        android:gravity="center"
+        android:text="TITLE"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/wordCnt"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/title"
+        android:layout_toRightOf="@+id/title"
+        android:background="#BDBDBD"
+        android:text="word"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/examCnt"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/wordCnt"
+        android:layout_toRightOf="@+id/title"
+        android:background="#BDBDBD"
+        android:text="exam"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/linkCnt"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/examCnt"
+        android:layout_toRightOf="@+id/title"
+        android:background="#BDBDBD"
+        android:text="link"
+        android:textColor="#000000" />
+
+</RelativeLayout>

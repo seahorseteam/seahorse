@@ -103,7 +103,7 @@ public class AddwordView extends CreateView implements Observer {
 		vocaTv = (TextView) view.findViewById(R.id.vocaList);
 		meansListView = (ListView) view.findViewById(R.id.meanListView);
 		wordFileReader = new WordFileReader(context);
-
+		addWord.setPrivateImeOptions("defaultInputmode=english;");
 		updateVocaList();
 		if (vocaList.size() > 0)
 			selectVoca(vocaList.get(0));

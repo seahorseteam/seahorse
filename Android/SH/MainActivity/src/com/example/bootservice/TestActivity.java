@@ -41,8 +41,8 @@ public class TestActivity extends FragmentActivity {
 	@Override
 	public void onUserLeaveHint() {
 		// TODO Auto-generated method stub
-		Toast.makeText(getApplicationContext(), "userInter", Toast.LENGTH_LONG)
-				.show();
+//		Toast.makeText(getApplicationContext(), "userInter", Toast.LENGTH_LONG)
+//				.show();
 		finish();
 	}
 
@@ -51,7 +51,7 @@ public class TestActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		reservationPush();
-		Toast.makeText(this, "Destroy", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "Destroy", Toast.LENGTH_SHORT).show();
 		finish();
 
 	}
@@ -71,7 +71,7 @@ public class TestActivity extends FragmentActivity {
 		cal.add(Calendar.MINUTE, 30);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
 				operation);
-		Toast.makeText(getApplicationContext(), "reservationPush",
-				Toast.LENGTH_LONG).show();
+//		Toast.makeText(getApplicationContext(), "reservationPush",
+//				Toast.LENGTH_LONG).show();
 	}
 }

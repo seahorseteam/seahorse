@@ -106,7 +106,7 @@ public class MyVocaView extends CreateView implements Observer{
 								vocaTitle = titleInputEt.getText().toString();
 								dbHelperVoca.insertVoca(vocaTitle);
 								refreshAdapter();
-								//newRecDialog.dismiss();
+								newRecDialog.dismiss();
 							}
 						});
 						cancleBtn.setOnClickListener(new OnClickListener() {
