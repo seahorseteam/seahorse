@@ -1,0 +1,494 @@
+package ac.seahorse.seahorselockscreen.lockscreen.view;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import ac.seahorse.seahorselockscreen.R;
+import ac.seahorse.seahorselockscreen.lockscreen.data.LockScreenDataManager;
+import ac.seahorse.seahorselockscreen.lockscreen.data.PatternCircle;
+import ac.seahorse.seahorselockscreen.lockscreen.data.Word;
+import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
+import ac.seahorse.seahorselockscreen.lockscreen.data.support.MyDBG;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
+
+/***
+ * Lock Screen Type 1 == Pattern Type
+ * 
+ * @author KKS
+ * @category LockScreenView
+ */
+public class LockScreenType1 extends LockScreenView {
+	private int screenWidth;
+	private int screenHeight;
+
+	private static final String TEXT_TYPE = "Helvetica";
+	private static final int TYPE_FACE_NORMAL = Typeface.NORMAL;
+	private static final int TYPE_FACE_BOLD = Typeface.BOLD;
+	private Typeface dateTypeface;
+	private Typeface wordTypeface;
+	private Typeface meanTypeface;
+
+	private Bitmap unlockBtnBmp;
+	private Bitmap bottomTitleBmp;
+	private int bottomTitlePosX;
+	private int bottomTitlePosY;
+	private int unlockBtnPosX;
+	private int unlockBtnPosY;
+
+	private static final int TXT_ALL_POSY = 90;
+	private static final int PADDING_SIDE = 45;
+	private static final int MEAN_CIRCLE_DISTANCE = 10;
+	private final int[] PATTERN_CIRCLE_RES = { R.drawable.pattern_circle_base,
+			R.drawable.pattern_circle_correct,
+			R.drawable.pattern_circle_incorrect };
+	private final int CIRCLE_BASE = 0;
+	private final int CIRCLE_CORR = 1;
+	private final int CIRCLE_INCORR = 2;
+	private final int MAGNETIC_RANGE = 40;
+	private final int PATTERN_CIRCLE_SIZE = 75;
+	private final int WORD_TXT_SIZE = 25;
+	private final int MEAN_TXT_SIZE = 20;
+	private ArrayList<PatternCircle> pattern;
+	private QuestionWord questionWord;
+	private Paint bgPaint;
+	private Paint linePaint;
+	private int circleMidX;
+	private int circleMidY;
+	private int lineMovX;
+	private int lineMovY;
+	private int radMid;
+	private boolean bTouchStart;
+	private boolean bTouchExit;
+
+	private final int[] TIME_NUM = { R.drawable.time_0, R.drawable.time_1,
+			R.drawable.time_2, R.drawable.time_3, R.drawable.time_4,
+			R.drawable.time_5, R.drawable.time_6, R.drawable.time_7,
+			R.drawable.time_8, R.drawable.time_9 };
+	private final int[] TIME_AMPM = { R.drawable.time_am, R.drawable.time_pm };
+	private final int TIME_AM = 0;
+	private final int TIME_PM = 1;
+	private Bitmap curAmPm;
+	private Bitmap curHours1, curHours2;
+	private Bitmap timeMid;
+	private Bitmap curMinu1, curMinu2;
+	private Date dateObj;
+	private int datePosX;
+	private int datePosY;
+	// [am] [1] [2] [:] [2] [4] -> x = 6, y = 6
+	private int[] timePosX = { 0, 0, 0, 0, 0, 0 };
+	private int[] timePosY = { 0, 0, 0, 0, 0, 0 };
+	private Paint datePaint;
+	private String date = "";
+	private String[] week = { "일", "월", "화", "수", "목", "금", "토" };
+	private Thread timeThread;
+
+	public LockScreenType1(Context context) {
+		super(context);
+		initRef();
+	}
+
+	public LockScreenType1(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		initRef();
+	}
+
+	public LockScreenType1(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		initRef();
+	}
+
+	/***
+	 * Reference initialization.
+	 */
+	private void initRef() {
+		Context context = getContext();
+		LockScreenDataManager dataMng = LockScreenDataManager
+				.getInstance(context);
+		int cvtCircleSize = convetPx(context, PATTERN_CIRCLE_SIZE);
+		int cvtPaddingSize = convetPx(context, PADDING_SIDE);
+		int cvtCircleDistance = convetPx(context, MEAN_CIRCLE_DISTANCE);
+
+		/* 배경 이미지 생성 */
+		int[] display = DisplayInfo.getDisplaySize(context);
+		screenWidth = display[0];
+		screenHeight = display[1];
+		bgPaint = new Paint();
+		bgPaint.setColor(Color.rgb(88, 113, 143));
+
+		// 잠금화면 바로 해제하기 버튼
+		int unlockBtnH = convetPx(context, 65);
+		int unlockBtnW = convetPx(context, 147);
+		unlockBtnBmp = BitmapFactory.decodeResource(getResources(),
+				R.drawable.unlockbtn);
+
+		// 로고 이미지 - 720 기준
+		int bottomTitleH = convetPx(context, 28);
+		int bottomTitleW = convetPx(context, 174);
+		bottomTitleBmp = BitmapFactory.decodeResource(getResources(),
+				R.drawable.bottom_title);
+
+		// 해상도에 맞게 px값 변경, 위치 선정
+		bottomTitlePosX = (screenWidth / 2) - (bottomTitleW / 2);
+		bottomTitlePosY = screenHeight
+				- DisplayInfo.getStatusBarHeight(context)
+				- (int) (bottomTitleH * 1.5);
+		bottomTitleBmp = Bitmap.createScaledBitmap(bottomTitleBmp,
+				bottomTitleW, bottomTitleH, true);
+
+		unlockBtnPosX = (screenWidth / 2) - (unlockBtnW / 2);
+		unlockBtnPosY = bottomTitlePosY - unlockBtnH - 5;
+		unlockBtnBmp = Bitmap.createScaledBitmap(unlockBtnBmp, unlockBtnW,
+				unlockBtnH, true);
+
+		/* 단어 준비 */
+		Paint wordPaint = new Paint();
+		wordTypeface = Typeface.create(TEXT_TYPE, TYPE_FACE_BOLD);
+		wordPaint.setTypeface(wordTypeface);
+		wordPaint.setColor(Color.WHITE);
+		wordPaint.setTextSize(convetPx(context, WORD_TXT_SIZE));
+		Word word = new Word(dataMng.getLockScreenWord()[0]);
+		word.setPaint(wordPaint);
+
+		/* 단어 뜻 보기 준비 & 문제 목록 준비 */
+		Paint meanPaint = new Paint();
+		meanTypeface = Typeface.create(TEXT_TYPE, TYPE_FACE_NORMAL);
+		meanPaint.setTypeface(meanTypeface);
+		meanPaint.setColor(Color.WHITE);
+		meanPaint.setTextSize(convetPx(context, MEAN_TXT_SIZE));
+		questionWord = new QuestionWord();
+		questionWord.setString(word);
+		ArrayList<String> answerTmpList = dataMng.getLockScreenAnswer();
+		for (int idx = 0; idx < answerTmpList.size(); idx++) {
+			Word mean = new Word(answerTmpList.get(idx));
+			mean.setPaint(meanPaint);
+			if (answerTmpList.get(idx).equalsIgnoreCase(
+					dataMng.getLockScreenWord()[1])) {
+				questionWord.addAnswer(mean, true);
+			} else {
+				questionWord.addAnswer(mean, false);
+			}
+		}
+
+		/* 단어 위치 선정 */
+		word.setX(cvtPaddingSize);
+		word.setY((screenHeight / 2) + TXT_ALL_POSY);
+
+		/* 단어 뜻 중 제일 긴 단어 찾기. 단어 뜻 정렬의 기준이 됨. (가운데 정렬) */
+		int baseWidth = 0;
+		for (Word mean : questionWord.getAnswerList()) {
+			if (mean.getWidth() > baseWidth) {
+				baseWidth = mean.getWidth();
+			}
+		}
+
+		/* 단어의 뜻 위치 선정 - 단어의 뜻은 최소 1개 이상이어야 함. */
+		ArrayList<Word> answerList = questionWord.getAnswerList();
+		Word tmpWord;
+		int posX;
+		int tmpGap = (answerList.size() * 2);
+		int centerY = (screenHeight / 2) + TXT_ALL_POSY;
+		int gapY = (screenHeight / tmpGap) + (cvtCircleSize / tmpGap)
+				- cvtCircleDistance;
+		int startPosY = centerY - ((gapY * (answerList.size() - 1)) / 2);
+		for (int idx = 0; idx < answerList.size(); idx++) {
+			tmpWord = answerList.get(idx);
+			posX = screenWidth - baseWidth
+					+ ((baseWidth - tmpWord.getWidth()) / 2) - cvtPaddingSize;
+			tmpWord = answerList.get(idx);
+			tmpWord.setX(posX);
+			if (idx == 0) { // base line
+				tmpWord.setY(startPosY);
+			} else {
+				tmpWord.setY(answerList.get(idx - 1).getY() + gapY);
+			}
+		}
+
+		/* 패턴 모양 형성 */
+		pattern = new ArrayList<PatternCircle>();
+		int circleW = cvtCircleSize;
+		int circleH = cvtCircleSize;
+		Bitmap circleImg = BitmapFactory.decodeResource(getResources(),
+				R.drawable.pattern_circle_base);
+		circleImg = Bitmap
+				.createScaledBitmap(circleImg, circleW, circleH, true);
+
+		// 패턴 - 단어
+		PatternCircle circle = new PatternCircle();
+		int wordX = word.getX();
+		int wordY = word.getY();
+		int wordW = word.getWidth();
+		int wordH = word.getHeight();
+		circle.setCx(wordX + (wordW / 2) - (circleW / 2));
+		circle.setCy(wordY - wordH - circleH);
+		circle.setCircleBmp(circleImg);
+		circle.setRadious(circleW);
+		circle.setWord(word);
+		pattern.add(circle);
+
+		// 패턴 - 뜻
+		int txtDist = convetPx(context, WORD_TXT_SIZE - MEAN_TXT_SIZE);
+		for (int idx = 0; idx < answerList.size(); idx++) {
+			Word ans = answerList.get(idx);
+			circle = new PatternCircle();
+			wordX = ans.getX();
+			wordY = ans.getY();
+			wordW = ans.getWidth();
+			wordH = ans.getHeight();
+			circle.setCx(wordX + (wordW / 2) - (circleW / 2));
+			circle.setCy(wordY - wordH - circleH - txtDist);
+			circle.setCircleBmp(circleImg);
+			circle.setRadious(circleW);
+			circle.setWord(ans);
+			pattern.add(circle);
+		}
+
+		PatternCircle startCircle = pattern.get(0);
+		radMid = (int) (startCircle.getRadious() / 2);
+		lineMovX = circleMidX = startCircle.getCx() + radMid;
+		lineMovY = circleMidY = startCircle.getCy() + radMid;
+
+		// 패턴 - 라인 페인트
+		linePaint = new Paint();
+		linePaint.setStrokeWidth(cvtCircleSize / 7);
+		linePaint.setAlpha(0);
+		linePaint.setColor(Color.WHITE);
+
+		// 시계 세팅
+		initWatch();
+	}
+
+	private void initWatch() {
+		dateObj = new Date();
+		datePaint = new Paint();
+		dateTypeface = Typeface.create(TEXT_TYPE, TYPE_FACE_NORMAL);
+		datePaint.setTypeface(dateTypeface);
+		datePaint.setColor(Color.rgb(201, 209, 214));
+		datePaint.setTextSize(convetPx(getContext(), 20));
+		datePosY = convetPx(getContext(), PADDING_SIDE / 4)
+				+ DisplayInfo.getStatusBarHeight(getContext());
+		curAmPm = BitmapFactory.decodeResource(getResources(),
+				TIME_AMPM[TIME_AM]);
+		timeThread = new Thread() {
+			public void run() {
+				while (true) {
+					refreshWatch();
+					post(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText(getContext(),
+									dateObj.getTimezoneOffset(),
+									Toast.LENGTH_LONG).show();
+						}
+					});
+
+					long nextTime = 60000;
+					try {
+						Thread.sleep(nextTime);
+					} catch (InterruptedException e) {
+						break;
+					}
+				}
+			};
+		};
+		timeThread.start();
+	}
+
+	private void refreshWatch() {
+		String year = (dateObj.getYear() + 1900) + "년";
+		String month = (dateObj.getMonth() + 1) + "월";
+		String day = dateObj.getDate() + "일";
+		String weekDay = week[dateObj.getDay()] + "요일";
+		date = year + " " + month + " " + day + " " + weekDay;
+		if (date.equals(date) == false) {
+			int dateW = (int) datePaint.measureText(date);
+			datePosX = (screenWidth / 2) - (dateW / 2);
+		}
+
+		int hours = dateObj.getHours();
+		int minutes = dateObj.getMinutes();
+		if (hours > 12) {
+			hours -= 12;
+			curAmPm = BitmapFactory.decodeResource(getResources(),
+					TIME_AMPM[TIME_PM]);
+		}
+
+		curHours1 = BitmapFactory.decodeResource(getResources(),
+				TIME_NUM[hours / 10]);
+		curHours2 = BitmapFactory.decodeResource(getResources(),
+				TIME_NUM[hours % 10]);
+		timeMid = BitmapFactory.decodeResource(getResources(),
+				R.drawable.time_mid);
+		curMinu1 = BitmapFactory.decodeResource(getResources(),
+				TIME_NUM[minutes / 10]);
+		curMinu2 = BitmapFactory.decodeResource(getResources(),
+				TIME_NUM[minutes % 10]);
+
+		int h1, h2, m1, m2;
+		for (int h = 0; h < 24; h++) {
+			for (int m = 0; m < 60; m++) {
+				h1 = h / 10;
+				h2 = h % 10;
+				m1 = m / 10;
+				m2 = m % 10;
+				MyDBG.log(h1 + ((h2 + " : ") + m1) + m2);
+			}
+		}
+	}
+
+	@Override
+	public void removeThis() {
+		super.removeThis();
+		timeThread.interrupt();
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		// 배경색 칠하기
+		canvas.drawRect(0, 0, screenWidth, screenHeight, bgPaint);
+		// 로고 그리기
+		canvas.drawBitmap(bottomTitleBmp, bottomTitlePosX, bottomTitlePosY,
+				null);
+		// 잠금화면 바로 해제 버튼
+		canvas.drawBitmap(unlockBtnBmp, unlockBtnPosX, unlockBtnPosY, null);
+		// 패턴-선 그리기
+		canvas.drawLine(circleMidX, circleMidY, lineMovX, lineMovY, linePaint);
+		// 시계 그리기
+		canvas.drawText(date, datePosX, datePosY, datePaint);
+		canvas.drawBitmap(curAmPm, 100, 100, null);
+		canvas.drawBitmap(curHours1, 130, 100, null);
+		canvas.drawBitmap(curHours2, 160, 100, null);
+		canvas.drawBitmap(timeMid, 190, 100, null);
+		canvas.drawBitmap(curMinu1, 210, 100, null);
+		canvas.drawBitmap(curMinu2, 240, 100, null);
+
+		// 단어, 질문 그리기
+		Word word = questionWord.getString();
+		canvas.drawText(word.getString(), word.getX(), word.getY(),
+				word.getPaint());
+		for (Word mean : questionWord.getAnswerList()) {
+			canvas.drawText(mean.getString(), mean.getX(), mean.getY(),
+					mean.getPaint());
+		}
+		// 패턴-원 그리기
+		for (PatternCircle circle : pattern) {
+			canvas.drawBitmap(circle.getCircleBmp(), circle.getCx(),
+					circle.getCy(), null);
+		}
+	}
+
+	@Override
+	public void onTouchDown(View v, MotionEvent event) {
+		int x = (int) event.getX();
+		int y = (int) event.getY();
+		PatternCircle circle = pattern.get(0);
+		Context context = getContext();
+		int cx1 = circle.getCx() - convetPx(context, PATTERN_CIRCLE_SIZE);
+		int cy1 = circle.getCy() - convetPx(context, PATTERN_CIRCLE_SIZE);
+		int cx2 = circle.getCx() + convetPx(context, PATTERN_CIRCLE_SIZE);
+		int cy2 = circle.getCy() + convetPx(context, PATTERN_CIRCLE_SIZE);
+		if (isSamePosition(cx1, cy1, cx2, cy2, x, y)) {
+			bTouchStart = true;
+			linePaint.setAlpha(100);
+		}
+
+		if (isTouchExit(x, y)) {
+			bTouchExit = true;
+		}
+	}
+
+	@Override
+	public void onTouchMove(View v, MotionEvent event) {
+		if (bTouchStart) {
+			lineMovX = (int) event.getX();
+			lineMovY = (int) event.getY();
+
+			for (PatternCircle circle : pattern) {
+				int x = circle.getCx() - MAGNETIC_RANGE;
+				int y = circle.getCy() - MAGNETIC_RANGE;
+				int w = circle.getCx() + (int) circle.getRadious()
+						+ MAGNETIC_RANGE;
+				int h = circle.getCy() + (int) circle.getRadious()
+						+ MAGNETIC_RANGE;
+				if (isSamePosition(x, y, w, h, lineMovX, lineMovY)) {
+					lineMovX = circle.getCx() + radMid;
+					lineMovY = circle.getCy() + radMid;
+					break;
+				}
+			}
+			invalidate();
+		}
+	}
+
+	@Override
+	public void onTouchUp(View v, MotionEvent event) {
+		int x = (int) event.getX();
+		int y = (int) event.getY();
+		if (bTouchStart) {
+			bTouchStart = false;
+			for (PatternCircle circle : pattern) {
+				int cx1 = circle.getCx() - MAGNETIC_RANGE;
+				int cy1 = circle.getCy() - MAGNETIC_RANGE;
+				int cx2 = circle.getCx() + (int) circle.getRadious()
+						+ MAGNETIC_RANGE;
+				int cy2 = circle.getCy() + (int) circle.getRadious()
+						+ MAGNETIC_RANGE;
+				if (isSamePosition(cx1, cy1, cx2, cy2, x, y)
+						&& questionWord.isCorrect(circle.getWord())) {
+					removeThis();
+					break;
+				}
+			}
+		} else if (bTouchExit) {
+			if (isTouchExit(x, y)) {
+				bTouchExit = false;
+				removeThis();
+			}
+		}
+
+		linePaint.setAlpha(0);
+		invalidate();
+	}
+
+	private boolean isSamePosition(int x1, int y1, int w1, int h1, int x2,
+			int y2) {
+		if (x2 >= x1 && y2 >= y1 && x2 <= w1 && y2 <= h1) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isTouchExit(int x, int y) {
+		int w = unlockBtnBmp.getWidth();
+		int h = unlockBtnBmp.getHeight();
+		if (isSamePosition(unlockBtnPosX, unlockBtnPosY, unlockBtnPosX + w,
+				unlockBtnPosY + h, x, y)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 480 기준으로 작성된 픽셀 값을 현재 기기의 해상도에 맞게 변환한다.
+	 * 
+	 * @param context
+	 *            - context
+	 * @param px
+	 *            - 480 기준의 픽셀.
+	 * @return - 현재 디바이스 해상도에 맞는 px의 변경된 값.
+	 */
+	private int convetPx(Context context, int px) {
+		return DisplayInfo.convertPixelForDevice(context, px);
+	}
+
+}
