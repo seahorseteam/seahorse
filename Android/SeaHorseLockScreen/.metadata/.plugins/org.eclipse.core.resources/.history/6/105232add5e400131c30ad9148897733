@@ -1,0 +1,144 @@
+package ac.seahorse.seahorselockscreen.lockscreen.view;
+
+import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
+import android.app.KeyguardManager;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
+
+/***
+ * 잠금화면을 꾸밀 View 들의 부모. 터치와 화면에 뷰 추가, 제거 기능이 있다. 잠금 화면을 만들고자 한다면 반드시 이 클래스를
+ * 상속받아야 한다.
+ * 
+ * @author KKS
+ * @category LockScreenView
+ */
+public abstract class LockScreenView extends View implements OnTouchListener {
+	private static boolean bAlive;
+	private LayoutParams params;
+	private WindowManager wm;
+	private DisplayInfo displayInfo;
+	private KeyguardManager km;
+
+	public LockScreenView(Context context) {
+		super(context);
+		init(context);
+	}
+
+	public LockScreenView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init(context);
+	}
+
+	public LockScreenView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context);
+	}
+
+	private void init(Context context) {
+		params = new WindowManager.LayoutParams(
+				WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY);
+		wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		this.setOnTouchListener(this);
+		displayInfo = new DisplayInfo();
+		km = (KeyguardManager) context
+				.getSystemService(Context.KEYGUARD_SERVICE);
+	}
+
+	public LayoutParams getParams() {
+		return params;
+	}
+
+	public void setParams(LayoutParams params) {
+		this.params = params;
+	}
+
+	public WindowManager getWm() {
+		return wm;
+	}
+
+	public void setWm(WindowManager wm) {
+		this.wm = wm;
+	}
+
+	/**
+	 * 현재 뷰가 화면에 등록 중인지 아닌지 반환한다.
+	 * 
+	 * @return -true = 화면에 뷰 등록 중, false = 화면에서 뷰가 제거된 상태.
+	 */
+	public boolean isAlive() {
+		return bAlive;
+	}
+
+	/***
+	 * 이 뷰를 현재 윈도우에 추가합니다.
+	 */
+	public void addThis() {
+		wm.addView(this, params);
+		bAlive = true;
+	}
+
+	/***
+	 * 이 뷰를 현재 윈도우에서 제거합니다.
+	 */
+	public void removeThis() {
+		wm.removeViewImmediate(this);
+		bAlive = false;
+	}
+
+	/****
+	 * 시스템 제공 키가드를 제거하고 이 뷰를 현재 윈도우에 추가합니다.
+	 */
+	public void addThisWithUnlockKeyguard() {
+		addThis();
+		displayInfo.setKeyGuardEnable(true, km);
+	}
+
+	/***
+	 * 시스템 제공 키가드를 제거하고 이 뷰를 현재 윈도우에서 제거합니다.
+	 */
+	public void removeThisWithLockKeyguard() {
+		removeThis();
+		displayInfo.setKeyGuardEnable(false, km);
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			onTouchDown(v, event);
+			break;
+
+		case MotionEvent.ACTION_MOVE:
+			onTouchMove(v, event);
+			break;
+
+		case MotionEvent.ACTION_UP:
+			onTouchUp(v, event);
+			break;
+
+		default:
+			break;
+		}
+		return false;
+	}
+
+	/***
+	 * MotionEvent.ACTION_DOWN 이 발생했을 때 호출되는 메서드.
+	 */
+	protected abstract void onTouchDown(View v, MotionEvent event);
+
+	/***
+	 * MotionEvent.ACTION_MOVE 가 발생했을 때 호출되는 메서드.
+	 */
+	protected abstract void onTouchMove(View v, MotionEvent event);
+
+	/***
+	 * MotionEvent.ACTION_UP 이 발생했을 때 호출되는 메서드.
+	 */
+	protected abstract void onTouchUp(View v, MotionEvent event);
+}

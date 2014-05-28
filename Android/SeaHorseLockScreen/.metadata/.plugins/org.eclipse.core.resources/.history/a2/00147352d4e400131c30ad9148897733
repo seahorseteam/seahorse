@@ -1,0 +1,229 @@
+package ac.seahorse.seahorselockscreen.lockscreen.data;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
+import ac.seahorse.seahorselockscreen.lockscreen.view.LockScreenView;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
+/***
+ * 잠금 화면에서 저장을 해야하는 모든 데이터를 관리하는 클래스이다. 예로 옵션에 관한 사항도 저장한다. 자료 = [잠금화면 사용/미사용],
+ * [Noti에 보여줄 단어 & 뜻], [잠금화면 종류], [잠금화면의 단어], [잠금화면의 단어 뜻들]
+ * 
+ * @author KKS
+ * @category Data
+ * 
+ */
+public class LockScreenDataManager {
+	private static LockScreenDataManager instance = null;
+	private static final String PREF_NAME = "seaHorse";
+	private final String LOCKSCREEN_ENABLE = "lockScreenEnable";
+	private final String NOTI_WORD = "notiAppearWord";
+	private final String NOTI_MEAN = "notiAppearMean";
+	private final String LOCKSCREEN_TYPE = "lockScreenType";
+	private final String LOCKSCREEN_WORD = "lockScreenWord";
+	private final String LOCKSCREEN_WORD_MEAN = "lockScreenWordMean";
+	private final String LOCKSCREEN_ANSWER = "lockScreenAns";
+	private final String LOCKSCREEN_APPEAR_CYCLE = "appearCycle";
+
+	private SharedPreferences pref;
+	private Editor edit;
+	private HashSet<String> answerStore; // add에 의해 추후 추가될 값들을 갖고있다.
+	private ArrayList<String> answerLoad; // 추가된 값들을 갖고있다.
+
+	private LockScreenDataManager(Context context) {
+		pref = context.getSharedPreferences(PREF_NAME, 0);
+		edit = pref.edit();
+		answerStore = new HashSet<String>();
+		answerLoad = new ArrayList<String>();
+	}
+
+	synchronized public static LockScreenDataManager getInstance(Context context) {
+		if (instance == null) {
+			instance = new LockScreenDataManager(context);
+		}
+		return instance;
+	}
+
+	public boolean getLockScreenEnable() {
+		return pref.getBoolean(LOCKSCREEN_ENABLE, false);
+	}
+
+	/***
+	 * 잠금화면을 사용할지 안할지 사용 여부 결정.
+	 * 
+	 * @param bEnable
+	 *            - true = 사용, false = 사용 안함.
+	 */
+	public void setLockScreenEnable(boolean bEnable) {
+		edit.putBoolean(LOCKSCREEN_ENABLE, bEnable);
+	}
+
+	/***
+	 * Foreground Service에 의해 등장하는 Notification Bar의 알림말에 나타날 단어를 불러옵니다.
+	 */
+	public String getNotificationWord() {
+		return pref.getString(NOTI_WORD, "");
+	}
+
+	/***
+	 * Foreground Service에 의해 등장하는 Notification Bar의 알림말에 나타날 단어를 저장합니다.
+	 * 
+	 * @param word
+	 *            - 알림말에 나타낼 단어.
+	 */
+	public void setNotificationWord(String word) {
+		edit.putString(NOTI_WORD, word);
+	}
+
+	/***
+	 * Foreground Service에 의해 등장하는 Notification Bar의 알림말에 나타날 단어의 뜻을 불러옵니다.
+	 */
+	public String getNotificationMean() {
+		return pref.getString(NOTI_MEAN, "");
+	}
+
+	/***
+	 * Foreground Service에 의해 등장하는 Notification Bar의 알림말에 나타날 단어의 뜻을 저장합니다.
+	 * 
+	 * @param mean
+	 *            - 알림말에 나타낼 단어의 뜻.
+	 */
+	public void setNotificationMean(String mean) {
+		edit.putString(NOTI_MEAN, mean);
+	}
+
+	/**
+	 * 잠금 화면의 모양을 결정하는 값을 불러옵니다. {@link LockScreenView} 타입이어야 합니다. 잠금 화면에 표시되는
+	 * 모든 정보는 이 클래스를 통해 얻거나 편집합니다.
+	 * 
+	 * @return - {@link LockScreenView}를 상속받은 자식의 Class Name.
+	 */
+	public String getLockScreenType() {
+		return pref.getString(LOCKSCREEN_TYPE, "");
+	}
+
+	/***
+	 * 잠금 화면의 모양을 결정하는 값을 저장합니다. 참고 : {@link LockScreenView} ex :
+	 * dataMng.setLockScreenType(LockScreenType1.class.getName());
+	 * 
+	 * @param className
+	 *            - 잠금 화면의 모양을 갖는 LockScreenView의 자식 클래스명.
+	 */
+	public void setLockScreenType(String className) {
+		edit.putString(LOCKSCREEN_TYPE, className);
+	}
+
+	/***
+	 * 잠금 화면에 표시할 단어와 뜻을 불러옵니다.
+	 * 
+	 * @return - array[0] = 단어, array[1] = 뜻. 불러오기 실패하는 경우는 null.
+	 */
+	public String[] getLockScreenWord() {
+		String[] word = new String[2];
+		word[0] = pref.getString(LOCKSCREEN_WORD, "");
+		word[1] = pref.getString(LOCKSCREEN_WORD_MEAN, "");
+		return word;
+	}
+
+	/***
+	 * 잠금 화면에 표시할 단어를 저장합니다.
+	 * 
+	 * @param word
+	 *            - 잠금 화면에 표시될 단어.
+	 * @param mean
+	 *            - 잠금 화면에 표시될 단어의 뜻. 보기 항목 중에 어떤 것이 정답인지 구분하는 키값이 됨.
+	 */
+	public void setLockScreenWord(String word, String mean) {
+		edit.putString(LOCKSCREEN_WORD, word);
+		edit.putString(LOCKSCREEN_WORD_MEAN, mean);
+	}
+
+	/***
+	 * 잠금 화면에 표시할 단어에 대한 보기 목록을 불러옵니다.
+	 * 
+	 * @return - 단어 목록 문자열.
+	 */
+	public ArrayList<String> getLockScreenAnswer() {
+		HashSet<String> hashSet = (HashSet<String>) pref.getStringSet(
+				LOCKSCREEN_ANSWER, null);
+
+		if (hashSet.size() == answerLoad.size()) {
+			return answerLoad;
+		}
+
+		answerLoad.removeAll(answerLoad);
+		Iterator<String> iterator = hashSet.iterator();
+		while (iterator.hasNext()) {
+			answerLoad.add(iterator.next());
+		}
+		return answerLoad;
+	}
+
+	/**
+	 * 잠금 화면에 나타낼 단어의 뜻을 추가하는 함수입니다. 추가 순서가 화면에 출력되는 순서가 된다는 것을 보장하진 않습니다. 단어가
+	 * 9자를 초과하면 잘리게 됩니다. '...'으로 표기됩니다.
+	 * 
+	 * @param answer
+	 *            - 단어의 보기가 될 뜻 문자열.
+	 */
+	public void addLockScreenAnswer(String answer) {
+		if (answer != null) {
+			answer = stringSlice(answer);
+			answerStore.add(answer);
+		}
+	}
+
+	private String stringSlice(String answer) {
+		if (answer.length() > 9) {
+			answer = answer.substring(0, 9);
+			answer = answer.concat("...");
+		}
+		return null;
+	}
+
+	public void removeLockScreenAnswer(String answer) {
+		if (answer != null) {
+			answerStore.remove(answer);
+		}
+	}
+
+	public void removeAllLockScreenAnswer() {
+		answerStore.removeAll(answerStore);
+	}
+
+	/***
+	 * 잠금 화면의 등장 주기를 불러옵니다. 기본값은 1입니다.
+	 * 
+	 * @return - 1 이상 양수.
+	 */
+	public int getAppearCycle() {
+		return pref.getInt(LOCKSCREEN_APPEAR_CYCLE, 1);
+	}
+
+	/***
+	 * 잠금 화면의 등장 주기를 저장합니다. cycleCnt가 1이면 매번, 2이면 화면이 두 번 째 꺼졌을 때에 잠금 화면이 등장하게
+	 * 됩니다.
+	 * 
+	 * @param cycleCnt
+	 *            - cycleCnt > 0 일 때만 저장. 아니면 1로 저장.
+	 */
+	public void setAppearCycle(int cycleCnt) {
+		if (cycleCnt < 1) {
+			cycleCnt = 1;
+		}
+		edit.putInt(LOCKSCREEN_APPEAR_CYCLE, cycleCnt);
+	}
+
+	/***
+	 * LockScreenDataManager 의 모든 데이터는 반드시 commit을 해야만 실제로 저장이 됩니다.
+	 */
+	public void commit() {
+		edit.putStringSet(LOCKSCREEN_ANSWER, answerStore);
+		edit.commit();
+	}
+
+}
