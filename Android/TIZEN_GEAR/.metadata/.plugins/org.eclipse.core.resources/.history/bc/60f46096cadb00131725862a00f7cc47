@@ -1,0 +1,404 @@
+
+(function() {
+	var gInfoTitle = "", gInfo = "";
+	var gBatteryListener;
+	var gStorageListener;
+	var gCpuLoadListener;
+	var state  = {"MaxStorageExceeded" : 0, "CurrentStorageValue" : 1};
+	var totalCapacity;
+
+	$(document).on('pageinit', '#main', init);
+	function init() {
+		// TODO:: Do your initialization job
+		console.log("init called");
+		registerHandlers();
+		/**
+		 * Displays the notification according to the selected option
+		 * 
+		 */ 
+		function registerHandlers() {
+			$('#batterylevel').click(function() {
+				if ($(this).attr("checked")) {
+					watchbatterylevel();
+				} else {
+					stopbatterylevel();
+				}
+			});
+
+			$('#storagelevel').click(function() {
+				if ($(this).attr("checked")) {
+					watchstoragelevel();
+				} else {
+					stopstoragelevel();
+				}
+			});
+
+			$('#cpuloadlevel').click(function() {
+				if ($(this).attr("checked")) {
+					watchcpuloadlevel();
+				} else {
+					stopcpuloadlevel();
+				}
+			});
+
+			$('#getAllNotifications').click(function() {
+				geAllNotifications();
+			});
+
+			$('#removeAllNotifications').click(function() {
+				removeAllNotifications();
+			});
+		}
+	}
+
+	/**
+	 * Checks if the specified property is present in the system and starts a watch process to the corresponding property if it is present in the system
+	 * @param property  : receives the property of the system(storage, battery etc)
+	 * @param onBatterySuccess : callback interface specifying a success callback with SystemInfoProperty as input argument
+	@param SystemInfoOptions: specify the high and low threshold values to be watched on
+	 * 
+	 */
+
+	function watchbatterylevel() {
+		try {
+			//listener for monitoring battery level change on high and low thresholds
+			gBatteryListener = tizen.systeminfo.addPropertyValueChangeListener("BATTERY", onBatterySuccess, {highThreshold: 0.9,lowThreshold : 0.2});
+			alert("Watching battery level started");
+		} catch(e) {
+			alert("Exception: " + e.message );
+		}
+
+	}
+
+	function onBatterySuccess(battery) {
+
+		postBatteryNotification(battery);
+
+	}
+
+	function onErrorCallback(error) {
+		console.log("An error occurred " + error.message);
+
+	}
+	/**
+	 * Posts notification by forming the icon, statement, description of the battery level
+	 * 
+	 */
+	function postBatteryNotification(battery)
+	{
+		console.log("The battery level is " + battery.level);
+		if(battery.level>=0.9)
+		{
+			try {
+
+				var notificationDict = {
+						content : "This is a simple notificaiton.",
+						iconPath : "images/image1.jpg"
+
+				};
+				var	currentBatteryLevelNotification = new tizen.StatusNotification("SIMPLE", 
+						"battery is high, current level is:"+battery.level, notificationDict);
+
+				tizen.notification.post(currentBatteryLevelNotification);
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+
+		}
+		else if(battery.level<=0.2)
+		{
+			try {
+
+				var notificationDict = {
+						content : "This is a simple notificaiton.",
+						iconPath : "images/image1.jpg"
+
+				};
+				currentBatteryLevelNotification = new tizen.StatusNotification("SIMPLE", 
+						"battery is low, current level is:"+battery.level, notificationDict);
+
+				tizen.notification.post(currentBatteryLevelNotification);
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+		}
+		batteryChargeCheck(battery,currentBatteryLevelNotification);
+	}
+
+	/**
+	 * Updates the notification on the charging state of the battery 
+	 * 
+	 * 
+	 */
+	function batteryChargeCheck(battery,currentBatteryLevelNotification)
+	{
+		//FIXME: Use === instead of ==
+		if(battery.isCharging === true)
+		{
+			try {
+				// use a varible for the previoulsy posted notification.
+				currentBatteryLevelNotification.content = "Battery state: Charging...";
+				tizen.notification.update(currentBatteryLevelNotification); 
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+
+		}
+		else
+		{
+			try {
+				// use a varible for the previoulsy posted notification.
+				currentBatteryLevelNotification.content = "Battery state: Not charging";
+				tizen.notification.update(currentBatteryLevelNotification); 
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+		}
+	}
+
+	function stopbatterylevel() {
+		alert("Watching battery level stopped");
+		if (gBatteryListener !== null) 
+			tizen.systeminfo.removePropertyValueChangeListener(gBatteryListener);
+	}
+
+	function watchstoragelevel() {
+		try {
+			//listener for monitoring storage value change on total and current storage
+			gStorageListener = tizen.systeminfo.addPropertyValueChangeListener("STORAGE", onStorageSuccess, {highThreshold:totalCapacity });
+			alert("Watching storage level started");
+		} catch(e) {
+			alert("Exception: " + e.message );
+		}
+	}
+	function onStorageSuccess(storages) {
+		var flag;
+		var storageType;
+
+		for (var i = 0; i < storages.length; i++) {
+			storageType = storages[i].type;
+			totalCapacity = Math.floor(storages[i].capacity / 1000000 ) ;
+			availableCapacity = Math.floor(storages[i].availableCapacity / 1000000 ) ;
+			if(availableCapacity>=totalCapacity)
+			{
+				flag = state.MaxStorageExceeded;
+				postStorageNotification();
+			}
+			else
+			{
+				flag = state.CurrentStorageValue;
+				postStorageNotification(flag,storageType,totalCapacity);
+			}
+		}
+	}
+
+
+	/**
+	 * Posts notification by forming the icon, statement, description of the storage state
+	 * 
+	 */
+	function postStorageNotification(flag,storageType,totalCapacity)
+	{
+		switch(flag)
+		{
+		case state.MaxStorageExceeded:
+			try {
+
+				var notificationDict = {
+						content : "This is a simple notificaiton.",
+						iconPath : "images/image1.jpg"
+
+				};
+
+				var maxStorageNotification = new tizen.StatusNotification("SIMPLE", 
+						"Storage type:"+storageType+" "+" is full,delete some files", notificationDict);
+
+				tizen.notification.post(maxStorageNotification);
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+			break;
+
+		case state.CurrentStorageValue:
+
+			try {
+
+				var notificationDict = {
+						content : "This is a simple notificaiton.",
+						iconPath : "images/image1.jpg"
+
+				};
+				var currentStorageNotification = new tizen.StatusNotification("SIMPLE", 
+						"Storage type:"+storageType+"\n "+availableCapacity+"MB"+" is available out of "+totalCapacity+"MB", notificationDict);
+				tizen.notification.post(currentStorageNotification);
+
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+			break;
+		default:
+			console.log("No storage updates");
+		break;
+
+		}
+	}
+
+	function stopstoragelevel() {
+		if (gStorageListener !== null) 
+			tizen.systeminfo.removePropertyValueChangeListener(gStorageListener);
+		alert("Watching storage level stopped");
+	}
+	$(document).delegate("#info", "pageinit", function() {
+		$("#info").bind("pagebeforeshow", function() {
+			$("#info-title").html(gInfoTitle);
+			$("#info-list").html(gInfo).trigger("create").listview("refresh");
+		});
+	});
+
+
+	function onError(e) {
+		alert("Error: " + e.message);
+	}
+
+	function make2lineListItem(title, value) {
+		return '<li class="ui-li-has-multiline">'
+		+ title
+		+ '<span class="ui-li-text-sub">'
+		+ value
+		+ '</span></li>';
+	}
+
+	function makeDividerListItem(value) {
+		return '<li data-role="list-divider">' + value + '</li>';
+	}
+
+	function watchcpuloadlevel() {
+		try {
+			////listener for monitoring cpu level change on high and low load
+			gCpuLoadListener = tizen.systeminfo.addPropertyValueChangeListener("CPU", onCpuSuccess, {highCpuLoad: 1.0,lowCpuLoad : 0.0});
+			alert("Watching cpu level started");
+		} catch(e) {
+			alert("Exception: " + e.message );
+		}
+	}
+	function onCpuSuccess(cpu) {
+
+		postCpuLoadLevelNotification(cpu);
+
+	}
+
+
+	/**
+	 * Posts notification by forming the icon, statement, description of the cpu level
+	 * 
+	 */
+	function postCpuLoadLevelNotification(cpu)
+	{
+		if(cpu.load>=1.0)
+		{
+			try	{
+
+				var notificationDict = {
+						content : "This is a simple notificaiton.",
+						iconPath : "images/image1.jpg"
+				};
+				var cpuLoadNotification = new tizen.StatusNotification("SIMPLE", 
+						"Cpu load is more, load is:"+cpu.load, notificationDict);
+
+				tizen.notification.post(cpuLoadNotification);
+
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+		}
+		else if(cpu.load<=0.0)
+		{
+			try	{
+
+				var notificationDict = {
+						content : "This is a simple notificaiton.",
+						iconPath : "images/image1.jpg"
+				};
+				var cpuLoadNotification = new tizen.StatusNotification("SIMPLE", 
+						"Cpu load is less, load is:"+cpu.load, notificationDict);
+
+				tizen.notification.post(cpuLoadNotification);
+			} catch (err) {
+				console.log (err.name + ": " + err.message);
+			}
+		}
+	}
+
+	function stopcpuloadlevel() {
+		if (gCpuLoadListener !== null) 
+			tizen.systeminfo.removePropertyValueChangeListener(gCpuLoadListener);
+		alert("Watching cpu level stopped");   
+	}
+
+	function geAllNotifications() {
+		gInfoTitle = "All notifications";
+		gInfo = "";
+		try { 
+			var notifications = tizen.notification.getAll();
+			console.log("Number of notifications is "+notifications.length);
+			if(notifications.length<=0)
+			{
+				alert("No notifications to display");
+			}
+			else
+			{
+				var index;
+				for (index =0; index<=notifications.length; index++)
+				{
+					console.log("Notification id: "+notifications[index].id);
+					console.log("\t\n");
+					console.log("icon:" +notifications[index].iconPath);
+					console.log("Title is :"+notifications[index].title);
+					console.log("Notification status is "+notifications[index].statusType);
+					console.log(notifications[index].postedTime);
+					//populating the notifications in a list
+					gInfo += makeDividerListItem("Notification " + (index +1))
+					+make2lineListItem("Notification Title", notifications[index].title)
+					+make2lineListItem("icon path:", notifications[index].iconPath)
+					+make2lineListItem("Status Notification type", notifications[index].statusType)
+
+					+ make2lineListItem("Posted time", notifications[index].postedTime);
+
+				}
+			}
+
+		} catch (err){console.log (err.name + ": " + err.message);   } 
+		$.mobile.changePage("#info");
+
+	}
+
+	function removeAllNotifications() {
+		tizen.notification.removeAll();
+		alert("All the notifications are removed ");
+	}
+
+	$(document).delegate("#info", "pageinit", function() {
+		$("#info").bind("pagebeforeshow", function() {
+		})
+	});
+
+	$(document).delegate("#main", "pageinit", function() {
+		$("#main .ui-btn-back").bind("vclick", function() {
+			exitFromApp();
+			return false;
+		})
+	});
+
+	function exitFromApp() {
+		var r=confirm("Do you want to exit from this app?:");
+		if (r===true)
+		{
+			var app = tizen.application.getCurrentApplication();
+			app.exit();
+		}
+		else
+		{
+			return;
+		} 
+	}
+})();

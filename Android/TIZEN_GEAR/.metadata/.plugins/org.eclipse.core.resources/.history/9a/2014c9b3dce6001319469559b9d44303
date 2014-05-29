@@ -1,0 +1,38 @@
+var documentsDir;
+var fileName = 'vocalook_history.txt';
+
+function onResolveSuccess(dir) {
+	documentsDir = dir;
+}
+
+function onResolveError(e) {
+	console.log('message: ' + e.message);
+}
+
+tizen.filesystem.resolve('documents', onResolveSuccess, onResolveError, 'rw');
+documentsDir.createFile(fileName);
+
+function openFileStream() {
+	try {
+		file = documentsDir.resolve(fileName);
+	} catch (exc) {
+		console.log('Could not resolve file: ' + exc.message);
+
+		// 오류 시 중지
+		return;
+	}
+
+	try {
+		file.openStream(
+		// 추가를 위해 열기
+		'a',
+
+		// 성공 콜백 - 텍스트 영역의 내용 추가
+		writeToStream,
+
+		// 오류 콜백
+		onError);
+	} catch (exc) {
+		console.log('Could not write to file: ' + exc.message);
+	}
+}

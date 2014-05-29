@@ -1,0 +1,118 @@
+var SAAgent = null; /* 서비스를 생성 */
+var SASocket = null; /* 안드로이드와 통신을 위해 생성 */
+var CHANNELID = 104; /* ServiceProfile.xml에 적혀있음. */
+var ProviderAppName = "WellDoneNoteGear2"; /* 안드로이드에서 이 이름을 써야함 */
+
+function createHTML(log_string) {
+	var str = log_string.split("//");
+	var word = str[0];
+	var mean = str[1];
+
+	var wordDiv = document.getElementById('resultBoardWord');
+	wordDiv.innerHTML = word;
+
+	var meanDiv = document.getElementById('resultBoardMean');
+	meanDiv.innerHTML = mean;
+}
+
+function onSuccess(agents) {
+	try {
+		if (agents.length > 0) {
+			SAAgent = agents[0];
+			SAAgent.setPeerAgentFindListener(peerAgentFindCallback);
+			SAAgent.findPeerAgents();
+		} else {
+			alert("Not found SAAgent!");
+		}
+	} catch (err) {
+		alert("exception : " + err.name + ", msg : " + err.message);
+	}
+}
+
+var peerAgentFindCallback = {
+	onpeeragentfound : function(peerAgent) {
+		try {
+			alert("peerAgent.appName : " + peerAgent.appName);
+			if (peerAgent.appName == ProviderAppName) {
+				SAAgent.setServiceConnectionListener(agentCallBack);
+				SAAgent.requestServiceConnection(peerAgent);
+			}
+		} catch (e) {
+			alert("exception : " + err.name + ", msg : " + err.message);
+		}
+	}
+};
+
+var agentCallBack = {
+	onconnect : function(socket) {
+		SASocket = socket;
+		alert("Connection established with remotepeer");
+		SASocket.setSocketStatusListener(function(reason) {
+			console.log("socket status changed : " + reason);
+		});
+
+		SASocket.setDataReceiveListener(onReceive);
+	}
+};
+
+function onError(err) {
+	alert("안드로이드 앱과 연결할 수 없습니다.");
+}
+
+function onReceive(channelId, data) {
+	alert(data);
+	createHTML(data);
+}
+
+/*******************************************************************************
+ * 안드로이드 어플리케이션에 접속 요청.
+ */
+function connect() {
+	if (SASocket) {
+		disConnect();
+	}
+
+	try {
+		webapis.sa.requestSAAgent(onSuccess, onError);
+		console.log("Success connection.");
+	} catch (err) {
+		alert("exception : " + err.name + ", msg : " + err.message);
+	}
+}
+
+/*******************************************************************************
+ * 안드로이드 어플리케이션과 접속을 끊음.
+ */
+function disConnect() {
+	try {
+		if (SASocket != null) {
+			SASocket.close();
+			SASocket = null;
+		}
+	} catch (err) {
+		alert("exception : " + err.name + ", msg : " + err.message);
+	}
+}
+
+/*******************************************************************************
+ * 안드로이드 어플리케이션에 정보 갱신 요청
+ */
+function fetch() {
+	try {
+		SASocket.sendData(CHANNELID, "fetch :");
+		console.log("fetch send.");
+	} catch (err) {
+		console.log("exception : " + err.name + ", msg : " + err.message);
+	}
+}
+
+/*******************************************************************************
+ * 안드로이드 어플리케이션으로 데이터 보내기
+ ******************************************************************************/
+function send() {
+	try {
+		SASocket.sendData(CHANNELID, "send :");
+	} catch (err) {
+		console.log("exception : " + err.name + ", msg : " + err.message);
+	}
+}

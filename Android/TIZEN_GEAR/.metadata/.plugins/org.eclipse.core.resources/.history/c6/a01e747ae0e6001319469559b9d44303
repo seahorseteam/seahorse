@@ -1,0 +1,93 @@
+var documentsDir;
+var fileName = 'vocalook_history.txt';
+
+function onError() {
+	alert("File sys err.");
+}
+
+function onResolveSuccess(dir) {
+	documentsDir = dir;
+}
+
+function onResolveError(e) {
+	console.log('message: ' + e.message);
+}
+
+function createFile() {
+	tizen.filesystem.resolve('documents', onResolveSuccess, onResolveError,
+			'rw');
+	documentsDir.createFile(fileName);
+}
+
+function openFileStreamForWrite() {
+	try {
+		file = documentsDir.resolve(fileName);
+	} catch (exc) {
+		console.log('Could not resolve file: ' + exc.message);
+		// 오류 시 중지
+		return;
+	}
+
+	try {
+		file.openStream(
+		// 추가를 위해 열기
+		'rw',
+		// 성공 콜백 - 텍스트 영역의 내용 추가
+		writeToStream,
+		// 오류 콜백
+		onError);
+	} catch (exc) {
+		console.log('Could not write to file: ' + exc.message);
+	}
+}
+
+function writeToStream(fileStream) {
+	try {
+		fileStream.write('This is my first sentence to write.');
+		fileStream.close();
+	} catch (exc) {
+		console.log('Could not write to file: ' + exc.message);
+	}
+}
+
+function openFileStreamForRead() {
+	try {
+		file = documentsDir.resolve(fileName);
+	} catch (exc) {
+		console.log('Could not resolve file: ' + exc.message);
+
+		// 오류 시 중지
+		return;
+	}
+
+	try {
+		file.openStream(
+		// 읽기 위해 열기
+		'r',
+		// 성공 콜백 - 텍스트 영역의 내용 추가
+		readFromStream,
+		// 오류 콜백
+		onError);
+	} catch (exc) {
+		console.log('Could not write to file: ' + exc.message);
+	}
+}
+
+function readFromStream(fileStream) {
+	try {
+		fileStream.position = 0;
+		var contents = fileStream.read(fileStream.bytesAvailable);
+		fileStream.close();
+		console.log('file contents after pos 10:' + contents);
+	} catch (exc) {
+		console.log('Could not read from file: ' + exc.message);
+	}
+}
+
+function deleteSampleFile() {
+	try {
+		documentsDir.deleteFile(documentsDir.fullPath + '/' + fileName);
+	} catch (exc) {
+		console.log('deleteSampleFile(): ' + exc.message);
+	}
+}

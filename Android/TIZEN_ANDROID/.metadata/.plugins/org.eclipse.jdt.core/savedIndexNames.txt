@@ -1,0 +1,6 @@
+INDEX VERSION 1.126+C:\Users\KKS\Desktop\TIZEN_Gear\TEST_TIZEN_ANDROID\.metadata\.plugins\org.eclipse.jdt.core
+807621535.index
+2301059873.index
+2354260261.index
+3241957990.index
+684848270.index

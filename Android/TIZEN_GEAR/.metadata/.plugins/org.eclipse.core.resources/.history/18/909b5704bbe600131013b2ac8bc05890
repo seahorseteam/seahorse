@@ -1,0 +1,293 @@
+/*global window, document, tizen, setTimeout */
+/*jslint plusplus: true*/
+
+var canvas, context, clockRadius;
+var middleFilterValue = 320 - 280;
+var dayStr = [ "일", "월", "화", "수", "목", "금", "토" ];
+
+window.requestAnimationFrame = window.requestAnimationFrame
+		|| window.webkitRequestAnimationFrame
+		|| window.mozRequestAnimationFrame || window.oRequestAnimationFrame
+		|| window.msRequestAnimationFrame || function(callback) {
+			'use strict';
+			window.setTimeout(callback, 1000 / 60);
+		};
+
+var type = 0;
+var typeCount = 2;
+function clockChange() {
+	type++;
+	if (type >= typeCount) {
+		type = 0;
+	}
+	window.requestAnimationFrame(watch);
+}
+
+function renderDigitalClock(dateObj) {
+	var timeDiv = document.getElementById("timeDiv");
+	var meridiemDiv = document.getElementById("merDiv");
+	var dateDiv = document.getElementById("dateDiv");
+
+	var meridiemTxt = "AM";
+	var month = (dateObj.getMonth() + 1) + "월";
+	var dayWeek = dayStr[dateObj.getDay()];
+	var day = dateObj.getDate() + "일";
+
+	var hour = dateObj.getHours();
+
+	if (hour < 12) {
+		meridiemTxt = "AM";
+	} else {
+		meridiemTxt = "PM";
+		hour -= 12;
+	}
+
+	if (hour == 0) {
+		hour = 12;
+	}
+
+	var zeroHour = "";
+	if (hour < 10) {
+		zeroHour = "0";
+	}
+
+	var zeroMin = "";
+	var minutes = dateObj.getMinutes();
+	if (minutes < 10) {
+		zeroMin = "0";
+	}
+
+	timeDiv.innerHTML = zeroHour + hour + ":" + zeroMin + minutes;
+	meridiemDiv.innerHTML = meridiemTxt;
+	dateDiv.innerHTML = month + " " + day + " (" + dayWeek + ")";
+}
+
+function clearDigitalClock() {
+	var timeDiv = document.getElementById("timeDiv");
+	var meridiemDiv = document.getElementById("merDiv");
+	var dateDiv = document.getElementById("dateDiv");
+
+	timeDiv.innerHTML = "";
+	meridiemDiv.innerHTML = "";
+	dateDiv.innerHTML = "";
+}
+
+function renderDots() {
+	'use strict';
+
+	var dx = 0, dy = 0, i = 1, angle = null;
+
+	context.save();
+
+	// Assigns the clock creation location in the middle of the canvas
+	context.translate(canvas.width / 2 + (middleFilterValue / 2),
+			canvas.height / 2);
+
+	// Assign the style of the number which will be applied to the clock plate
+	context.beginPath();
+
+	context.fillStyle = '#999999';
+
+	// Create 4 dots in a circle
+	for (i = 1; i <= 4; i++) {
+		angle = (i - 3) * (Math.PI * 2) / 4;
+		dx = clockRadius * 0.9 * Math.cos(angle);
+		dy = clockRadius * 0.9 * Math.sin(angle);
+
+		context.arc(dx, dy, 3, 0, 2 * Math.PI, false);
+		context.fill();
+	}
+	context.closePath();
+
+	// Render center dot
+	context.beginPath();
+
+	context.fillStyle = '#ff9000';
+	context.strokeStyle = '#fff';
+	context.lineWidth = 4;
+
+	context.arc(0, 0, 7, 0, 2 * Math.PI, false);
+	context.fill();
+	context.stroke();
+	context.closePath();
+}
+
+function renderNeedle(angle, radius) {
+	'use strict';
+	context.save();
+	context.rotate(angle);
+	context.beginPath();
+	context.lineWidth = 4;
+	context.strokeStyle = '#fff';
+	context.moveTo(6, 0);
+	context.lineTo(radius, 0);
+	context.closePath();
+	context.stroke();
+	context.closePath();
+	context.restore();
+}
+
+function renderHourNeedle(hour) {
+	'use strict';
+
+	var angle = null, radius = null;
+
+	angle = (hour - 3) * (Math.PI * 2) / 12;
+	radius = clockRadius * 0.55;
+	renderNeedle(angle, radius);
+}
+
+function renderMinuteNeedle(minute) {
+	'use strict';
+
+	var angle = null, radius = null;
+
+	angle = (minute - 15) * (Math.PI * 2) / 60;
+	radius = clockRadius * 0.75;
+	renderNeedle(angle, radius);
+}
+
+function watch() {
+	'use strict';
+
+	// Import the current time
+	// noinspection JSUnusedAssignment
+	var date = new Date(), hours = date.getHours(), minutes = date.getMinutes(), seconds = date
+			.getSeconds(), hour = hours + minutes / 60, minute = minutes
+			+ seconds / 60;
+	// var nextMove = 1000 - date.getMilliseconds(); // 1sec
+	// var nextMove = 30000 - date.getMilliseconds(); // 30sec ...why... orz
+	// setTimeout(reload(), nextMove);
+
+	// Erase the previous time
+	context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+	switch (type) {
+	case 0:
+		canvas.width = document.width;
+		canvas.height = canvas.width;
+		clearDigitalClock();
+		renderDots();
+		renderHourNeedle(hour);
+		renderMinuteNeedle(minute);
+		break;
+
+	case 1:
+		canvas.width = 0;
+		canvas.height = 0;
+		renderDigitalClock(date);
+		break;
+
+	default:
+		break;
+	}
+
+	context.restore();
+}
+
+ // Help -> Help Contents -> managing data
+ /* http://download.tizen.org/misc/examples/w3c_html5/storage/indexed_database_api/ */
+ function createDatabase() {
+ if (!window.webkitIndexedDB) {
+ window.alert("Doesn't support IndexedDB");
+ } else {
+ var tizenDB = {}
+ var request = window.webkitIndexedDB.open("TizenIndexedDB");
+ request.onupgradeneeded = function(event) {
+ tizenDB.db = event.target.result;
+ var objStore = tizenDB.db.createObjectStore("tizenStore", {
+ keyPath : "key"
+ });
+ tizenDB.index = objStore.createIndex("tizen01", "text");
+ var dbIndex = objStore.index("tizen01");
+
+ // tizenDB.index = objStore.deleteIndex("tizen01");
+ alert(tizenDB.index);
+ };
+ }
+
+ // delete Database
+ // window.webkitIndexedDB.deleteDatabase('TizenIndexedDB')
+ }
+
+ function openDatabase() {
+ if (!window.webkitIndexedDB) {
+ window.alert("Doesn't support IndexedDB");
+ } else {
+ var tizenDB = {}
+ var request = window.webkitIndexedDB.open("TizenIndexedDB");
+
+ alert(request);
+ request.onsuccess = function(event) {
+ ;
+ }
+
+ request.onerror = function(event) {
+ console.log(event);
+ }
+ }
+ // window.webkitIndexedDB.deleteDatabase('TizenIndexedDB');
+ }
+
+ function saveDatabase() {
+ if (!window.webkitIndexedDB) {
+ window.alert("Doesn't support IndexedDB");
+ }else{
+ var tizenDB = {}
+ var request = window.webkitIndexedDB.open("TizenIndexedDB");
+ request.onupgradeneeded = function (event) {
+ tizenDB.db = event.target.result;
+ var objStore = tizenDB.db.createObjectStore("tizenStore", {keyPath : "key"});
+
+ objStore.transaction.oncomplete = function (ev){
+ var trans = tizenDB.db.transaction("tizenStore", "readwrite");
+ var tizenStore = trans.objectStore("tizenStore");
+ var data = {
+ "key" : new Date().getTime(),
+ "text" : "Tizen-" + Math.random()
+ };
+ var request = tizenStore.put(data);
+ request.onsuccess = function(event) {
+ tizenDB.db.objectStoreId = request.result;
+ console.log(request.result);
+ var data = tizenStore.delete(tizenDB.db.objectStoreId);
+ data.onsuccess = function(event) {
+ console.log(data);
+ }
+ };
+ }
+ };
+ }
+ }
+
+window.onload = function() {
+	'use strict';
+
+	// search canvs from DOM Node(CSS or html)
+	canvas = document.querySelector('canvas');
+	context = canvas.getContext('2d');
+	clockRadius = document.width / 2 - (middleFilterValue / 2);
+
+	// Assigns the area that will use Canvas
+	canvas.width = document.width;
+	canvas.height = canvas.width;
+
+	// add eventListener for tizenhwkey
+	window.addEventListener('tizenhwkey', function(e) {
+		if (e.keyName == 'back') {
+			disConnect();
+			tizen.application.getCurrentApplication().exit();
+		}
+	});
+
+	connect();
+	alert("SeaHorse Gear2! 안드로이드 앱과 연결합니다.");
+
+	var nextMove = 30000 - new Date().getMilliseconds();
+	setInterval(function() {
+		connect();
+		window.requestAnimationFrame(watch);
+	}, nextMove);
+
+	window.requestAnimationFrame(watch);
+};

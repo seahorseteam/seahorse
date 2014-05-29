@@ -1,0 +1,74 @@
+// Help -> Help Contents -> managing data
+ /* http://download.tizen.org/misc/examples/w3c_html5/storage/indexed_database_api/ */
+ function createDatabase() {
+	 if (!window.webkitIndexedDB) {
+		 window.alert("Doesn't support IndexedDB");
+	 } else {
+		 var tizenDB = {}
+		 var request = window.webkitIndexedDB.open("TizenIndexedDB");
+		 request.onupgradeneeded = function(event) {
+			 tizenDB.db = event.target.result;
+			 var objStore = tizenDB.db.createObjectStore("tizenStore", {
+				 keyPath : "key"
+			 });
+			 tizenDB.index = objStore.createIndex("tizen01", "text");
+			 var dbIndex = objStore.index("tizen01");
+
+			 // tizenDB.index = objStore.deleteIndex("tizen01");
+			 alert(tizenDB.index);
+		 };
+	 }
+
+	 // delete Database
+	 // window.webkitIndexedDB.deleteDatabase('TizenIndexedDB')
+ }
+
+ function openDatabase() {
+	 if (!window.webkitIndexedDB) {
+		 window.alert("Doesn't support IndexedDB");
+	 } else {
+		 var tizenDB = {}
+		 var request = window.webkitIndexedDB.open("TizenIndexedDB");
+
+		 alert(request);
+		 request.onsuccess = function(event) {
+			 ;
+		 }
+
+		 request.onerror = function(event) {
+			 console.log(event);
+		 }
+	 }
+	 // window.webkitIndexedDB.deleteDatabase('TizenIndexedDB');
+ }
+
+ function saveDatabase() {
+	 if (!window.webkitIndexedDB) {
+		 window.alert("Doesn't support IndexedDB");
+	 }else{
+		 var tizenDB = {}
+		 var request = window.webkitIndexedDB.open("TizenIndexedDB");
+		 request.onupgradeneeded = function (event) {
+			 tizenDB.db = event.target.result;
+			 var objStore = tizenDB.db.createObjectStore("tizenStore", {keyPath : "key"});
+
+			 objStore.transaction.oncomplete = function (ev){
+				 var trans = tizenDB.db.transaction("tizenStore", "readwrite");
+				 var tizenStore = trans.objectStore("tizenStore");
+				 var data = {
+						 "key" : new Date().getTime(),
+						 "text" : "Tizen-" + Math.random()
+				 };
+				 var request = tizenStore.put(data);
+				 request.onsuccess = function(event) {
+					 tizenDB.db.objectStoreId = request.result;
+					 console.log(request.result);
+					 var data = tizenStore.delete(tizenDB.db.objectStoreId);
+					 data.onsuccess = function(event) {
+						 console.log(data);
+					 }
+				 };
+			 }
+		 };
+	 }
+ }
