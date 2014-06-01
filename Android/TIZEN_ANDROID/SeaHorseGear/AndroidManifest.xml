@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.samsung.android.example.helloaccessoryprovider.service"
+    package="com.samsung.android.example.helloaccessoryprovider"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -8,14 +8,15 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
-    <!-- 블루투스 권한 설정. 근데 와이파이 쓰는데 왜 설정한건지 모르겠음. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <!-- Samsung Accessory Protocol 사용을 위한 권한. -->
     <uses-permission android:name="com.samsung.accessory.permission.ACCESSORY_FRAMEWORK" />
+
     <!-- Wearable app을 위한 권한. 아마 위젯 사용하겠다는 권한인 것 같다. -->
     <uses-permission android:name="com.samsung.wmanager.APP" />
+
     <!-- HosstManager에서 notification 하기 위한 권한. -->
     <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
 
@@ -26,7 +27,8 @@
         android:theme="@style/AppTheme" >
 
         <!-- SAAgent를 확장한 서비스 시작 위치 -->
-        <service android:name="com.samsung.android.example.helloaccessoryprovider.GearService" />
+        <service android:name="com.samsung.android.example.helloaccessoryprovider.service.SeaHorseGearService" >
+        </service>
 
         <!-- 기본적으로 세팅해줘야 하는 리시버이다. -->
         <receiver android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver" >
@@ -45,9 +47,7 @@
             android:name="AccessoryServicesLocation"
             android:value="/res/xml/accessoryservices.xml" />
 
-        <activity
-            android:name="com.samsung.android.example.helloaccessoryprovider.MainActivity"
-            android:label="@string/title_activity_main" >
+        <activity android:name="com.samsung.android.example.helloaccessoryprovider.service.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

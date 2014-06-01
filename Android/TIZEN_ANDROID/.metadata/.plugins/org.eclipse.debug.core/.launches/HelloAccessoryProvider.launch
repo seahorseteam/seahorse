@@ -8,10 +8,10 @@
 <stringAttribute key="com.android.ide.eclipse.adt.target" value="AUTO"/>
 <booleanAttribute key="com.android.ide.eclipse.adt.wipedata" value="false"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/SeaHorseGear"/>
+<listEntry value="/SeaHorseGear_tmp"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="SeaHorseGear"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="SeaHorseGear_tmp"/>
 </launchConfiguration>

@@ -6,40 +6,39 @@
 <!ATTLIST application xmlns:android CDATA #IMPLIED>
 <!ATTLIST serviceProfile xmlns:android CDATA #IMPLIED>
 <!ATTLIST serviceProfile serviceImpl CDATA #REQUIRED>
-<!ATTLIST serviceProfile role (PROVIDER | CONSUMER | provider | consumer) #REQUIRED>
+<!ATTLIST serviceProfile role (provider | consumer) #REQUIRED>
 <!ATTLIST serviceProfile name CDATA #REQUIRED>
 <!ATTLIST serviceProfile id CDATA #REQUIRED>
 <!ATTLIST serviceProfile version CDATA #REQUIRED>
-<!ATTLIST serviceProfile serviceLimit (ANY | ONE_ACCESSORY | ONE_PEERAGENT | any | one_accessory | one_peeragent) #IMPLIED>
-<!ATTLIST serviceProfile serviceTimeout CDATA #IMPLIED>
+<!ATTLIST serviceProfile serviceLimit (ANY | ONE_ACCESSORY | ONE_PEERAGENT)  "ANY">
+<!ATTLIST serviceProfile serviceTimeout CDATA "10">
 <!ELEMENT supportedTransports (transport)+>
 <!ATTLIST supportedTransports xmlns:android CDATA #IMPLIED>
 <!ELEMENT transport EMPTY> 
 <!ATTLIST transport xmlns:android CDATA #IMPLIED>
-<!ATTLIST transport type (TRANSPORT_WIFI | TRANSPORT_BT | TRANSPORT_BLE | TRANSPORT_USB |
-                          transport_wifi | transport_bt | transport_ble | transport_usb) #REQUIRED>
+<!ATTLIST transport type (TRANSPORT_WIFI|TRANSPORT_BT|TRANSPORT_BLE|TRANSPORT_USB) #REQUIRED>
 <!ELEMENT serviceChannel EMPTY> 
 <!ATTLIST serviceChannel xmlns:android CDATA #IMPLIED>
 <!ATTLIST serviceChannel id CDATA #REQUIRED>
-<!ATTLIST serviceChannel dataRate (LOW | HIGH | low | high) #REQUIRED>
-<!ATTLIST serviceChannel priority (LOW | MEDIUM | HIGH | low | medium | high) #REQUIRED>
-<!ATTLIST serviceChannel reliability (ENABLE | DISABLE | enable | disable ) #REQUIRED>
-
+<!ATTLIST serviceChannel dataRate (Low | High | low | high) #REQUIRED>
+<!ATTLIST serviceChannel priority (Low | Medium | High | low | medium | high) #REQUIRED>
+<!ATTLIST serviceChannel reliability (enable | disable | ENABLE | DISABLE ) #REQUIRED>
 ]>
-<resource>
+<resources>
 
-    <!-- Gear 프로젝트에서 정의했던 내용 : 단, serviceImpl 추가, role="provider"로 수정. -->
-    <!-- 중요! application name은 반드시 기어2 앱 main.js에서 정의한 이름이어야 함. 반대로 여기서 정의하면 main.js에서 수정해줘야 함. -->
     <application name="WellDoneNoteGear2" >
         <serviceProfile
             id="/system/welldonenote"
             name="welldonenote"
             role="provider"
-            serviceImpl="kks.example.seahorsegear2.GearService"
+            serviceImpl="com.samsung.android.example.helloaccessoryprovider.service.SeaHorseGearService"
             serviceLimit="ANY"
             serviceTimeout="10"
             version="2.0" >
+
+            <!-- 반드시 TRANSPORT_WIFI가 있어야 한다. 기본이다. 지우면 기어 앱이 이 앱을 찾지 못한다. -->
             <supportedTransports>
+                <transport type="TRANSPORT_BT" />
                 <transport type="TRANSPORT_WIFI" />
             </supportedTransports>
 
@@ -47,8 +46,9 @@
                 id="104"
                 dataRate="low"
                 priority="low"
-                reliability="enable" />
+                reliability="enable" >
+            </serviceChannel>
         </serviceProfile>
     </application>
 
-</resource>
+</resources>
