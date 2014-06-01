@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.samsung.android.example.helloaccessoryprovider"
+    package="com.samsung.android.example.helloaccessoryprovider.service"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme" >
 
         <!-- SAAgent를 확장한 서비스 시작 위치 -->
-        <service android:name="ac.seahorse.seahorsegear2.GearService" />
+        <service android:name="com.samsung.android.example.helloaccessoryprovider.GearService" />
 
         <!-- 기본적으로 세팅해줘야 하는 리시버이다. -->
         <receiver android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver" >
@@ -46,7 +46,7 @@
             android:value="/res/xml/accessoryservices.xml" />
 
         <activity
-            android:name="ac.seahorse.seahorsegear2.MainActivity"
+            android:name="com.samsung.android.example.helloaccessoryprovider.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

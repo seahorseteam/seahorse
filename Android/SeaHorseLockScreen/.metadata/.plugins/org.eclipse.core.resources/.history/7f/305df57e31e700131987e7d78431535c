@@ -1,0 +1,86 @@
+package ac.seahorse.seahorselockscreen.lockscreen.data.support;
+
+import android.app.KeyguardManager;
+import android.content.Context;
+import android.view.Display;
+import android.view.WindowManager;
+
+/****
+ * 디바이스의 해상도나 알림바의 높이 등 화면 정보를 얻을 수 있다.
+ * 
+ * @category Infomation
+ * @author KKS
+ * 
+ */
+public class DisplayInfo {
+	private KeyguardManager km = null;
+	private static KeyguardManager.KeyguardLock lock;
+	private boolean bflag;
+
+	public static int getStatusBarHeight(Context context) {
+		int result = 0;
+		int resourceId = context.getResources().getIdentifier(
+				"status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			result = context.getResources().getDimensionPixelSize(resourceId);
+		}
+		return result;
+	}
+
+	/**
+	 * @return int[2] = {width, height};
+	 */
+	public static int[] getDisplaySize(Context context) {
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		return new int[] { display.getWidth(), display.getHeight() };
+	}
+
+	/***
+	 * 시스템 제공 잠금화면을 해제하거나 재등록합니다.
+	 * 
+	 * @param bflag
+	 *            - true : disable // false : reenable
+	 * @param keyguardManager
+	 */
+	public void setKeyGuardEnable(boolean bflag, KeyguardManager keyguardManager) {
+		this.km = keyguardManager;
+		this.bflag = bflag;
+
+		if (bflag == true) {
+			if (lock == null) {
+				lock = km.newKeyguardLock("seaHorse");
+			}
+			lock.disableKeyguard();
+		} else {
+			if (lock != null) {
+				lock.reenableKeyguard();
+			}
+		}
+	}
+
+	/***
+	 * 특정 사이즈를 기준으로 px 값을 다시 변경해준다.
+	 * 
+	 * @param context
+	 *            -디스플레이 사이즈를 불러오기 위해 사용되는 컨텍스트.
+	 * @param txtPx
+	 *            -변경하고자 하는 값.
+	 * @param baseSize
+	 *            -해상도 기준.
+	 * @return baseSize 기준으로 한 변경된 txtPx 값 반환.
+	 */
+	public static int convertPixelForDevice(Context context, int txtPx,
+			int baseSize) {
+		if (baseSize <= 480) { // 480 쓸 때 720에 비해 지나치게 확 줄어든다...
+			baseSize /= 2;
+		}
+		int convertPx = (getDisplaySize(context)[0] * txtPx) / baseSize;
+		return convertPx;
+	}
+
+	public boolean getKeyGuardEnable() {
+		return bflag;
+	}
+}

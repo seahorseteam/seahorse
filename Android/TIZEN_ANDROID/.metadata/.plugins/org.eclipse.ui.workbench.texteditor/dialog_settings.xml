@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="GearSer" key="selection"/>
+		<item value="mAcc" key="selection"/>
 		<list key="findhistory">
+			<item value="mAcc"/>
+			<item value="WellDone"/>
+			<item value="Hello"/>
+			<item value="ac.seahorse.seahorsegear2"/>
 			<item value="GearSer"/>
 			<item value="Toast.ma"/>
 			<item value="Toast"/>
 			<item value="findPeer"/>
-			<item value="Cannot"/>
-			<item value="HelloAccessoryProvider"/>
-			<item value="&lt;uses-permission android:name=&quot;com.samsung.accessory.permission.ACCESSORY_FRAMEWORK&quot; /&gt;"/>
-			<item value="HelloAccessoryProviderConnection"/>
 		</list>
 		<list key="replacehistory">
 		</list>

@@ -11,7 +11,7 @@ W3CWidget.prototype = new Object();
 /**
  * W3C Widget.
  * <p>
-The Widget Interface &lt;a href="http://www.w3.ohttp://127.0.0.1:55697/help/topic/widgets-apis/"&gt;http://www.w3.ohttp://127.0.0.1:55697/help/topic/widgets-apis/&lt;/a&gt;.
+The Widget Interface &lt;a href="http://www.w3.ohttp://127.0.0.1:51574/help/topic/widgets-apis/"&gt;http://www.w3.ohttp://127.0.0.1:51574/help/topic/widgets-apis/&lt;/a&gt;.
             </p>
  *
  * @type W3CWidget
@@ -98,7 +98,7 @@ W3CWidget.prototype.width = new Number();
 /**
  * W3C Widget.
  * <p>
-The Widget Interface &lt;a href="http://www.w3.ohttp://127.0.0.1:55697/help/topic/widgets-apis/"&gt;http://www.w3.ohttp://127.0.0.1:55697/help/topic/widgets-apis/&lt;/a&gt;.
+The Widget Interface &lt;a href="http://www.w3.ohttp://127.0.0.1:51574/help/topic/widgets-apis/"&gt;http://www.w3.ohttp://127.0.0.1:51574/help/topic/widgets-apis/&lt;/a&gt;.
             </p>
  *
  * @type W3CWidget

@@ -1,7 +1,6 @@
-/** ************************ connector ************************* */
 var SAAgent = null; /* 서비스를 생성 */
 var SASocket = null; /* 안드로이드와 통신을 위해 생성 */
-var CHANNELID = 104; /* ServiceProfile.xml에 적혀있음. */
+var CHANNELID = 104; /* accessoryservices.xml에 적혀있음. */
 var ProviderAppName = "WellDoneNoteGear2"; /* 안드로이드에서 이 이름을 써야함 */
 
 function createHTML(log_string) {
@@ -22,8 +21,6 @@ function createHTML(log_string) {
 }
 
 function onReceive(channelId, data) {
-	wContents = data;
-	openFileStreamForWrite();
 	createHTML(data);
 }
 
@@ -32,6 +29,7 @@ var agentCallBack = {
 		SASocket = socket;
 		SASocket.setSocketStatusListener(function(reason) {
 			console.log("socket status changed : " + reason);
+			disConnect();
 		});
 
 		SASocket.setDataReceiveListener(onReceive);
@@ -46,8 +44,11 @@ var peerAgentFindCallback = {
 				SAAgent.requestServiceConnection(peerAgent);
 			}
 		} catch (err) {
-			alert("exception : " + err.name + ", msg : " + err.message);
+			// alert("exception : " + err.name + ", msg : " + err.message);
 		}
+	},
+	onerror : function(errCode) {
+		// alert(errCode + "is errCode...");
 	}
 };
 
@@ -58,10 +59,10 @@ function onSuccess(agents) {
 			SAAgent.setPeerAgentFindListener(peerAgentFindCallback);
 			SAAgent.findPeerAgents();
 		} else {
-			alert("Not found SAAgent!");
+			// alert("Not found SAAgent!");
 		}
 	} catch (err) {
-		alert("exception : " + err.name + ", msg : " + err.message);
+		// alert("exception : " + err.name + ", msg : " + err.message);
 	}
 }
 
@@ -74,14 +75,13 @@ function onError(err) {
  */
 function connect() {
 	if (SASocket) {
-		disConnect();
+		return;
 	}
 
 	try {
 		webapis.sa.requestSAAgent(onSuccess, onError);
-		console.log("Success connection.");
 	} catch (err) {
-		alert("exception : " + err.name + ", msg : " + err.message);
+		// alert("exception : " + err.name + ", msg : " + err.message);
 	}
 }
 
@@ -95,35 +95,23 @@ function disConnect() {
 			SASocket = null;
 		}
 	} catch (err) {
-		alert("exception : " + err.name + ", msg : " + err.message);
-	}
-}
-
-/*
- * 안드로이드 어플리케이션에 정보 갱신 요청
- */
-function fetch() {
-	try {
-		SASocket.sendData(CHANNELID, "fetch :");
-		console.log("fetch send.");
-	} catch (err) {
-		console.log("exception : " + err.name + ", msg : " + err.message);
+		// alert("exception : " + err.name + ", msg : " + err.message);
 	}
 }
 
 /*
  * 안드로이드 어플리케이션으로 데이터 보내기
  */
-function send() {
+function send(msg) {
 	try {
-		SASocket.sendData(CHANNELID, "send :");
+		SASocket.sendData(CHANNELID, msg);
 	} catch (err) {
 		console.log("exception : " + err.name + ", msg : " + err.message);
 	}
 }
-/** ************************ end connector ************************** */
 
-/** ************************* watch *************************** */
+/** **************************** end connect ********************************** */
+
 /* global window, document, tizen, setTimeout */
 /* jslint plusplus: true */
 
@@ -141,6 +129,7 @@ window.requestAnimationFrame = window.requestAnimationFrame
 
 var type = 0;
 var typeCount = 2;
+
 function clockChange() {
 	type++;
 	if (type >= typeCount) {
@@ -296,21 +285,16 @@ function watch() {
 		break;
 
 	case 1:
+	default:
 		canvas.width = 0;
 		canvas.height = 0;
 		renderDigitalClock(date);
-		break;
-
-	default:
 		break;
 	}
 
 	context.restore();
 }
 
-/** ********************** end watch ************************* */
-
-/** ************************ main *************************** */
 window.onload = function() {
 	'use strict';
 
@@ -331,14 +315,11 @@ window.onload = function() {
 		}
 	});
 
-	connect();
-	alert("SeaHorse Gear2! 안드로이드 앱과 연결합니다.");
-
-	var nextMove = 30000 - new Date().getMilliseconds();
+	var nextMove = 1000 - new Date().getMilliseconds();
 	setInterval(function() {
-		connect();
+		if (SASocket == null) {
+			connect();
+		}
 		window.requestAnimationFrame(watch);
 	}, nextMove);
-
-	window.requestAnimationFrame(watch);
 };

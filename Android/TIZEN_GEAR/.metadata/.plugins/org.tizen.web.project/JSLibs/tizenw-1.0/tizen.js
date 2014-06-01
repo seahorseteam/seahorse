@@ -168,8 +168,8 @@ AlarmManager.PERIOD_WEEK = new Number();
  * Adds an alarm to the storage.
             <p>
 Set an alarm with the application ID to be run. You should definitely provide the application ID to run 
-and the <a href=" http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/application_service.htm">application control </a>information if it is necessary. 
-For more information about the application contorl, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.device.apireference/tizen/application.html">The Application API</a>.
+and the <a href=" http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/application_service.htm">application control </a>information if it is necessary. 
+For more information about the application contorl, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.device.apireference/tizen/application.html">The Application API</a>.
             </p>
            
  *
@@ -240,7 +240,7 @@ Each application has its own individual alarm storage, that is, applications can
  * <p>
 Once an alarm goes off, it will be removed from the alarm storage automatically.
 <em>AlarmManager</em> provides methods to manage alarms such as adding and removing. 
-For more information on the Alarm features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/alarm.htm">Alarm Guide</a>.
+For more information on the Alarm features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/alarm.htm">Alarm Guide</a>.
         </p>
  *
  * @type AlarmManager
@@ -255,7 +255,7 @@ Each application has its own individual alarm storage, that is, applications can
  * <p>
 Once an alarm goes off, it will be removed from the alarm storage automatically.
 <em>AlarmManager</em> provides methods to manage alarms such as adding and removing. 
-For more information on the Alarm features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/alarm.htm">Alarm Guide</a>.
+For more information on the Alarm features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/alarm.htm">Alarm Guide</a>.
         </p>
  *
  * @type AlarmManager
@@ -671,7 +671,7 @@ The <em>Application</em> interface defines the current application's information
 the basic operations for current application such as exit or hide.
         </p>
  * <p>
-For more information on the Application features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/application.htm">Application Guide</a>.
+For more information on the Application features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/application.htm">Application Guide</a>.
         </p>
  *
  * @type ApplicationManager
@@ -1103,7 +1103,7 @@ The <em>Application</em> interface defines the current application's information
 the basic operations for current application such as exit or hide.
         </p>
  * <p>
-For more information on the Application features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/application.htm">Application Guide</a>.
+For more information on the Application features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/app_guide/application.htm">Application Guide</a>.
         </p>
  *
  * @type ApplicationManager
@@ -1371,7 +1371,7 @@ that are available on the device. It is possible to search for specific contents
 The API also supports setting attributes of specific contents.
         </p>
  * <p>
-For more information on the Content features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming\html\guide\content_guide\mediacontent.htm">Content Guide</a>.
+For more information on the Content features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming\html\guide\content_guide\mediacontent.htm">Content Guide</a>.
         </p>
  *
  * @type ContentManager
@@ -1619,7 +1619,7 @@ ContentManager.prototype.getDirectories = function(successCallback, errorCallbac
  * Finds contents that meets the search condition given by a filter
             <p>
 This method allows searching based on a supplied filter. For more detail on AbstractFilter, refer to the
-<a href="http://127.0.0.1:55697/help/topic/org.tizen.web.device.apireference/tizen/tizen.html#::Tizen::AbstractFilter">Tizen</a> module. The filter allows precise searching such
+<a href="http://127.0.0.1:51574/help/topic/org.tizen.web.device.apireference/tizen/tizen.html#::Tizen::AbstractFilter">Tizen</a> module. The filter allows precise searching such
 as "return all songs by artist U2, ordered by name".
             </p>
             <p>
@@ -1735,7 +1735,7 @@ that are available on the device. It is possible to search for specific contents
 The API also supports setting attributes of specific contents.
         </p>
  * <p>
-For more information on the Content features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming\html\guide\content_guide\mediacontent.htm">Content Guide</a>.
+For more information on the Content features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming\html\guide\content_guide\mediacontent.htm">Content Guide</a>.
         </p>
  *
  * @type ContentManager
@@ -3003,7 +3003,7 @@ When a path is used to interact with the underlying filesystem,
 the encoding used for the file path SHOULD be the platform default.
         </p>
  * <p>
-For more information on the Filesystem features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/io_guide/filesystem.htm">File System Guide</a>.
+For more information on the Filesystem features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/io_guide/filesystem.htm">File System Guide</a>.
         </p>
  *
  * @type FileSystemManager
@@ -3119,7 +3119,7 @@ When a path is used to interact with the underlying filesystem,
 the encoding used for the file path SHOULD be the platform default.
         </p>
  * <p>
-For more information on the Filesystem features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/io_guide/filesystem.htm">File System Guide</a>.
+For more information on the Filesystem features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/io_guide/filesystem.htm">File System Guide</a>.
         </p>
  *
  * @type FileSystemManager
@@ -3917,7 +3917,7 @@ PowerManager.prototype.turnScreenOff = function(){ return; };
 /**
  * This API provides support for requesting power management related resource states.
  * <p>
-For more information on the Power features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/power.htm">Power Guide</a>.
+For more information on the Power features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/power.htm">Power Guide</a>.
         </p>
  *
  * @type PowerManager
@@ -3927,7 +3927,7 @@ PowerManagerObject.prototype.power = new PowerManager();
 /**
  * This API provides support for requesting power management related resource states.
  * <p>
-For more information on the Power features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/power.htm">Power Guide</a>.
+For more information on the Power features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/power.htm">Power Guide</a>.
         </p>
  *
  * @type PowerManager
@@ -5639,7 +5639,7 @@ The following provides an overview of the tree data structure:
  * <li>PERIPHERAL
  * </ul>
  * <p>
-For more information on the SystemInfo features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/systeminfo.htm">System Information Guide</a>.
+For more information on the SystemInfo features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/systeminfo.htm">System Information Guide</a>.
         </p>
  *
  * @type SystemInfo
@@ -5664,7 +5664,7 @@ The following provides an overview of the tree data structure:
  * <li>PERIPHERAL
  * </ul>
  * <p>
-For more information on the SystemInfo features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/systeminfo.htm">System Information Guide</a>.
+For more information on the SystemInfo features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/systeminfo.htm">System Information Guide</a>.
         </p>
  *
  * @type SystemInfo
@@ -5750,7 +5750,7 @@ This API can be used to get TZDate objects with full time zone support, convert 
 between timezones, retrieve available timezones.
         </p>
  * <p>
-For more information on the Time features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/time.htm">Time Guide</a>. 
+For more information on the Time features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/time.htm">Time Guide</a>. 
         </p>
  *
  * @type TimeUtil
@@ -6588,7 +6588,7 @@ This API can be used to get TZDate objects with full time zone support, convert 
 between timezones, retrieve available timezones.
         </p>
  * <p>
-For more information on the Time features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/time.htm">Time Guide</a>. 
+For more information on the Time features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/sys_guide/time.htm">Time Guide</a>. 
         </p>
  *
  * @type TimeUtil
@@ -6986,7 +6986,7 @@ WebAPIException.prototype.code = new Number();
  * <li>ServiceNotAvailableError - The requested service is not available.
  * </ul>
  * <p>
-For other possible values for this attribute, see the values defined in <a href="http://www.w3.ohttp://127.0.0.1:55697/help/topic/dom/#error-types">DOM error types</a> 
+For other possible values for this attribute, see the values defined in <a href="http://www.w3.ohttp://127.0.0.1:51574/help/topic/dom/#error-types">DOM error types</a> 
             </p>
  *
  * @type String
@@ -7105,7 +7105,7 @@ WebAPIError.prototype.code = new Number();
  * <li>ServiceNotAvailableError - The requested service is not available.
  * </ul>
  * <p>
-For other possible values for this attribute, see the values defined in <a href="http://www.w3.ohttp://127.0.0.1:55697/help/topic/dom/#error-types">DOM error types</a> 
+For other possible values for this attribute, see the values defined in <a href="http://www.w3.ohttp://127.0.0.1:51574/help/topic/dom/#error-types">DOM error types</a> 
             </p>
  *
  * @type String
@@ -7141,7 +7141,7 @@ Additionally, this API specifies the location in the ECMAScript hierarchy in whi
 the Tizen Web Device API is instantiated (<em>window.tizen</em>).
         </p>
  * <p>
-For more information on the Tizen features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/tizen_guide/tizen.htm">Tizen Guide</a>.  
+For more information on the Tizen features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/tizen_guide/tizen.htm">Tizen Guide</a>.  
         </p>
  *
  * @type Tizen
@@ -7178,7 +7178,7 @@ Additionally, this API specifies the location in the ECMAScript hierarchy in whi
 the Tizen Web Device API is instantiated (<em>window.tizen</em>).
         </p>
  * <p>
-For more information on the Tizen features, see <a href="http://127.0.0.1:55697/help/topic/org.tizen.web.appprogramming/html/guide/tizen_guide/tizen.htm">Tizen Guide</a>.  
+For more information on the Tizen features, see <a href="http://127.0.0.1:51574/help/topic/org.tizen.web.appprogramming/html/guide/tizen_guide/tizen.htm">Tizen Guide</a>.  
         </p>
  *
  * @type Tizen
@@ -7584,7 +7584,7 @@ WebAPIException.prototype.code = new Number();
  * <li>ServiceNotAvailableError - The requested service is not available.
  * </ul>
  * <p>
-For other possible values for this attribute, see the values defined in <a href="http://www.w3.ohttp://127.0.0.1:55697/help/topic/dom/#error-types">DOM error types</a> 
+For other possible values for this attribute, see the values defined in <a href="http://www.w3.ohttp://127.0.0.1:51574/help/topic/dom/#error-types">DOM error types</a> 
             </p>
  *
  * @type String
@@ -7691,7 +7691,7 @@ AttributeFilter.prototype.matchValue = new any();
  * An error type.
  * <p>
 The name attribute must return the value it was initialized to.
-Possible values are the ones defined in <a href="http://www.w3.ohttp://127.0.0.1:55697/help/topic/dom/#error-types">DOM error types</a>. 
+Possible values are the ones defined in <a href="http://www.w3.ohttp://127.0.0.1:51574/help/topic/dom/#error-types">DOM error types</a>. 
             </p>
  * <p>
 Extra values which will not be covered in DOM error types can be defined including:

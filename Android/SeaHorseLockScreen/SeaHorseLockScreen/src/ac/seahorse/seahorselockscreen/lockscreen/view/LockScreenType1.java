@@ -8,7 +8,6 @@ import ac.seahorse.seahorselockscreen.lockscreen.data.LockScreenDataManager;
 import ac.seahorse.seahorselockscreen.lockscreen.data.PatternCircle;
 import ac.seahorse.seahorselockscreen.lockscreen.data.Word;
 import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
-import ac.seahorse.seahorselockscreen.lockscreen.data.support.MyDBG;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,7 +21,8 @@ import android.view.View;
 import android.widget.Toast;
 
 /***
- * Lock Screen Type 1 == Pattern Type
+ * Lock Screen Type 1 == Pattern Type 모든 해상도에서 이미지 비율이 동일하게 하려면 사용하는 이미지의 가로
+ * 세로값을 전부 가지고 있고 이를 convertPx 해야함. 우선순위는 낮다고 생각되므로 기능 먼저 처리.
  * 
  * @author KKS
  * @category LockScreenView
@@ -31,9 +31,12 @@ public class LockScreenType1 extends LockScreenView {
 	private int screenWidth;
 	private int screenHeight;
 
-	private static final String TEXT_TYPE = "Helvetica";
-	private static final int TYPE_FACE_NORMAL = Typeface.NORMAL;
-	private static final int TYPE_FACE_BOLD = Typeface.BOLD;
+	private static final String TEXT_TYPE_DATE = "YunGodik540.ttf";
+	private static final String TEXT_TYPE_WORD = "Helvetica Bold.ttf";
+	private static final String TEXT_TYPE_MEAN = "YunGodik540.ttf";
+	private final int FONT_SIZE_DATE = 32; // pt
+	private final int FONT_SIZE_WORD = 41; // pt
+	private final int FONT_SIZE_MEAN = 27; // pt
 	private Typeface dateTypeface;
 	private Typeface wordTypeface;
 	private Typeface meanTypeface;
@@ -45,14 +48,14 @@ public class LockScreenType1 extends LockScreenView {
 	private int unlockBtnPosX;
 	private int unlockBtnPosY;
 
-	private static final int TXT_ALL_POSY = 40;
+	private static final int TXT_ALL_POSY = 30;
 	private static final int PADDING_SIDE = 45;
 	private static final int MEAN_CIRCLE_DISTANCE = 10;
 	private static final int MEANTXT_SLICE_LIMIT = 9;
 	private final int MAGNETIC_RANGE = 40;
 	private final int PATTERN_CIRCLE_SIZE = 75;
-	private final int WORD_TXT_SIZE = 25;
-	private final int MEAN_TXT_SIZE = 20;
+	// private final int WORD_TXT_SIZE = 25;
+	// private final int MEAN_TXT_SIZE = 20;
 	private ArrayList<PatternCircle> pattern;
 	private QuestionWord questionWord;
 	private Paint bgPaint;
@@ -176,21 +179,25 @@ public class LockScreenType1 extends LockScreenView {
 
 		/* 단어 준비 */
 		Paint wordPaint = new Paint();
-		wordTypeface = Typeface.create(TEXT_TYPE, TYPE_FACE_BOLD);
+		wordPaint.setAntiAlias(true);
+		wordTypeface = Typeface.createFromAsset(context.getAssets(),
+				TEXT_TYPE_WORD);
 		wordPaint.setTypeface(wordTypeface);
 		wordPaint.setColor(Color.WHITE);
-		wordPaint.setTextSize(convertPx(context, WORD_TXT_SIZE,
-				CONVERT_PX_SIZE480));
+		wordPaint.setTextSize(convertPx(context, FONT_SIZE_WORD,
+				CONVERT_PX_SIZE720));
 		Word word = new Word(dataMng.getLockScreenWord()[0]);
 		word.setPaint(wordPaint);
 
 		/* 단어 뜻 보기 준비 & 문제 목록 준비 */
 		Paint meanPaint = new Paint();
-		meanTypeface = Typeface.create(TEXT_TYPE, TYPE_FACE_NORMAL);
+		meanPaint.setAntiAlias(true);
+		meanTypeface = Typeface.createFromAsset(context.getAssets(),
+				TEXT_TYPE_MEAN);
 		meanPaint.setTypeface(meanTypeface);
 		meanPaint.setColor(Color.WHITE);
-		meanPaint.setTextSize(convertPx(context, MEAN_TXT_SIZE,
-				CONVERT_PX_SIZE480));
+		meanPaint.setTextSize(convertPx(context, FONT_SIZE_MEAN,
+				CONVERT_PX_SIZE720));
 		questionWord = new QuestionWord();
 		questionWord.setString(word);
 		ArrayList<String> answerTmpList = dataMng.getLockScreenAnswer();
@@ -269,8 +276,8 @@ public class LockScreenType1 extends LockScreenView {
 		pattern.add(circle);
 
 		// 패턴 - 뜻
-		int txtDist = convertPx(context, WORD_TXT_SIZE - MEAN_TXT_SIZE,
-				CONVERT_PX_SIZE480);
+		int txtDist = convertPx(context, FONT_SIZE_WORD, CONVERT_PX_SIZE720)
+				- convertPx(context, FONT_SIZE_MEAN, CONVERT_PX_SIZE720);
 		for (int idx = 0; idx < answerList.size(); idx++) {
 			Word ans = answerList.get(idx);
 			circle = new PatternCircle();
@@ -305,10 +312,13 @@ public class LockScreenType1 extends LockScreenView {
 
 	private void initWatch() {
 		datePaint = new Paint();
-		dateTypeface = Typeface.create(TEXT_TYPE, TYPE_FACE_NORMAL);
+		datePaint.setAntiAlias(true);
+		dateTypeface = Typeface.createFromAsset(getContext().getAssets(),
+				TEXT_TYPE_DATE);
 		datePaint.setTypeface(dateTypeface);
 		datePaint.setColor(Color.rgb(201, 209, 214));
-		datePaint.setTextSize(convertPx(getContext(), 20, CONVERT_PX_SIZE480));
+		datePaint.setTextSize(convertPx(getContext(), FONT_SIZE_DATE,
+				CONVERT_PX_SIZE720));
 		datePosY = convertPx(getContext(), PADDING_SIDE / 4, CONVERT_PX_SIZE480)
 				+ DisplayInfo.getStatusBarHeight(getContext());
 		timeBmpArr = new Bitmap[10];
@@ -368,7 +378,8 @@ public class LockScreenType1 extends LockScreenView {
 			timePanelSize += timePanel[i].getWidth();
 		}
 
-		timePosX[0] = (screenWidth / 2) - (timePanelSize / 2);
+		timePosX[0] = (screenWidth / 2) - (timePanelSize / 2)
+				+ convertPx(getContext(), 15, CONVERT_PX_SIZE720);
 		for (int i = 1; i < timePanel.length; i++) {
 			timePosX[i] = timePosX[i - 1] + timePanel[i - 1].getWidth();
 		}

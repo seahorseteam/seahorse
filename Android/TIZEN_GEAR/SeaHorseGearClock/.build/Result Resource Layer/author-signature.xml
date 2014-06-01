@@ -16,7 +16,7 @@
 </Reference>
 <Reference URI="config.xml">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>s3r5H0n2g8CSnLsgXkQg83fIGNDPpsZ4iXVWuJyiioI=</DigestValue>
+<DigestValue>lI2PHsdwl/3HqOhVkC8JU79gzckO0S3xmWYzyig35dk=</DigestValue>
 </Reference>
 <Reference URI="css/style.css">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
@@ -28,15 +28,15 @@
 </Reference>
 <Reference URI="index.html">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>yo12MgtbSFVW+WE0J7NJULmYOBX4votGPf1sN2rkyKY=</DigestValue>
+<DigestValue>UnBz0d4E+wr+QYgMvykvRii/lc4wTgNdlQo9Unxcxko=</DigestValue>
 </Reference>
 <Reference URI="js/main.js">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>T29RTgglCgUU9KJM3bAdKqId05q+Nf+LSAgWW7T5VvM=</DigestValue>
+<DigestValue>Arfcp+R/W24LKetF/RYP+68iLrps7Dex+ihjCWpWc4Q=</DigestValue>
 </Reference>
 <Reference URI="res/xml/accessoryservices.xml">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>sWDWVVBGMI4yr8cZGl6iPkyA9CgiAvbBiQUMAvOYzEU=</DigestValue>
+<DigestValue>b6n57p17xHXcnvNKxXsl+uVQhdyl7bCG60gDAa93M3M=</DigestValue>
 </Reference>
 <Reference URI="version.txt">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
@@ -51,11 +51,11 @@
 </Reference>
 </SignedInfo>
 <SignatureValue>
-eWwae4Mk+Fo2FBDFD/NIR9T1NsUVc24s7M2IIM+HxvZLjvelR7f81IUGFANMw8GGf0TIE6fevdi5
-4o0oA+LkFURvg4M4Q1/6H6UH/ZKUTQvKSiG90rHJxMg7wuKHdQHbkYeAj/aVZWTHGLq53A2lEnzY
-4lIaleuwT7HiltRZYFZUsTNGsWCOeCuWwqdU2z8Meh6mPmfW1ZtsOxNovkq1gJQf9R8ytfRrFlGg
-/wKeL9R2VeNs0SezY6EYSOvsH281kE9XC7P0RYMdmw/VH/U20KJplmdyp/mdUMnjPZq492Axzkhe
-Riod3y2IWmBcsdHwoLTWh4Z36HqEpfUqJ3vz3Q==
+MGjWYHQ/6xq6RlV1S5vPkVa411ux1Lxtdb2g2iXDDyiDN2oYauAs6WJXFlcAS1xtPIhKNx1J4+8p
+AP6o9bGpRrp+TDoafwOmt8qst+ED/4eJ+i4o+cb04LgVJ2DTc2pSiP3n9TA68saUnPWKFQRD/t0s
+yYmF05flrdgYwir1Ut630CR7S9kIw0gNlTu/XmwV38QBxAv42ZCMRq6eRF5UyniWevcIhty1pDPD
+MLMJSg74gM5p39dDvTxNcvsWLYl1z5iVZnc+311vcPOCgfKQUH/T58yRJD4kvMejxxc4ZsXfv2uK
+srOmps5vrVd+reMBgObZwIonNoJSaUsFMIneNQ==
 </SignatureValue>
 <KeyInfo>
 <X509Data>

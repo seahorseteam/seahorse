@@ -11,4 +11,10 @@
 			<item value="org.tizen.nativeapp.newCategory"/>
 		</list>
 	</section>
+	<section name="ImportExportAction">
+		<item value="org.tizen.web.project.imports.WebProjectImportWizard" key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.tizen.nativeapp.importCategory"/>
+		</list>
+	</section>
 </section>

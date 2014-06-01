@@ -13,5 +13,4 @@
 	<!-- Permission -->
 	<tizen:privilege
 		name="http://developer.samsung.com/privilege/accessoryprotocol" />
-	<tizen:privilege name="http://tizen.org/api/filesystem" />
 </widget>

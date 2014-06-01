@@ -38,7 +38,7 @@
             serviceImpl="kks.example.seahorsegear2.GearService"
             serviceLimit="ANY"
             serviceTimeout="10"
-            version="1.0" >
+            version="2.0" >
             <supportedTransports>
                 <transport type="TRANSPORT_WIFI" />
             </supportedTransports>

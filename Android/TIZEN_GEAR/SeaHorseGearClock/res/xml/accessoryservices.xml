@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<application name="wellDoneNoteConsumer">
-		<serviceProfile id="/system/welldonenote" name="welldonenote"
-			role="consumer" version="2.0">
+	<application name="WellDoneNoteGear2">
+		<serviceProfile
+			id="/system/welldonenote"
+			name="welldonenote"
+			role="consumer"
+			version="2.0">
 			<supportedTransports>
+				<transport type="TRANSPORT_BT" />
 				<transport type="TRANSPORT_WIFI" />
 			</supportedTransports>
-			<serviceChannel id="104" dataRate="low" priority="low"
+	
+			<serviceChannel
+				id="104"
+				dataRate="low"
+				priority="low"
 				reliability="enable" />
 		</serviceProfile>
 	</application>
