@@ -3,14 +3,12 @@ package ac.seahorse.seahorselockscreen.lockscreen.view;
 import java.util.ArrayList;
 import java.util.Date;
 
-import ac.seahorse.seahorselockscreen.R;
 import ac.seahorse.seahorselockscreen.lockscreen.data.LockScreenDataManager;
 import ac.seahorse.seahorselockscreen.lockscreen.data.PatternCircle;
 import ac.seahorse.seahorselockscreen.lockscreen.data.Word;
 import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,11 +16,9 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 /***
- * Lock Screen Type 1 == Pattern Type 모든 해상도에서 이미지 비율이 동일하게 하려면 사용하는 이미지의 가로
- * 세로값을 전부 가지고 있고 이를 convertPx 해야함. 우선순위는 낮다고 생각되므로 기능 먼저 처리.
+ * Lock Screen Type 1 == Pattern Type
  * 
  * @author KKS
  * @category LockScreenView
@@ -48,14 +44,12 @@ public class LockScreenType1 extends LockScreenView {
 	private int unlockBtnPosX;
 	private int unlockBtnPosY;
 
-	private static final int TXT_ALL_POSY = 30;
+	private static final int TXT_ALL_POSY = 50;
 	private static final int PADDING_SIDE = 45;
 	private static final int MEAN_CIRCLE_DISTANCE = 10;
 	private static final int MEANTXT_SLICE_LIMIT = 9;
 	private final int MAGNETIC_RANGE = 40;
-	private final int PATTERN_CIRCLE_SIZE = 75;
-	// private final int WORD_TXT_SIZE = 25;
-	// private final int MEAN_TXT_SIZE = 20;
+	// private final int PATTERN_CIRCLE_SIZE = 75;
 	private ArrayList<PatternCircle> pattern;
 	private QuestionWord questionWord;
 	private Paint bgPaint;
@@ -68,53 +62,48 @@ public class LockScreenType1 extends LockScreenView {
 	private boolean bTouchStart;
 	private boolean bTouchExit;
 
-	private final int[] TIME_NUM = { R.drawable.time_0, R.drawable.time_1,
-			R.drawable.time_2, R.drawable.time_3, R.drawable.time_4,
-			R.drawable.time_5, R.drawable.time_6, R.drawable.time_7,
-			R.drawable.time_8, R.drawable.time_9 };
-	private final int[] TIME_AMPM = { R.drawable.time_am, R.drawable.time_pm };
-	private final int TIME_AM = 0;
-	private final int TIME_PM = 1;
-	private final int TIMEPANEL_HOURS1 = 0;
-	private final int TIMEPANEL_HOURS2 = 1;
-	private final int TIMEPANEL_MID = 2;
-	private final int TIMEPANEL_MIN1 = 3;
-	private final int TIMEPANEL_MIN2 = 4;
-	private final int TIMEPANEL_AMPM = 5;
 	private int datePosX;
 	private int datePosY;
 	// [am] [1] [2] [:] [2] [4] -> x = 6, y = 6
-	private Bitmap[] timeBmpArr;
-	private Bitmap[] timePanel;
 	private int[] timePosX = { 0, 0, 0, 0, 0, 0 };
 	private int[] timePosY = { 0, 0, 0, 0, 0, 0 };
 	private Paint datePaint;
 	private String date = "INIT";
 	private String[] week = { "일", "월", "화", "수", "목", "금", "토" };
 
-	private final int CONVERT_PX_SIZE480 = 480;
-	private final int CONVERT_PX_SIZE720 = 720;
-
 	private int selcMeanToastIdx;
 	private boolean bTouchEnable;
 	private int selcPatternIdx;
 
+	private String selctedMean;
+	private Paint selcMeanPaint;
+
+	private Bitmap[] timeBmpArr;
+	private Bitmap[] timePanel;
+	private Bitmap[] timeAmPmBmpArr;
+
+	private Thread timer;
 	private Runnable nextTimeRunnable = new Runnable() {
 		@Override
 		public void run() {
-			try {
-				long nextTime = (60 - new Date().getSeconds()) * 1000;
-				Thread.sleep(nextTime);
-				post(new Runnable() {
-					@Override
-					public void run() {
-						invalidate();
-					}
-				});
-			} catch (InterruptedException e) {
+			while (true) {
+				try {
+					post(new Runnable() {
+						@Override
+						public void run() {
+							refreshWatch();
+							invalidate();
+						}
+					});
+					long nextTime = (60 - new Date().getSeconds()) * 1000;
+					Thread.sleep(nextTime);
+				} catch (InterruptedException e) {
+					break;
+				}
 			}
 		}
 	};
+	private Type1ImageManager imgMng;
 
 	public LockScreenType1(Context context) {
 		super(context);
@@ -135,16 +124,15 @@ public class LockScreenType1 extends LockScreenView {
 	 * Reference initialization.
 	 */
 	private void initRef() {
+		bTouchEnable = true;
 		Context context = getContext();
 		LockScreenDataManager dataMng = LockScreenDataManager
 				.getInstance(context);
-		int cvtCircleSize = convertPx(context, PATTERN_CIRCLE_SIZE,
-				CONVERT_PX_SIZE480);
-		int cvtPaddingSize = convertPx(context, PADDING_SIDE,
-				CONVERT_PX_SIZE480);
-		int cvtCircleDistance = convertPx(context, MEAN_CIRCLE_DISTANCE,
-				CONVERT_PX_SIZE480);
-		bTouchEnable = true;
+		imgMng = new Type1ImageManager(context,
+				Type1ImageManager.CONVERT_PX_SIZE720);
+
+		int cvtWidthPadding = imgMng.convertPx(PADDING_SIDE);
+		int cvtCircleDistance = imgMng.convertPx(MEAN_CIRCLE_DISTANCE);
 
 		/* 배경 이미지 생성 */
 		int[] display = DisplayInfo.getDisplaySize(context);
@@ -154,14 +142,12 @@ public class LockScreenType1 extends LockScreenView {
 		bgPaint.setColor(Color.rgb(88, 113, 143));
 
 		// 잠금화면 바로 해제하기 버튼
-		unlockBtnBmp = BitmapFactory.decodeResource(getResources(),
-				R.drawable.unlockbtn);
+		unlockBtnBmp = imgMng.getUnlockBtnBmp();
 		int unlockBtnH = unlockBtnBmp.getHeight();
 		int unlockBtnW = unlockBtnBmp.getWidth();
 
 		// 로고 이미지 - 720 기준
-		bottomTitleBmp = BitmapFactory.decodeResource(getResources(),
-				R.drawable.bottom_title);
+		bottomTitleBmp = imgMng.getBottomTitleBmp();
 		int bottomTitleH = bottomTitleBmp.getHeight();
 		int bottomTitleW = bottomTitleBmp.getWidth();
 
@@ -184,8 +170,7 @@ public class LockScreenType1 extends LockScreenView {
 				TEXT_TYPE_WORD);
 		wordPaint.setTypeface(wordTypeface);
 		wordPaint.setColor(Color.WHITE);
-		wordPaint.setTextSize(convertPx(context, FONT_SIZE_WORD,
-				CONVERT_PX_SIZE720));
+		wordPaint.setTextSize(imgMng.convertPx(FONT_SIZE_WORD));
 		Word word = new Word(dataMng.getLockScreenWord()[0]);
 		word.setPaint(wordPaint);
 
@@ -196,8 +181,7 @@ public class LockScreenType1 extends LockScreenView {
 				TEXT_TYPE_MEAN);
 		meanPaint.setTypeface(meanTypeface);
 		meanPaint.setColor(Color.WHITE);
-		meanPaint.setTextSize(convertPx(context, FONT_SIZE_MEAN,
-				CONVERT_PX_SIZE720));
+		meanPaint.setTextSize(imgMng.convertPx(FONT_SIZE_MEAN));
 		questionWord = new QuestionWord();
 		questionWord.setString(word);
 		ArrayList<String> answerTmpList = dataMng.getLockScreenAnswer();
@@ -213,10 +197,9 @@ public class LockScreenType1 extends LockScreenView {
 		}
 
 		/* 단어 위치 선정 */
-		int cvtTxtAllPosY = convertPx(context, TXT_ALL_POSY, CONVERT_PX_SIZE720);
-		int centerY = (screenHeight / 2)
-				+ convertPx(context, cvtTxtAllPosY, CONVERT_PX_SIZE720);
-		word.setX(cvtPaddingSize);
+		int cvtTxtAllPosY = imgMng.convertPx(TXT_ALL_POSY);
+		int centerY = (screenHeight / 2) + cvtTxtAllPosY;
+		word.setX(cvtWidthPadding);
 		word.setY(centerY);
 
 		/* 단어 뜻 중 제일 긴 단어 찾기. 단어 뜻 정렬의 기준이 됨. (가운데 정렬) */
@@ -227,18 +210,23 @@ public class LockScreenType1 extends LockScreenView {
 			}
 		}
 
+		// 단어 뜻 위치 선정을 할 때 가로 사이즈가 필요해서 이 곳에 선언.
+		Bitmap[] circleBmps = imgMng.getCircleBmp();
+		int circleW = circleBmps[Type1ImageManager.CIRCLE_BASE].getWidth();
+		int circleH = circleBmps[Type1ImageManager.CIRCLE_BASE].getHeight();
+
 		/* 단어의 뜻 위치 선정 - 단어의 뜻은 최소 1개 이상이어야 함. */
 		ArrayList<Word> answerList = questionWord.getAnswerList();
 		Word tmpWord;
 		int posX;
 		int tmpGap = (answerList.size() * 2);
-		int gapY = (screenHeight / tmpGap) + (cvtCircleSize / tmpGap)
+		int gapY = (screenHeight / tmpGap) + (circleW / tmpGap)
 				- cvtCircleDistance;
 		int startPosY = centerY - ((gapY * (answerList.size() - 1)) / 2);
 		for (int idx = 0; idx < answerList.size(); idx++) {
 			tmpWord = answerList.get(idx);
 			posX = screenWidth - baseWidth
-					+ ((baseWidth - tmpWord.getWidth()) / 2) - cvtPaddingSize;
+					+ ((baseWidth - tmpWord.getWidth()) / 2) - cvtWidthPadding;
 			tmpWord = answerList.get(idx);
 			tmpWord.setX(posX);
 			if (idx == 0) { // base line
@@ -250,15 +238,6 @@ public class LockScreenType1 extends LockScreenView {
 
 		/* 패턴 모양 형성 */
 		pattern = new ArrayList<PatternCircle>();
-		Bitmap baseCircleImg = BitmapFactory.decodeResource(getResources(),
-				PatternCircle.PATTERN_CIRCLE_RES[PatternCircle.CIRCLE_BASE]);
-		Bitmap corrCircleImg = BitmapFactory.decodeResource(getResources(),
-				PatternCircle.PATTERN_CIRCLE_RES[PatternCircle.CIRCLE_CORR]);
-		Bitmap incorrCircleImg = BitmapFactory.decodeResource(getResources(),
-				PatternCircle.PATTERN_CIRCLE_RES[PatternCircle.CIRCLE_INCORR]);
-
-		int circleW = baseCircleImg.getWidth();
-		int circleH = baseCircleImg.getHeight();
 
 		// 패턴 - 단어
 		PatternCircle circle = new PatternCircle();
@@ -268,16 +247,16 @@ public class LockScreenType1 extends LockScreenView {
 		int wordH = word.getHeight();
 		circle.setCx(wordX + (wordW / 2) - (circleW / 2));
 		circle.setCy(wordY - wordH - circleH);
-		circle.setBaseCircleBmp(baseCircleImg);
-		circle.setCorrectBmp(corrCircleImg);
-		circle.setIncorrectBmp(incorrCircleImg);
+		circle.setBaseCircleBmp(circleBmps[Type1ImageManager.CIRCLE_BASE]);
+		circle.setCorrectBmp(circleBmps[Type1ImageManager.CIRCLE_CORR]);
+		circle.setIncorrectBmp(circleBmps[Type1ImageManager.CIRCLE_INCORR]);
 		circle.setRadious(circleW);
 		circle.setWord(word);
 		pattern.add(circle);
 
 		// 패턴 - 뜻
-		int txtDist = convertPx(context, FONT_SIZE_WORD, CONVERT_PX_SIZE720)
-				- convertPx(context, FONT_SIZE_MEAN, CONVERT_PX_SIZE720);
+		int txtDist = imgMng.convertPx(FONT_SIZE_WORD)
+				- imgMng.convertPx(FONT_SIZE_MEAN);
 		for (int idx = 0; idx < answerList.size(); idx++) {
 			Word ans = answerList.get(idx);
 			circle = new PatternCircle();
@@ -287,9 +266,9 @@ public class LockScreenType1 extends LockScreenView {
 			wordH = ans.getHeight();
 			circle.setCx(wordX + (wordW / 2) - (circleW / 2));
 			circle.setCy(wordY - wordH - circleH - txtDist);
-			circle.setBaseCircleBmp(baseCircleImg);
-			circle.setCorrectBmp(corrCircleImg);
-			circle.setIncorrectBmp(incorrCircleImg);
+			circle.setBaseCircleBmp(circleBmps[Type1ImageManager.CIRCLE_BASE]);
+			circle.setCorrectBmp(circleBmps[Type1ImageManager.CIRCLE_CORR]);
+			circle.setIncorrectBmp(circleBmps[Type1ImageManager.CIRCLE_INCORR]);
 			circle.setRadious(circleW);
 			circle.setWord(ans);
 			pattern.add(circle);
@@ -302,12 +281,20 @@ public class LockScreenType1 extends LockScreenView {
 
 		// 패턴 - 라인 페인트
 		linePaint = new Paint();
-		linePaint.setStrokeWidth(cvtCircleSize / 7);
+		linePaint.setStrokeWidth(circleW / 7);
 		linePaint.setAlpha(0);
-		// linePaint.setColor(Color.rgb(255, 255, 255));
 
 		// 시계 세팅
 		initWatch();
+
+		// 드래그했을 때 선택된 단어의 잘리지 않은 온전한 뜻을 시계 아래 쪽에 보여준다. 이 때 사용되는 페인트.
+		selcMeanPaint = new Paint();
+		selcMeanPaint.setAntiAlias(true);
+		wordTypeface = Typeface.createFromAsset(context.getAssets(),
+				TEXT_TYPE_MEAN);
+		selcMeanPaint.setTypeface(wordTypeface);
+		selcMeanPaint.setColor(Color.rgb(199, 206, 212));
+		selcMeanPaint.setTextSize(imgMng.convertPx(FONT_SIZE_WORD));
 	}
 
 	private void initWatch() {
@@ -317,20 +304,17 @@ public class LockScreenType1 extends LockScreenView {
 				TEXT_TYPE_DATE);
 		datePaint.setTypeface(dateTypeface);
 		datePaint.setColor(Color.rgb(201, 209, 214));
-		datePaint.setTextSize(convertPx(getContext(), FONT_SIZE_DATE,
-				CONVERT_PX_SIZE720));
-		datePosY = convertPx(getContext(), PADDING_SIDE / 4, CONVERT_PX_SIZE480)
+		datePaint.setTextSize(imgMng.convertPx(FONT_SIZE_DATE));
+		datePosY = imgMng.convertPx(PADDING_SIDE / 4)
 				+ DisplayInfo.getStatusBarHeight(getContext());
-		timeBmpArr = new Bitmap[10];
-		for (int i = 0; i < timeBmpArr.length; i++) {
-			timeBmpArr[i] = BitmapFactory.decodeResource(getResources(),
-					TIME_NUM[i]);
-		}
-		timePanel = new Bitmap[6];
-		timePanel[TIMEPANEL_AMPM] = BitmapFactory.decodeResource(
-				getResources(), TIME_AMPM[TIME_AM]);
-		timePanel[TIMEPANEL_MID] = BitmapFactory.decodeResource(getResources(),
-				R.drawable.time_mid);
+
+		timeBmpArr = imgMng.getTimeBmpArr();
+		timeAmPmBmpArr = imgMng.getTimeAmPmBmpArr();
+		timePanel = imgMng.getTimePanel();
+
+		refreshWatch();
+		timer = new Thread(nextTimeRunnable);
+		timer.start();
 	}
 
 	private void refreshWatch() {
@@ -349,18 +333,13 @@ public class LockScreenType1 extends LockScreenView {
 			}
 		}
 
-		if (timePanel[TIMEPANEL_AMPM] != null) {
-			timePanel[TIMEPANEL_AMPM].recycle();
-		}
 		int hours = dateObj.getHours();
 		int minutes = dateObj.getMinutes();
 		if (hours < 12) {
-			timePanel[TIMEPANEL_AMPM] = BitmapFactory.decodeResource(
-					getResources(), TIME_AMPM[TIME_AM]);
+			timePanel[Type1ImageManager.TIMEPANEL_AMPM] = timeAmPmBmpArr[Type1ImageManager.TIME_AM];
 		} else {
 			hours -= 12;
-			timePanel[TIMEPANEL_AMPM] = BitmapFactory.decodeResource(
-					getResources(), TIME_AMPM[TIME_PM]);
+			timePanel[Type1ImageManager.TIMEPANEL_AMPM] = timeAmPmBmpArr[Type1ImageManager.TIME_PM];
 		}
 
 		if (hours == 0) {
@@ -368,10 +347,10 @@ public class LockScreenType1 extends LockScreenView {
 			hours = 12;
 		}
 
-		timePanel[TIMEPANEL_HOURS1] = timeBmpArr[hours / 10];
-		timePanel[TIMEPANEL_HOURS2] = timeBmpArr[hours % 10];
-		timePanel[TIMEPANEL_MIN1] = timeBmpArr[minutes / 10];
-		timePanel[TIMEPANEL_MIN2] = timeBmpArr[minutes % 10];
+		timePanel[Type1ImageManager.TIMEPANEL_HOURS1] = timeBmpArr[hours / 10];
+		timePanel[Type1ImageManager.TIMEPANEL_HOURS2] = timeBmpArr[hours % 10];
+		timePanel[Type1ImageManager.TIMEPANEL_MIN1] = timeBmpArr[minutes / 10];
+		timePanel[Type1ImageManager.TIMEPANEL_MIN2] = timeBmpArr[minutes % 10];
 
 		int timePanelSize = 0;
 		for (int i = 0; i < timePanel.length; i++) {
@@ -379,19 +358,32 @@ public class LockScreenType1 extends LockScreenView {
 		}
 
 		timePosX[0] = (screenWidth / 2) - (timePanelSize / 2)
-				+ convertPx(getContext(), 15, CONVERT_PX_SIZE720);
+				+ imgMng.convertPx(15);
 		for (int i = 1; i < timePanel.length; i++) {
 			timePosX[i] = timePosX[i - 1] + timePanel[i - 1].getWidth();
 		}
+	}
 
-		new Thread(nextTimeRunnable).start();
+	@Override
+	public void addThis() {
+		super.addThis();
+		timer = new Thread(nextTimeRunnable);
+		timer.start();
+		refreshWatch();
+		invalidate();
+	}
+
+	@Override
+	public void removeThis() {
+		super.removeThis();
+		timer.interrupt();
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		// 시계 세팅
-		refreshWatch();
+		// // 시계 세팅
+		// refreshWatch();
 		// 배경색 칠하기
 		canvas.drawRect(0, 0, screenWidth, screenHeight, bgPaint);
 		// 로고 그리기
@@ -439,6 +431,16 @@ public class LockScreenType1 extends LockScreenView {
 						meanCircle.getCx(), meanCircle.getCy(), null);
 			}
 		}
+
+		if (selctedMean != null && bTouchStart) {
+			canvas.drawText(
+					selctedMean,
+					(screenWidth / 2)
+							- (selcMeanPaint.measureText(selctedMean) / 2),
+					timePosY[0] + timePanel[0].getHeight()
+							+ DisplayInfo.getStatusBarHeight(getContext()) + 10,
+					selcMeanPaint);
+		}
 	}
 
 	@Override
@@ -446,6 +448,8 @@ public class LockScreenType1 extends LockScreenView {
 		int x = (int) event.getX();
 		int y = (int) event.getY();
 
+		selctedMean = null;
+		selcMeanToastIdx = 0;
 		if (isTouchExit(x, y)) {
 			bTouchExit = true;
 		}
@@ -483,9 +487,7 @@ public class LockScreenType1 extends LockScreenView {
 					lineMovX = circle.getCx() + radMid;
 					lineMovY = circle.getCy() + radMid;
 					if (selcMeanToastIdx != i) {
-						Toast.makeText(getContext(),
-								circle.getWord().getString(),
-								Toast.LENGTH_SHORT).show();
+						selctedMean = circle.getWord().getString();
 						selcMeanToastIdx = i;
 					}
 					break;
@@ -582,10 +584,6 @@ public class LockScreenType1 extends LockScreenView {
 			answer = answer.concat("...");
 		}
 		return answer;
-	}
-
-	private int convertPx(Context context, int px, int baseSize) {
-		return DisplayInfo.convertPixelForDevice(context, px, baseSize);
 	}
 
 }
