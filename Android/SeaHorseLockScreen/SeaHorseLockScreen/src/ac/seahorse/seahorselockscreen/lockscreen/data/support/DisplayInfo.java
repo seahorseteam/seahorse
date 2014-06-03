@@ -44,7 +44,7 @@ public class DisplayInfo {
 	 *            - true : disable // false : reenable
 	 * @param keyguardManager
 	 */
-	public void setKeyGuardEnable(boolean bflag, KeyguardManager keyguardManager) {
+	public void removeKeyGuard(boolean bflag, KeyguardManager keyguardManager) {
 		this.km = keyguardManager;
 		this.bflag = bflag;
 

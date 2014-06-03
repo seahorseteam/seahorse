@@ -1,7 +1,6 @@
 package ac.seahorse.seahorselockscreen.lockscreen.receiver;
 
 import ac.seahorse.seahorselockscreen.lockscreen.data.LockScreenDataManager;
-import ac.seahorse.seahorselockscreen.lockscreen.data.LockType;
 import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
 import ac.seahorse.seahorselockscreen.lockscreen.data.support.MyDBG;
 import ac.seahorse.seahorselockscreen.lockscreen.view.LockScreenView;
@@ -22,7 +21,6 @@ public class ScreenOffReceiver extends BroadcastReceiverObserver {
 	private static int viewAppearCnt;
 	private IntentFilter filter;
 	private LockScreenDataManager dataMng;
-	private int lockType;
 	private DisplayInfo displayInfo;
 	private KeyguardManager km;
 
@@ -43,23 +41,15 @@ public class ScreenOffReceiver extends BroadcastReceiverObserver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		MyDBG.log("ScreenOffReceiver onReceive()");
 		if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-			MyDBG.log("ScreenOffReceiver onReceive() : ACTION_SCREEN_OFF");
 			viewAppearCnt++;
 			if (lsView.isAlive() == false && dataMng.getLockScreenEnable()
 					&& viewAppearCnt >= dataMng.getAppearCycle()) {
 				viewAppearCnt = 0;
-				lockType = LockType.getCurrent(context.getContentResolver());
-				if (lockType == LockType.NONE_OR_SLIDER) {
-					lsView.addThisWithUnlockKeyguard();
-				} else {
-					lsView.addThisWithUnlockKeyguard();
-					// lsView.addThis();
-				}
+				lsView.addThisWithUnlockKeyguard();
 			} else {
 				if (!lsView.isAlive()) {
-					displayInfo.setKeyGuardEnable(false, km);
+					displayInfo.removeKeyGuard(false, km);
 				}
 			}// check
 		} // screenOff

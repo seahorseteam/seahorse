@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ac.seahorse.seahorselockscreen.lockscreen.data.LockScreenDataManager;
+import ac.seahorse.seahorselockscreen.lockscreen.data.LockType;
 import ac.seahorse.seahorselockscreen.lockscreen.data.PatternCircle;
 import ac.seahorse.seahorselockscreen.lockscreen.data.Word;
 import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
@@ -49,7 +50,6 @@ public class LockScreenType1 extends LockScreenView {
 	private static final int MEAN_CIRCLE_DISTANCE = 10;
 	private static final int MEANTXT_SLICE_LIMIT = 9;
 	private final int MAGNETIC_RANGE = 40;
-	// private final int PATTERN_CIRCLE_SIZE = 75;
 	private ArrayList<PatternCircle> pattern;
 	private QuestionWord questionWord;
 	private Paint bgPaint;
@@ -382,8 +382,6 @@ public class LockScreenType1 extends LockScreenView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		// // 시계 세팅
-		// refreshWatch();
 		// 배경색 칠하기
 		canvas.drawRect(0, 0, screenWidth, screenHeight, bgPaint);
 		// 로고 그리기
@@ -519,6 +517,7 @@ public class LockScreenType1 extends LockScreenView {
 						new Thread() {
 							public void run() {
 								try {
+									unlockSeaHorseScreen(500);
 									Thread.sleep(1000);
 								} catch (InterruptedException e) {
 								} finally {
@@ -526,7 +525,6 @@ public class LockScreenType1 extends LockScreenView {
 									linePaint.setColor(Color.WHITE);
 									linePaint.setAlpha(0);
 									postInvalidate();
-									removeThis();
 								}
 							};
 						}.start();
@@ -554,10 +552,26 @@ public class LockScreenType1 extends LockScreenView {
 		} else if (bTouchExit) {
 			if (isTouchExit(x, y)) {
 				bTouchExit = false;
-				removeThis();
+				unlockSeaHorseScreen(0);
 			}
 		}
 		invalidate();
+	}
+
+	protected void unlockSeaHorseScreen(long interval) {
+		try {
+			Thread.sleep(interval);
+		} catch (InterruptedException e) {
+			;
+		} finally {
+			int lockType = LockType.getCurrent(getContext()
+					.getContentResolver());
+			if (lockType == LockType.NONE_OR_SLIDER) {
+				removeThis();
+			} else { // 잠금 제한이 있는 경우 잠금 화면 복구
+				removeThisWithLockKeyguard();
+			}
+		}
 	}
 
 	private boolean isSamePosition(int x1, int y1, int w1, int h1, int x2,
