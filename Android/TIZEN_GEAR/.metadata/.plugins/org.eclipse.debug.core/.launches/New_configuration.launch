@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.tizen.web.zimlaunch.WebAppLaunch">
-<stringAttribute key="org.tizen.common.CONFIG_ATTR_PROJECT_NAME" value="TizenTest"/>
-<stringAttribute key="org.tizen.commonCONFIG_ATTR_DEVICE_SERIAL_NO" value="emulator-26101"/>
+<stringAttribute key="org.tizen.common.CONFIG_ATTR_PROJECT_NAME" value="SeaHorseGearClock"/>
+<stringAttribute key="org.tizen.commonCONFIG_ATTR_DEVICE_SERIAL_NO" value="456841614100aa9f"/>
 <intAttribute key="org.tizen.web.zimlaunch.LATEST_LAUNCH_TYPE" value="3"/>
 <booleanAttribute key="org.tizen.web.zimlaunch.LIVE_EDITING" value="false"/>
 <intAttribute key="org.tizen.web.zimlaunch.TIMEOUT_VALUE" value="300"/>

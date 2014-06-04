@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="57" version="2.0">
 <workbenchAdvisor/>
-<window height="1080" width="960" x="464" y="5">
+<window height="1080" maximized="true" width="960" x="429" y="-1104">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -15,7 +15,7 @@
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="76" y="22"/>
 <coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="38" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="61" y="22"/>
 <coolItem id="org.tizen.common.cert.actionSet" itemType="typeToolBarContribution" x="100" y="22"/>
 <coolItem id="org.tizen.web.browser.actionSet" itemType="typeToolBarContribution" x="38" y="22"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
@@ -44,7 +44,7 @@
 </editorArea>
 <editor activePart="true" focus="true" id="org.tizen.web.editor.javascript.JavascriptEditor" name="main.js" partName="main.js" path="C:/Users/KKS/Desktop/SeaHorseGIT/seahorse/Android/TIZEN_GEAR/SeaHorseGearClock/js/main.js" title="main.js" tooltip="SeaHorseGearClock/js/main.js" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SeaHorseGearClock/js/main.js"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6120" selectionTopPixel="4096"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="590" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -60,7 +60,7 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings"/>
+<category IMemento.internal.id="Warnings (100 of 125 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -166,7 +166,7 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@734900db" ratio="0.71904266" ratioLeft="691" ratioRight="270" relationship="4" relative="topLeft">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@734900db" ratio="0.53381896" ratioLeft="513" ratioRight="448" relationship="4" relative="topLeft">
 <folder activePageID="org.tizen.common.connection.explorer.ConnectionExplorer" appearance="2" expanded="2">
 <page content="org.tizen.common.connection.explorer.ConnectionExplorer" label="Connection Explorer"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -181,158 +181,150 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" path="/SeaHorseGearClock/.build/Result Resource Layer/js/main.js"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" path="/SeaHorseGearClock/js/main.js"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.html.HTMLEditor" path="/SeaHorseGearClock/index.html"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.configuration.ConfigurationEditor" path="/SeaHorseGearClock/config.xml"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="" path="/SeaHorseGearClock/config.xml"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.configuration.ConfigurationEditor" path="/HelloAccessoryConsumer/config.xml"/>
+<editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.tizen.web.project.tizenw.configuration.serviceprofile.xmleditor" uri="file:/C:/Users/KKS/AppData/Local/Temp/zip1700702104/signature1.xml"/>
+<editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.tizen.web.editor.html.HTMLEditor" uri="file:/C:/Users/KKS/AppData/Local/Temp/zip1700702104/index.html"/>
+<editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.tizen.web.project.tizenw.configuration.serviceprofile.xmleditor" uri="file:/C:/Users/KKS/AppData/Local/Temp/zip1700702104/config.xml"/>
 </editors>
 <item historyLabel="main.js" index="0">
-<position info="not_deleted" x="1816" y="0"/>
-</item>
-<item historyLabel="main.js" index="0">
-<position info="not_deleted" x="1311" y="9"/>
-</item>
-<item historyLabel="main.js" index="0">
-<position info="not_deleted" x="6762" y="0"/>
-</item>
-<item historyLabel="main.js" index="0">
-<position/>
-</item>
-<item historyLabel="main.js" index="0">
-<position/>
-</item>
-<item historyLabel="main.js" index="0">
-<position info="not_deleted" x="6752" y="0"/>
-</item>
-<item historyLabel="main.js" index="0">
-<position info="not_deleted" x="6778" y="0"/>
-</item>
-<item historyLabel="main.js" index="0">
-<position info="not_deleted" x="6763" y="0"/>
-</item>
-<item historyLabel="main.js" index="0">
-<position info="not_deleted" x="2313" y="4"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="7472" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position/>
-</item>
-<item historyLabel="main.js" index="1">
-<position/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="6809" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="3070" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="6774" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="6783" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="6722" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="1733" y="7"/>
-</item>
-<item historyLabel="main.js" index="1">
 <position info="not_deleted" x="1815" y="0"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="1328" y="9"/>
 </item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="1454" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="915" y="21"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="1089" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="656" y="13"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="6721" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="1733" y="7"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="1815" y="0"/>
-</item>
-<item historyLabel="main.js" index="1">
-<position info="not_deleted" x="1328" y="9"/>
-</item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="1457" y="0"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="915" y="21"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="3055" y="0"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="5774" y="5"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="1733" y="7"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="3058" y="0"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="3056" y="0"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="5774" y="5"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="5780" y="0"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="5774" y="5"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position info="not_deleted" x="1733" y="7"/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
 <position/>
 </item>
-<item active="true" historyLabel="main.js" index="1">
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6345" y="0"/>
+</item>
+<item historyLabel="index.html" index="1"/>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6345" y="0"/>
+</item>
+<item historyLabel="config.xml" index="2"/>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6010" y="0"/>
+</item>
+<item historyLabel="config.xml" index="2">
 <position/>
+</item>
+<item historyLabel="config.xml" index="3">
+<position info="not_deleted" x="618" y="0"/>
+</item>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6010" y="0"/>
+</item>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6797" y="0"/>
+</item>
+<item historyLabel="config.xml" index="2">
+<position/>
+</item>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6722" y="0"/>
+</item>
+<item historyLabel="config.xml" index="2"/>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6733" y="0"/>
+</item>
+<item historyLabel="config.xml" index="2"/>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="6733" y="0"/>
+</item>
+<item historyLabel="config.xml" index="4">
+<position info="not_deleted" x="564" y="6"/>
+</item>
+<item historyLabel="config.xml" index="2"/>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="833" y="0"/>
+</item>
+<item historyLabel="signature1.xml" index="5">
+<position info="not_deleted" x="996" y="0"/>
+</item>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="833" y="0"/>
+</item>
+<item historyLabel="index.html" index="6"/>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="833" y="0"/>
+</item>
+<item historyLabel="config.xml" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="508" y="0"/>
+</item>
+<item historyLabel="config.xml" index="2">
+<position/>
+</item>
+<item historyLabel="main.js" index="0">
+<position info="not_deleted" x="508" y="0"/>
+</item>
+<item historyLabel="config.xml" index="2"/>
+<item active="true" historyLabel="main.js" index="0">
+<position info="not_deleted" x="508" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -357,8 +349,23 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.configuration.ConfigurationEditor" name="config.xml" tooltip="SeaHorseGearClock/config.xml">
+<persistable path="/SeaHorseGearClock/config.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.tizen.web.project.tizenw.configuration.serviceprofile.xmleditor" name="config.xml" tooltip="C:\Users\KKS\AppData\Local\Temp\zip1700702104\config.xml">
+<persistable uri="file:/C:/Users/KKS/AppData/Local/Temp/zip1700702104/config.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.tizen.web.editor.html.HTMLEditor" name="index.html" tooltip="C:\Users\KKS\AppData\Local\Temp\zip1700702104\index.html">
+<persistable uri="file:/C:/Users/KKS/AppData/Local/Temp/zip1700702104/index.html"/>
+</file>
+<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.tizen.web.project.tizenw.configuration.serviceprofile.xmleditor" name="signature1.xml" tooltip="C:\Users\KKS\AppData\Local\Temp\zip1700702104\signature1.xml">
+<persistable uri="file:/C:/Users/KKS/AppData/Local/Temp/zip1700702104/signature1.xml"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" name="main.js" tooltip="SeaHorseGearClock/js/main.js">
 <persistable path="/SeaHorseGearClock/js/main.js"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.configuration.ConfigurationEditor" name="config.xml" tooltip="HelloAccessoryConsumer/config.xml">
+<persistable path="/HelloAccessoryConsumer/config.xml"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.html.HTMLEditor" name="index.html" tooltip="SeaHorseGearClock/index.html">
 <persistable path="/SeaHorseGearClock/index.html"/>
@@ -371,9 +378,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart" name="accessoryservices.xml" tooltip="HelloAccessoryConsumer/res/xml/accessoryservices.xml">
 <persistable path="/HelloAccessoryConsumer/res/xml/accessoryservices.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.configuration.ConfigurationEditor" name="config.xml" tooltip="HelloAccessoryConsumer/config.xml">
-<persistable path="/HelloAccessoryConsumer/config.xml"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" name="main.js" tooltip="HelloAccessoryConsumer/js/main.js">
 <persistable path="/HelloAccessoryConsumer/js/main.js"/>
@@ -389,18 +393,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" name="http.js" tooltip="ttest/js/core/http.js">
 <persistable path="/ttest/js/core/http.js"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" name="core.js" tooltip="ttest/js/core/core.js">
-<persistable path="/ttest/js/core/core.js"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" name="config.js" tooltip="ttest/js/core/config.js">
-<persistable path="/ttest/js/core/config.js"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" name="application.js" tooltip="ttest/js/core/application.js">
-<persistable path="/ttest/js/core/application.js"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.tizen.web.editor.javascript.JavascriptEditor" name="app.js" tooltip="ttest/js/app.js">
-<persistable path="/ttest/js/app.js"/>
 </file>
 </mruList>
 </workbench>

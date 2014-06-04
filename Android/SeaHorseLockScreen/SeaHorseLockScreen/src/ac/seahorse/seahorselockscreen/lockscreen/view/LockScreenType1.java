@@ -105,6 +105,28 @@ public class LockScreenType1 extends LockScreenView {
 	};
 	private Type1ImageManager imgMng;
 
+	// 시연용 테스트를 위한 임시 스케쥴러 작성.
+	private static final String[] WORD = { "Candidate", "Companion", "Halo",
+			"Blooming", "Cooperation" };
+	private static final String[] MEAN = { "(선거의) 입후보자", "동반자", "햇무리", "지독한",
+			"협조" };
+	// DUMMY 는 짝수 단위로 늘어나야 함. 홀수로 해도 되지만 1개가 잘림.
+	private static final String[] DUMMY = { "대통령", "대표자", "부대", "활기찬", "바라보다",
+			"대리인", "대기하다", "번역가", "순수한", "회사", "친근한", "제공하다" };
+	private static int[] scheduler = { 0, 0, 0, 0, 0 };
+	private static int head;
+
+	// 스케쥴링
+	private int findNextQuestion() {
+		int nextPos = 0;
+		for (int i = 1; i < scheduler.length; i++) {
+			if (scheduler[nextPos] > scheduler[i]) {
+				nextPos = i;
+			}
+		}
+		return nextPos;
+	}
+
 	public LockScreenType1(Context context) {
 		super(context);
 		initRef();
@@ -126,13 +148,8 @@ public class LockScreenType1 extends LockScreenView {
 	private void initRef() {
 		bTouchEnable = true;
 		Context context = getContext();
-		LockScreenDataManager dataMng = LockScreenDataManager
-				.getInstance(context);
 		imgMng = new Type1ImageManager(context,
 				Type1ImageManager.CONVERT_PX_SIZE720);
-
-		int cvtWidthPadding = imgMng.convertPx(PADDING_SIDE);
-		int cvtCircleDistance = imgMng.convertPx(MEAN_CIRCLE_DISTANCE);
 
 		/* 배경 이미지 생성 */
 		int[] display = DisplayInfo.getDisplaySize(context);
@@ -162,6 +179,134 @@ public class LockScreenType1 extends LockScreenView {
 		unlockBtnPosY = bottomTitlePosY - unlockBtnH - 15;
 		unlockBtnBmp = Bitmap.createScaledBitmap(unlockBtnBmp, unlockBtnW,
 				unlockBtnH, true);
+
+		// 시계 세팅
+		initWatch();
+
+		// 드래그했을 때 선택된 단어의 잘리지 않은 온전한 뜻을 시계 아래 쪽에 보여준다. 이 때 사용되는 페인트.
+		selcMeanPaint = new Paint();
+		selcMeanPaint.setAntiAlias(true);
+		wordTypeface = Typeface.createFromAsset(context.getAssets(),
+				TEXT_TYPE_MEAN);
+		selcMeanPaint.setTypeface(wordTypeface);
+		selcMeanPaint.setColor(Color.rgb(199, 206, 212));
+		selcMeanPaint.setTextSize(imgMng.convertPx(FONT_SIZE_WORD));
+	}
+
+	private void initWatch() {
+		datePaint = new Paint();
+		datePaint.setAntiAlias(true);
+		dateTypeface = Typeface.createFromAsset(getContext().getAssets(),
+				TEXT_TYPE_DATE);
+		datePaint.setTypeface(dateTypeface);
+		datePaint.setColor(Color.rgb(201, 209, 214));
+		datePaint.setTextSize(imgMng.convertPx(FONT_SIZE_DATE));
+		datePosY = imgMng.convertPx(PADDING_SIDE / 4)
+				+ DisplayInfo.getStatusBarHeight(getContext());
+
+		timeBmpArr = imgMng.getTimeBmpArr();
+		timeAmPmBmpArr = imgMng.getTimeAmPmBmpArr();
+		timePanel = imgMng.getTimePanel();
+
+		refreshWatch();
+		timer = new Thread(nextTimeRunnable);
+		timer.start();
+	}
+
+	private void refreshWatch() {
+		Date dateObj = new Date();
+		String year = (dateObj.getYear() + 1900) + "년";
+		String month = (dateObj.getMonth() + 1) + "월";
+		String day = dateObj.getDate() + "일";
+		String weekDay = week[dateObj.getDay()] + "요일";
+		String dateChain = year + " " + month + " " + day + " " + weekDay;
+		if (date.equals(dateChain) == false) {
+			date = dateChain;
+			int dateW = (int) datePaint.measureText(date);
+			datePosX = (screenWidth / 2) - (dateW / 2);
+			for (int i = 0; i < timePosY.length; i++) {
+				timePosY[i] = (int) (datePosY + datePaint.getTextSize());
+			}
+		}
+
+		int hours = dateObj.getHours();
+		int minutes = dateObj.getMinutes();
+		if (hours < 12) {
+			timePanel[Type1ImageManager.TIMEPANEL_AMPM] = timeAmPmBmpArr[Type1ImageManager.TIME_AM];
+		} else {
+			hours -= 12;
+			timePanel[Type1ImageManager.TIMEPANEL_AMPM] = timeAmPmBmpArr[Type1ImageManager.TIME_PM];
+		}
+
+		if (hours == 0) {
+			// if hours == 0 then am 00:00 or pm 12:00.
+			hours = 12;
+		}
+
+		timePanel[Type1ImageManager.TIMEPANEL_HOURS1] = timeBmpArr[hours / 10];
+		timePanel[Type1ImageManager.TIMEPANEL_HOURS2] = timeBmpArr[hours % 10];
+		timePanel[Type1ImageManager.TIMEPANEL_MIN1] = timeBmpArr[minutes / 10];
+		timePanel[Type1ImageManager.TIMEPANEL_MIN2] = timeBmpArr[minutes % 10];
+
+		int timePanelSize = 0;
+		for (int i = 0; i < timePanel.length; i++) {
+			timePanelSize += timePanel[i].getWidth();
+		}
+
+		timePosX[0] = (screenWidth / 2) - (timePanelSize / 2)
+				+ imgMng.convertPx(15);
+		for (int i = 1; i < timePanel.length; i++) {
+			timePosX[i] = timePosX[i - 1] + timePanel[i - 1].getWidth();
+		}
+	}
+
+	@Override
+	public void addThis() {
+		super.addThis();
+
+		// ---- start test ----//
+		Context context = getContext();
+		LockScreenDataManager dataMng = LockScreenDataManager
+				.getInstance(context);
+		dataMng.removeAllLockScreenAnswer(); // clear
+
+		head = findNextQuestion();
+		dataMng.setLockScreenWord(WORD[head].toString(), MEAN[head].toString());
+
+		// 랜덤 단어 뜻 생성 여기선 0 ~ 3, 4 ~ 7, 8 ~ 12로 구간을 쪼갠 뒤에 하나씩 랜덤으로 뽑아서 중복 처리를 함.
+		int lim = 3;
+		String[] selectedDummy = new String[lim];
+		int lPos = 0, maxVal = DUMMY.length / lim, tmp;
+		for (int i = 0; i < lim; i++) {
+			tmp = (int) (Math.random() * maxVal) + lPos;
+			selectedDummy[i] = DUMMY[tmp].toString();
+			lPos += maxVal;
+		}
+
+		tmp = (int) (Math.random() * selectedDummy.length);
+		selectedDummy[tmp] = MEAN[head].toString();
+
+		for (String dummy : selectedDummy) {
+			dataMng.addLockScreenAnswer(dummy.toString());
+		}
+		dataMng.commit();
+		// ---- end test ----//
+
+		setQuestion();
+
+		timer = new Thread(nextTimeRunnable);
+		timer.start();
+		refreshWatch();
+		invalidate();
+	}
+
+	private void setQuestion() {
+		Context context = getContext();
+		LockScreenDataManager dataMng = LockScreenDataManager
+				.getInstance(context);
+
+		int cvtWidthPadding = imgMng.convertPx(PADDING_SIDE);
+		int cvtCircleDistance = imgMng.convertPx(MEAN_CIRCLE_DISTANCE);
 
 		/* 단어 준비 */
 		Paint wordPaint = new Paint();
@@ -283,94 +428,6 @@ public class LockScreenType1 extends LockScreenView {
 		linePaint = new Paint();
 		linePaint.setStrokeWidth(circleW / 7);
 		linePaint.setAlpha(0);
-
-		// 시계 세팅
-		initWatch();
-
-		// 드래그했을 때 선택된 단어의 잘리지 않은 온전한 뜻을 시계 아래 쪽에 보여준다. 이 때 사용되는 페인트.
-		selcMeanPaint = new Paint();
-		selcMeanPaint.setAntiAlias(true);
-		wordTypeface = Typeface.createFromAsset(context.getAssets(),
-				TEXT_TYPE_MEAN);
-		selcMeanPaint.setTypeface(wordTypeface);
-		selcMeanPaint.setColor(Color.rgb(199, 206, 212));
-		selcMeanPaint.setTextSize(imgMng.convertPx(FONT_SIZE_WORD));
-	}
-
-	private void initWatch() {
-		datePaint = new Paint();
-		datePaint.setAntiAlias(true);
-		dateTypeface = Typeface.createFromAsset(getContext().getAssets(),
-				TEXT_TYPE_DATE);
-		datePaint.setTypeface(dateTypeface);
-		datePaint.setColor(Color.rgb(201, 209, 214));
-		datePaint.setTextSize(imgMng.convertPx(FONT_SIZE_DATE));
-		datePosY = imgMng.convertPx(PADDING_SIDE / 4)
-				+ DisplayInfo.getStatusBarHeight(getContext());
-
-		timeBmpArr = imgMng.getTimeBmpArr();
-		timeAmPmBmpArr = imgMng.getTimeAmPmBmpArr();
-		timePanel = imgMng.getTimePanel();
-
-		refreshWatch();
-		timer = new Thread(nextTimeRunnable);
-		timer.start();
-	}
-
-	private void refreshWatch() {
-		Date dateObj = new Date();
-		String year = (dateObj.getYear() + 1900) + "년";
-		String month = (dateObj.getMonth() + 1) + "월";
-		String day = dateObj.getDate() + "일";
-		String weekDay = week[dateObj.getDay()] + "요일";
-		String dateChain = year + " " + month + " " + day + " " + weekDay;
-		if (date.equals(dateChain) == false) {
-			date = dateChain;
-			int dateW = (int) datePaint.measureText(date);
-			datePosX = (screenWidth / 2) - (dateW / 2);
-			for (int i = 0; i < timePosY.length; i++) {
-				timePosY[i] = (int) (datePosY + datePaint.getTextSize());
-			}
-		}
-
-		int hours = dateObj.getHours();
-		int minutes = dateObj.getMinutes();
-		if (hours < 12) {
-			timePanel[Type1ImageManager.TIMEPANEL_AMPM] = timeAmPmBmpArr[Type1ImageManager.TIME_AM];
-		} else {
-			hours -= 12;
-			timePanel[Type1ImageManager.TIMEPANEL_AMPM] = timeAmPmBmpArr[Type1ImageManager.TIME_PM];
-		}
-
-		if (hours == 0) {
-			// if hours == 0 then am 00:00 or pm 12:00.
-			hours = 12;
-		}
-
-		timePanel[Type1ImageManager.TIMEPANEL_HOURS1] = timeBmpArr[hours / 10];
-		timePanel[Type1ImageManager.TIMEPANEL_HOURS2] = timeBmpArr[hours % 10];
-		timePanel[Type1ImageManager.TIMEPANEL_MIN1] = timeBmpArr[minutes / 10];
-		timePanel[Type1ImageManager.TIMEPANEL_MIN2] = timeBmpArr[minutes % 10];
-
-		int timePanelSize = 0;
-		for (int i = 0; i < timePanel.length; i++) {
-			timePanelSize += timePanel[i].getWidth();
-		}
-
-		timePosX[0] = (screenWidth / 2) - (timePanelSize / 2)
-				+ imgMng.convertPx(15);
-		for (int i = 1; i < timePanel.length; i++) {
-			timePosX[i] = timePosX[i - 1] + timePanel[i - 1].getWidth();
-		}
-	}
-
-	@Override
-	public void addThis() {
-		super.addThis();
-		timer = new Thread(nextTimeRunnable);
-		timer.start();
-		refreshWatch();
-		invalidate();
 	}
 
 	@Override
@@ -514,6 +571,7 @@ public class LockScreenType1 extends LockScreenView {
 					selcPatternIdx = i;
 					if (questionWord.isCorrect(circle.getWord())) { // correct
 						linePaint.setColor(Color.rgb(23, 227, 196));
+						scheduler[head] += 2;
 						new Thread() {
 							public void run() {
 								try {
@@ -530,6 +588,7 @@ public class LockScreenType1 extends LockScreenView {
 						}.start();
 					} else { // incorrect
 						linePaint.setColor(Color.rgb(247, 169, 52));
+						scheduler[head]--;
 						new Thread() {
 							public void run() {
 								try {

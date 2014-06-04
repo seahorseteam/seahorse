@@ -74,19 +74,19 @@
 		<item value="org.tizen.web.feature:2.0.0.201404161626"/>
 		<item value="org.tizen.web.fragment.feature:2.0.0.201404041227"/>
 	</list>
+	<section name="CleanDialogSettings">
+		<item value="500" key="DIALOG_WIDTH"/>
+		<item value="true" key="BUILD_NOW"/>
+		<item value="true" key="BUILD_ALL"/>
+		<item value="247" key="DIALOG_Y_ORIGIN"/>
+		<item value="440" key="DIALOG_HEIGHT"/>
+		<item value="741" key="DIALOG_X_ORIGIN"/>
+		<item value="false" key="TOGGLE_SELECTED"/>
+	</section>
 	<section name="NewWizardAction">
 		<item value="org.tizen.web.project.wizard.webapp" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="org.tizen.nativeapp.newCategory"/>
 		</list>
-	</section>
-	<section name="CleanDialogSettings">
-		<item value="500" key="DIALOG_WIDTH"/>
-		<item value="true" key="BUILD_NOW"/>
-		<item value="247" key="DIALOG_Y_ORIGIN"/>
-		<item value="true" key="BUILD_ALL"/>
-		<item value="741" key="DIALOG_X_ORIGIN"/>
-		<item value="440" key="DIALOG_HEIGHT"/>
-		<item value="false" key="TOGGLE_SELECTED"/>
 	</section>
 </section>

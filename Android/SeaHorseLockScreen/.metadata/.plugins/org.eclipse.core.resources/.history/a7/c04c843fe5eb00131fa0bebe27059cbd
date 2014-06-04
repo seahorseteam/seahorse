@@ -1,0 +1,133 @@
+package ac.seahorse.seahorselockscreen.lockscreen.receiver;
+
+import ac.seahorse.seahorselockscreen.lockscreen.data.LockScreenDataManager;
+import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
+import ac.seahorse.seahorselockscreen.lockscreen.data.support.MyDBG;
+import ac.seahorse.seahorselockscreen.lockscreen.view.LockScreenType1;
+import ac.seahorse.seahorselockscreen.lockscreen.view.LockScreenView;
+import android.app.KeyguardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+
+/***
+ * 화면이 꺼졌을 때 수행되는 리시버. 이 때 미리 잠금화면을 수행한다.
+ * 
+ * @author KKS
+ * @category BroadcastReceiver
+ * 
+ */
+public class ScreenOffReceiver extends BroadcastReceiverObserver {
+	private static LockScreenView lsView;
+	private static int viewAppearCnt;
+	private IntentFilter filter;
+	private LockScreenDataManager dataMng;
+	private DisplayInfo displayInfo;
+	private KeyguardManager km;
+
+	public ScreenOffReceiver() {
+		filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+	}
+
+	@Override
+	public void update(Context context, Intent intent, LockScreenView view) {
+		lsView = view;
+		dataMng = LockScreenDataManager.getInstance(context);
+		displayInfo = new DisplayInfo();
+		km = (KeyguardManager) context
+				.getSystemService(Context.KEYGUARD_SERVICE);
+		MyDBG.log("ScreenOffReceiver update()");
+	}
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+			viewAppearCnt++;
+			if (lsView.isAlive() == false && dataMng.getLockScreenEnable()
+					&& viewAppearCnt >= dataMng.getAppearCycle()) {
+				viewAppearCnt = 0;
+
+				// for test //
+				runRandDummyData(context);
+
+				lsView.addThisWithUnlockKeyguard();
+			} else {
+				if (!lsView.isAlive()) {
+					displayInfo.removeKeyGuard(false, km);
+				}
+			}// check
+		} // screenOff
+	}
+
+	@Override
+	public IntentFilter getIntentFilter() {
+		return filter;
+	}
+
+	@Override
+	public void setIntentFilter(IntentFilter filter) {
+		this.filter = filter;
+	}
+
+	/*************************** test data dummy **************************/
+	private void runRandDummyData(Context context) {
+		LockScreenDataManager dataMng = LockScreenDataManager
+				.getInstance(context);
+		int randNum = (int) (Math.random() * 5);
+		switch (randNum) {
+		case 0:
+			testDummy1(context, dataMng);
+			break;
+
+		case 1:
+			testDummy2(context, dataMng);
+			break;
+
+		case 2:
+			testDummy3(context, dataMng);
+			break;
+
+		case 3:
+			testDummy4(context, dataMng);
+			break;
+
+		case 4:
+			testDummy5(context, dataMng);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	private static final String[] WORD = { "Candidate", "Companion", "Halo",
+			"Blooming", "Cooperation" };
+	private static final String[] MEAN = { "(선거의) 입후보자", "동반자", "햇무리", "지독한",
+			"협조" };
+	private static final String[] DUMMY = { "대통령", "대표자", "부대", "", "", "", "",
+			"", "", "", "", "", "", "", "", "", "", "" };
+
+	private void testDummy1(Context context, LockScreenDataManager dataMng) {
+		dataMng.setNotificationWord("Candidate");
+		dataMng.setNotificationMean("(선거의) 입후보자");
+		dataMng.setLockScreenWord("Candidate", "(선거의) 입후보자");
+		dataMng.addLockScreenAnswer("(선거의) 입후보자");
+		dataMng.addLockScreenAnswer("대통령");
+		dataMng.addLockScreenAnswer("대표자");
+		dataMng.commit();
+	}
+
+	private void testDummy2(Context context, LockScreenDataManager dataMng) {
+	}
+
+	private void testDummy3(Context context, LockScreenDataManager dataMng) {
+	}
+
+	private void testDummy4(Context context, LockScreenDataManager dataMng) {
+	}
+
+	private void testDummy5(Context context, LockScreenDataManager dataMng) {
+	}
+
+}

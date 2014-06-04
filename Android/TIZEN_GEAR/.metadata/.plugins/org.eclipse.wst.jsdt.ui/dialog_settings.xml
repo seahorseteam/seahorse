@@ -2,11 +2,11 @@
 <section name="Workbench">
 	<section name="completion_proposal_size">
 	</section>
-	<section name="JavaElementSearchActions">
-	</section>
 	<section name="org.eclipse.wst.jsdt.internal.ui.text.QuickOutline">
 		<item value="false" key="org.eclipse.wst.jsdt.internal.ui.text.JavaOutlineInformationControlDIALOG_USE_PERSISTED_SIZE"/>
 		<item value="false" key="GoIntoTopLevelTypeAction.isChecked"/>
 		<item value="false" key="org.eclipse.wst.jsdt.internal.ui.text.JavaOutlineInformationControlDIALOG_USE_PERSISTED_LOCATION"/>
+	</section>
+	<section name="JavaElementSearchActions">
 	</section>
 </section>
