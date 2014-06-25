@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;ClockTest/js/seahorseprotocol.js&apos; to &apos;connecter.js&apos;" description="Rename resource &apos;seahorseprotocol.js&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="js/seahorseprotocol.js" name="connecter.js" stamp="1400483454025" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;ClockTest/js/connecter.js&apos; to &apos;connector.js&apos;" description="Rename resource &apos;connecter.js&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="js/connecter.js" name="connector.js" stamp="1400484891490" updateReferences="true"/>
+</session>

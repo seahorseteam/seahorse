@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="org.eclipse.birt.chart:3.7.2.v20120213-7r9e7PFQCnvKZ5oAdlXE5"/>
+		<item value="org.eclipse.cdt.gdb:7.0.0.201202111925"/>
+		<item value="org.eclipse.cdt.mylyn:5.3.1.v20120425-0100_patch"/>
+		<item value="org.eclipse.cdt.p2:1.0.0.201202111925"/>
+		<item value="org.eclipse.cvs:1.3.100.v20110520-0800-7B78FHl9VF7BD7KBM4GP9C"/>
+		<item value="org.eclipse.datatools.connectivity.oda.feature:1.9.2.v201109161655-7H7C7OCcNBHIEZHeFbLX"/>
+		<item value="org.eclipse.datatools.enablement.oda.feature:1.9.2.v201109161655-7A7T7BDZRDKGGZFrGhOd"/>
+		<item value="org.eclipse.draw2d:3.7.2.v20110927-2020-4617w3122212803131"/>
+		<item value="org.eclipse.egit:2.3.1.201302201838-r"/>
+		<item value="org.eclipse.emf.codegen.ecore.ui:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.codegen.ecore:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.codegen.ui:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.codegen:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.common.ui:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.common:2.7.0.v20120127-1122"/>
+		<item value="org.eclipse.emf.converter:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.databinding.edit:1.2.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.databinding:1.2.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.ecore.edit:2.7.1.v20120130-0943"/>
+		<item value="org.eclipse.emf.ecore.editor:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.ecore:2.7.1.v20120127-1122"/>
+		<item value="org.eclipse.emf.edit.ui:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.edit:2.7.2.v20120130-0943"/>
+		<item value="org.eclipse.emf.mapping.ecore.editor:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.mapping.ecore:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.mapping.ui:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.mapping:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf:2.7.2.v20120130-0943"/>
+		<item value="org.eclipse.gef:3.7.2.v20110927-2020-777D381B4Bz0755B465D34242"/>
+		<item value="org.eclipse.help:1.3.0.v20110530-0844-7i7uFFmFFl8nvqbDpEqTvx"/>
+		<item value="org.eclipse.jdt:3.7.2.v20120120-1414-7z8gFcuFMP7BW5XTz0jLTnz0l9B1"/>
+		<item value="org.eclipse.jgit:2.3.1.201302201838-r"/>
+		<item value="org.eclipse.mylyn.bugzilla_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.builds.sdk:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.builds:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.commons.compatibility:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.commons.identity:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.commons.notifications:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.commons.repositories.http:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.commons.repositories:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.commons.sdk:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.commons:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.context_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.discovery:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.docs.sdk:1.6.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.htmltext:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.hudson:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.ide_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.java_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.monitor:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.pde_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.reviews.feature:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.sdk_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.tasks.ide:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.team_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.trac_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.versions:0.9.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.wikitext.sdk:1.6.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn.wikitext_feature:1.6.1.v20120425-0100"/>
+		<item value="org.eclipse.mylyn_feature:3.7.1.v20120425-0100"/>
+		<item value="org.eclipse.pde:3.7.2.v20120120-1420-7b7rFUOFEx2Xnqafnpz0E--0"/>
+		<item value="org.eclipse.platform:3.7.2.v20120207-1839-9gF7UHPDFxGjd-PqDr2jX_4yKaumkoHTz04_q-q"/>
+		<item value="org.eclipse.rcp:3.7.2.v20120120-1424-9DB5FmnFq5JCf1UA38R-kz0S0272"/>
+		<item value="org.eclipse.wst.jsdt.feature:1.3.2.v201201112313-7G78FZvFC7sRekSz-g-nAlz"/>
+		<item value="org.eclipse.wst.web_ui.feature:3.3.2.v201111030500-7O7IFj6EMjB7yO1Xs_G1kMtQeOye6HTXFWve95_R_patch"/>
+		<item value="org.eclipse.wst.xml_ui.feature:3.3.2.v201112072049-7H7EFZ7DxumTmce4khcSkIiqoD8eDMKlT8Oz011P"/>
+		<item value="org.tizen.base.feature:2.0.0.201404111437"/>
+		<item value="org.tizen.common.feature:2.0.0.201404141442"/>
+		<item value="org.tizen.common.fragment.feature:2.0.0.201403111854"/>
+		<item value="org.tizen.web.assignmenttracing.feature:1.0.0.201401160634"/>
+		<item value="org.tizen.web.feature:2.0.0.201404161626"/>
+		<item value="org.tizen.web.fragment.feature:2.0.0.201404041227"/>
+	</list>
+	<section name="CleanDialogSettings">
+		<item value="500" key="DIALOG_WIDTH"/>
+		<item value="true" key="BUILD_NOW"/>
+		<item value="true" key="BUILD_ALL"/>
+		<item value="247" key="DIALOG_Y_ORIGIN"/>
+		<item value="440" key="DIALOG_HEIGHT"/>
+		<item value="741" key="DIALOG_X_ORIGIN"/>
+		<item value="false" key="TOGGLE_SELECTED"/>
+	</section>
+	<section name="NewWizardAction">
+		<item value="org.tizen.web.project.wizard.webapp" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.tizen.nativeapp.newCategory"/>
+		</list>
+	</section>
+</section>

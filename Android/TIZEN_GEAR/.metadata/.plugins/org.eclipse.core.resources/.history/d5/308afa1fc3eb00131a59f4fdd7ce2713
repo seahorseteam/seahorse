@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
+	id="http://yourdomain/SeaHorseClock" version="1.0.0" viewmodes="maximized">
+	<tizen:application id="DjWFfeOvTW.SeaHorseClock"
+		package="DjWFfeOvTW" required_version="2.1" />
+	<tizen:category name="com.samsung.wmanager.WATCH_CLOCK" />
+	<content src="index.html" />
+	<feature name="http://tizen.org/feature/screen.size.all" />
+	<icon src="icon.png" />
+	<tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml" />
+	<name>SeahorseGear2</name>
+	<tizen:privilege name="http://tizen.org/privilege/content.read" />
+</widget>

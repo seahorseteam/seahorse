@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="pattern.add" key="selection"/>
+		<item value="addAns" key="selection"/>
 		<list key="findhistory">
-			<item value="pattern.add"/>
-			<item value="cvt"/>
-			<item value="pattern."/>
+			<item value="addAns"/>
+			<item value="addAnswer"/>
+			<item value="circleW"/>
+			<item value="addTh"/>
+			<item value="addView"/>
+			<item value="removeThis"/>
+			<item value="remove"/>
 			<item value="pattern"/>
-			<item value="circle."/>
-			<item value="linePaint.setColor("/>
-			<item value="linePaint."/>
-			<item value="drawText"/>
 		</list>
 		<list key="replacehistory">
 		</list>

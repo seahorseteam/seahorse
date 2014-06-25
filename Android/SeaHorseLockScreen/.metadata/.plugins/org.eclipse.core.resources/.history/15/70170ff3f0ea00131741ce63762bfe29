@@ -1,0 +1,70 @@
+package ac.seahorse.seahorselockscreen.lockscreen.receiver;
+
+import ac.seahorse.seahorselockscreen.lockscreen.data.LockScreenDataManager;
+import ac.seahorse.seahorselockscreen.lockscreen.data.support.DisplayInfo;
+import ac.seahorse.seahorselockscreen.lockscreen.data.support.MyDBG;
+import ac.seahorse.seahorselockscreen.lockscreen.view.LockScreenView;
+import android.app.KeyguardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+
+/***
+ * 화면이 꺼졌을 때 수행되는 리시버. 이 때 미리 잠금화면을 수행한다.
+ * 
+ * @author KKS
+ * @category BroadcastReceiver
+ * 
+ */
+public class ScreenOffReceiver extends BroadcastReceiverObserver {
+	private static LockScreenView lsView;
+	private static int viewAppearCnt;
+	private IntentFilter filter;
+	private LockScreenDataManager dataMng;
+	private DisplayInfo displayInfo;
+	private KeyguardManager km;
+
+	public ScreenOffReceiver() {
+		filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+	}
+
+	@Override
+	public void update(Context context, Intent intent, LockScreenView view) {
+		lsView = view;
+		dataMng = LockScreenDataManager.getInstance(context);
+		displayInfo = new DisplayInfo();
+		km = (KeyguardManager) context
+				.getSystemService(Context.KEYGUARD_SERVICE);
+		MyDBG.log("ScreenOffReceiver update()");
+	}
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		MyDBG.log("ScreenOffReceiver onReceive()");
+		if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+			MyDBG.log("ScreenOffReceiver onReceive() : ACTION_SCREEN_OFF");
+			viewAppearCnt++;
+			if (lsView.isAlive() == false && dataMng.getLockScreenEnable()
+					&& viewAppearCnt >= dataMng.getAppearCycle()) {
+				viewAppearCnt = 0;
+				lsView.addThisWithUnlockKeyguard();
+			} else {
+				if (!lsView.isAlive()) {
+					displayInfo.removeKeyGuard(false, km);
+				}
+			}// check
+		} // screenOff
+	}
+
+	@Override
+	public IntentFilter getIntentFilter() {
+		return filter;
+	}
+
+	@Override
+	public void setIntentFilter(IntentFilter filter) {
+		this.filter = filter;
+	}
+
+}

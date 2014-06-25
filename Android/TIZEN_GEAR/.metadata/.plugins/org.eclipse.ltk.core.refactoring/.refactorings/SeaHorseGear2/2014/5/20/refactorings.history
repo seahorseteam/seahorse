@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;SeaHorseGear2/res/xml/welldonenote.xml&apos; to &apos;accessoryservices.xml&apos;" description="Rename resource &apos;welldonenote.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="res/xml/welldonenote.xml" name="accessoryservices.xml" stamp="1400092496417" updateReferences="true"/>
+</session>

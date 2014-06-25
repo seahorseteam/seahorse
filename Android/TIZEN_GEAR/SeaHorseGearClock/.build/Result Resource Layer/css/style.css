@@ -1,0 +1,61 @@
+* {
+	font-family: Verdana, Lucida Sans, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0
+}
+
+h1 {
+	font-size: 1.4em;
+	margin: 10px 0 20px 10px;
+	color: #6587ac;
+}
+
+.canvas {
+	position: absolute;
+	/* background: #000; */
+	width: 280px;
+	height: 280px
+}
+
+body {
+	margin: 5px auto;
+	background-color: #000000;
+}
+
+.contents {
+	display: flex;
+	display: -webkit-flex;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	height: 320px;
+}
+
+.content_wordtext {
+	font-weight: bold;
+	font-size: 30px;
+	color: #aaaaff;
+}
+
+.content_meantext {
+	font-weight: bold;
+	font-size: 20px;
+	color: #ffffff;
+}
+
+.content_time {
+	font-weight: bold;
+	font-size: 80px;
+	color: #ffffff;
+}
+
+.content_ampm {
+	font-weight: bold;
+	font-size: 30px;
+	color: #ffffff;
+}
+
+.content_date {
+	font-weight: bold;
+	font-size: 40px;
+	color: #ffffff;
+}

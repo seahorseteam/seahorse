@@ -1,0 +1,8 @@
+1401700283437	Rename type 'Type1ImageBay'
+1401701009024	Encapsulate field 'timeBmpArr'
+1401701012466	Encapsulate field 'timePanel'
+1401701014775	Encapsulate field 'timeAmPmBmpArr'
+1401709099352	Encapsulate field 'unlockBtnBmp'
+1401709102127	Encapsulate field 'bottomTitleBmp'
+1401709513129	Encapsulate field 'circleBmp'
+1401784744395	Delete element

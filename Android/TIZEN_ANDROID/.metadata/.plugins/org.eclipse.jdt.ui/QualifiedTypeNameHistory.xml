@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.samsung.android.example.helloaccessoryprovider.TestActivity"/>
+<fullyQualifiedTypeName name="com.samsung.android.example.helloaccessoryprovider.service.HelloAccessoryProviderService.HelloAccessoryProviderConnection"/>
+<fullyQualifiedTypeName name="android.os.Handler"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="android.os.Binder"/>
+<fullyQualifiedTypeName name="com.samsung.android.sdk.accessory.SASocket"/>
+<fullyQualifiedTypeName name="kks.example.seahorsegear2.GearSocketReceivedData"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="kks.example.seahorsegear2.GearMsgReceiveListener"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.widget.EditText"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="kks.example.seahorsegear2.GearSocket"/>
+<fullyQualifiedTypeName name="java.lang.Runnable"/>
+<fullyQualifiedTypeName name="com.samsung.android.sdk.accessory.SAAgent"/>
+<fullyQualifiedTypeName name="android.app.Dialog"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="kks.example.seahorsegear2.GearService"/>
+<fullyQualifiedTypeName name="ac.seahorse.seahorsegear2.GearService"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="com.samsung.android.example.helloaccessoryprovider.GearService"/>
+<fullyQualifiedTypeName name="com.samsung.android.example.helloaccessoryprovider.R"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.samsung.android.example.helloaccessoryprovider.service.GearMsgReceiveListener"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="com.samsung.android.example.helloaccessoryprovider.service.HelloAccessoryProviderService"/>
+</qualifiedTypeNameHistroy>

@@ -1,6 +1,5 @@
 package ac.seahorse.seahorselockscreen.lockscreen.data;
 
-import ac.seahorse.seahorselockscreen.R;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 
@@ -13,13 +12,6 @@ import android.graphics.Paint;
  * 
  */
 public class PatternCircle {
-	public static final int[] PATTERN_CIRCLE_RES = {
-			R.drawable.pattern_circle_base, R.drawable.pattern_circle_correct,
-			R.drawable.pattern_circle_incorrect };
-	public static final int CIRCLE_BASE = 0;
-	public static final int CIRCLE_CORR = 1;
-	public static final int CIRCLE_INCORR = 2;
-
 	private Word word;
 	private Paint paint;
 	private int cx, cy;
